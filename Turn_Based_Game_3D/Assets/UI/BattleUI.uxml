@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+ <Style src="BattleUI.uss"/>   
+    <ui:VisualElement name="root" class="root">
+
+        <!-- 상단 바 -->
+        <ui:VisualElement name="top-bar" class="top-bar">
+
+            <!-- 현재 턴 패널 -->
+            <ui:VisualElement name="current-turn-panel" class="current-turn-panel">
+                <ui:Label name="turn-label" text="Turn [ 1 ]" class="turn-label"/>
+                <ui:VisualElement name="current-portrait" class="current-portrait"/>
+            </ui:VisualElement>
+
+            <!-- 다음 순서 슬롯 -->
+            <ui:VisualElement name="turn-queue" class="turn-queue">
+                <ui:VisualElement name="queue-slot-0" class="queue-slot"/>
+                <ui:VisualElement name="queue-slot-1" class="queue-slot"/>
+                <ui:VisualElement name="queue-slot-2" class="queue-slot"/>
+                <ui:VisualElement name="queue-slot-3" class="queue-slot"/>
+            </ui:VisualElement>
+
+            <!-- 옵션 버튼 -->
+            <ui:VisualElement name="option-panel" class="option-panel">
+                <ui:Button name="option-btn" text="옵션" class="option-btn"/>
+                <ui:Button name="quit-btn" text="종료" class="option-btn"/>
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+
+        <!-- 중앙 빈 공간 (3D 씬) -->
+        <ui:VisualElement name="center" class="center"/>
+
+        <!-- 하단 바 -->
+        <ui:VisualElement name="bottom-bar" class="bottom-bar">
+
+            <!-- 좌측: 스킬 버튼 (동적 생성) -->
+            <ui:VisualElement name="skill-bar" class="skill-bar"/>
+
+            <!-- 우측: 플레이어 HP/MP -->
+            <ui:VisualElement name="player-status" class="player-status">
+                <ui:Label name="player-name" text="전사" class="player-name"/>
+                <ui:VisualElement class="bar-row">
+                    <ui:Label text="HP" class="bar-label"/>
+                    <ui:VisualElement name="hp-bar-bg" class="bar-bg">
+                        <ui:VisualElement name="hp-bar" class="bar hp-bar"/>
+                    </ui:VisualElement>
+                    <ui:Label name="hp-text" text="350/350" class="bar-text"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="bar-row">
+                    <ui:Label text="MP" class="bar-label"/>
+                    <ui:VisualElement name="mp-bar-bg" class="bar-bg">
+                        <ui:VisualElement name="mp-bar" class="bar mp-bar"/>
+                    </ui:VisualElement>
+                    <ui:Label name="mp-text" text="80/80" class="bar-text"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>
