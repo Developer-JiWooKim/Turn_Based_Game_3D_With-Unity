@@ -124,28 +124,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4223447990170049195, guid: 271888082352a744787de1b819f6a041, type: 3}
   m_PrefabInstance: {fileID: 1121973980}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &43082821 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8473238263437682207, guid: 271888082352a744787de1b819f6a041, type: 3}
-  m_PrefabInstance: {fileID: 1121973980}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
---- !u!114 &136089845 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8291086508586872303, guid: 271888082352a744787de1b819f6a041, type: 3}
-  m_PrefabInstance: {fileID: 1745671554}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,7 +472,6 @@ GameObject:
   - component: {fileID: 449025269}
   - component: {fileID: 449025268}
   - component: {fileID: 449025267}
-  - component: {fileID: 449025271}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Untagged
@@ -598,28 +575,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 449025265}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &449025271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 449025265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ed0da6fc4c2bcd479319b6f394735e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyWorldHPBar
-  worldCanvas: {fileID: 2073802171}
-  hpBarFill: {fileID: 1404388524}
-  nameText: {fileID: 136089845}
-  _cam: {fileID: 0}
-  _canvas: {fileID: 0}
---- !u!223 &476210333 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 8361028622882231140, guid: 271888082352a744787de1b819f6a041, type: 3}
-  m_PrefabInstance: {fileID: 1726566137}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &762682803
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,8 +587,6 @@ GameObject:
   - component: {fileID: 762682807}
   - component: {fileID: 762682806}
   - component: {fileID: 762682805}
-  - component: {fileID: 762682808}
-  - component: {fileID: 762682809}
   m_Layer: 0
   m_Name: Monster2
   m_TagString: Untagged
@@ -737,41 +690,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 762682803}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &762682808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 762682803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46e0da7c439ab8940be1e54114c3837c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UnitView
-  characterData: {fileID: 0}
-  enemyData: {fileID: 11400000, guid: ba7720f27c260f44bbfd53a6307a1a33, type: 2}
-  isPlayer: 0
-  hitEffectPoint: {fileID: 0}
-  castEffectPoint: {fileID: 0}
-  _animator: {fileID: 0}
---- !u!114 &762682809
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 762682803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ed0da6fc4c2bcd479319b6f394735e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyWorldHPBar
-  worldCanvas: {fileID: 985932653}
-  hpBarFill: {fileID: 43082821}
-  nameText: {fileID: 1217297133}
-  _cam: {fileID: 0}
-  _canvas: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -970,11 +888,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!223 &985932653 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 8361028622882231140, guid: 271888082352a744787de1b819f6a041, type: 3}
-  m_PrefabInstance: {fileID: 1121973980}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1121973980
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1287,28 +1200,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1941097435}
   m_LocalEulerAnglesHint: {x: 14.936, y: 180, z: 0}
---- !u!114 &1217297133 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8291086508586872303, guid: 271888082352a744787de1b819f6a041, type: 3}
-  m_PrefabInstance: {fileID: 1121973980}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!114 &1404388524 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8473238263437682207, guid: 271888082352a744787de1b819f6a041, type: 3}
-  m_PrefabInstance: {fileID: 1745671554}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1001 &1726566137
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1479,17 +1370,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 271888082352a744787de1b819f6a041, type: 3}
---- !u!114 &1801480265 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8291086508586872303, guid: 271888082352a744787de1b819f6a041, type: 3}
-  m_PrefabInstance: {fileID: 1726566137}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &1870754706
 GameObject:
   m_ObjectHideFlags: 0
@@ -1784,8 +1664,6 @@ GameObject:
   - component: {fileID: 1978221562}
   - component: {fileID: 1978221561}
   - component: {fileID: 1978221560}
-  - component: {fileID: 1978221563}
-  - component: {fileID: 1978221564}
   m_Layer: 0
   m_Name: Monster3
   m_TagString: Untagged
@@ -1889,57 +1767,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1978221558}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1978221563
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1978221558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46e0da7c439ab8940be1e54114c3837c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UnitView
-  characterData: {fileID: 0}
-  enemyData: {fileID: 11400000, guid: ba7720f27c260f44bbfd53a6307a1a33, type: 2}
-  isPlayer: 0
-  hitEffectPoint: {fileID: 0}
-  castEffectPoint: {fileID: 0}
-  _animator: {fileID: 0}
---- !u!114 &1978221564
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1978221558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ed0da6fc4c2bcd479319b6f394735e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyWorldHPBar
-  worldCanvas: {fileID: 476210333}
-  hpBarFill: {fileID: 2047220350}
-  nameText: {fileID: 1801480265}
-  _cam: {fileID: 0}
-  _canvas: {fileID: 0}
---- !u!114 &2047220350 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8473238263437682207, guid: 271888082352a744787de1b819f6a041, type: 3}
-  m_PrefabInstance: {fileID: 1726566137}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
---- !u!223 &2073802171 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 8361028622882231140, guid: 271888082352a744787de1b819f6a041, type: 3}
-  m_PrefabInstance: {fileID: 1745671554}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
