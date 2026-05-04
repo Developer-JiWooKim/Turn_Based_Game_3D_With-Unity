@@ -9,8 +9,8 @@ public struct StatData
     public int Hp;
     public int Mp;
 
-    public uint AttackPower;
-    public uint DefenseValue;
+    public int AttackPower;
+    public int DefenseValue;
 
     public int Speed;
 }

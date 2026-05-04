@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BattleUnit
+public class BattleUnit : IDamageable
 {
     private int _maxHp;
     private int _maxMp;
@@ -11,7 +11,8 @@ public class BattleUnit
     private string _name;
 
     private int _speed;
-    
+
+    private int _atk;
     
     public int MaxHp => _maxHp;
     public int MaxMp => _maxMp;
@@ -21,9 +22,12 @@ public class BattleUnit
 
     public int Speed => _speed;
 
+    public int Atk => _atk;
+
     public string Name => _name;
 
     public bool IsDead => _currentHp <= 0;
+
     public bool IsPlayer { get; private set; }
 
     public BattleUnit(CharacterData data) 
@@ -36,6 +40,8 @@ public class BattleUnit
         _maxMp = _currentMp = data.characterStat.Mp;
 
         _speed = data.characterStat.Speed;
+
+        _atk = data.characterStat.AttackPower;
     }
     public BattleUnit(EnemyData data) 
     {
@@ -47,9 +53,11 @@ public class BattleUnit
         _maxMp = _currentMp = data.enemyStat.Mp;
 
         _speed = data.enemyStat.Speed;
+
+        _atk = data.enemyStat.AttackPower;
     }
 
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         _currentHp = _currentHp - damage <= 0 ? 0 : _currentHp - damage;
     }

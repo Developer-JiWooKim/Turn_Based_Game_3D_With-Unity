@@ -3,18 +3,18 @@ using UnityEngine;
 
 public class UnitOrderBySpeedSystem
 {
-    private List<BattleUnit> _units;
-    private BattleUnit _currentUnit;
+    private List<BattleUnit> _units;                // 턴이 시작될 때마다 속도에 따라 정렬된 유닛을 저장하는 리스트
+    private BattleUnit _currentUnit;                // 현재 턴에서 행동 중인 유닛을 저장
 
-    private int _currentIndex;
+    private int _currentIndex;                      // 현재 유닛의 인덱스를 저장하는 변수, 다음 유닛으로 넘어갈 때 사용
 
-    public BattleUnit CurrentUnit => _currentUnit;
+    public BattleUnit CurrentUnit => _currentUnit;  // 현재 턴에서 행동 중인 유닛을 반환하는 프로퍼티
 
 
     /// <summary>
     /// 새로운 턴이 시작되면 속도에 따라 유닛들을 정렬하고, 첫 번째 유닛을 현재 턴의 유닛으로 설정하는 초기화 메소드
     /// </summary>
-    public void Initialize(List<BattleUnit> units)
+    public void OrderBySpeed(List<BattleUnit> units)
     {
         _units = units;
 
