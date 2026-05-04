@@ -1,16 +1,33 @@
+using System;
 using UnityEngine;
 
 public class PlayerInputHandler : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private BattleController _battleController;
+
+    public static event Action OnPlayerInputReady;
+
+    private void OnEnable()
     {
-        
+        _battleController.OnTurnStart += HandleTurnStart;
+
+
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        _battleController.OnTurnStart -= HandleTurnStart;
     }
+
+    private void HandleTurnStart(BattleUnit unit)
+    {
+        if (unit.IsPlayer)
+        {
+            OnPlayerInputReady?.Invoke(); // 스킬 버튼 활성화
+        }
+    }
+
+    
+
+
 }

@@ -82,7 +82,6 @@ public class BattleController : MonoBehaviour
             else
             {
                 yield return StartCoroutine(EnemyTurn(currentUnit)); // 적의 행동을 처리하는 코루틴 시작
-                // 애니메이션 완료 대기
             }
 
             if (!_unitOrderBySpeedSystem.NextUnit())
