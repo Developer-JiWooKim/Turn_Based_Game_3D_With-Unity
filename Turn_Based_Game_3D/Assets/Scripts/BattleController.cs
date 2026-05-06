@@ -7,7 +7,10 @@ public class BattleController : MonoBehaviour
 {
     [SerializeField] private CharacterData  _playerData;   // 플레이어 캐릭터의 데이터
     [SerializeField] private EnemyData[]    _enemyDatas;   // 적 캐릭터들의 데이터 배열
-    
+
+    [SerializeField] private PlayerInputHandler _playerInputHandler;    // 플레이어 입력 핸들러
+    [SerializeField] private BattleUIController _battleUIController;    // 전투 UI 컨트롤러
+
 
     private UnitOrderBySpeedSystem  _unitOrderBySpeedSystem;    // 턴마다 유닛들의 행동 순서를 결정하는 시스템
 
@@ -41,6 +44,10 @@ public class BattleController : MonoBehaviour
     // TODO#: 현재는 테스트를 위해 게임을 시작하자마자 전투가 시작되지만, 나중에는 타이틀 화면에서 플레이어가 캐릭터를 고르고 게임 시작 버튼을 누르면 시작하도록 변경
     private void Start()
     {
+        _playerInputHandler.Subscribe(this);
+        _battleUIController.Subscribe(this, _playerInputHandler);
+            
+
         StartBattle();
     }
 

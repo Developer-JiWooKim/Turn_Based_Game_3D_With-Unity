@@ -3,20 +3,28 @@ using UnityEngine;
 
 public class PlayerInputHandler : MonoBehaviour
 {
-    [SerializeField] private BattleController _battleController;
+    private BattleController _battleController;
 
-    public static event Action OnPlayerInputReady;
+    public event Action OnPlayerInputReady;
 
-    private void OnEnable()
+    public void Subscribe(BattleController battleController)
     {
+        _battleController = battleController;
+
         _battleController.OnTurnStart += HandleTurnStart;
-
-
     }
 
-    private void OnDisable()
+    private void Unsubscribe()
     {
-        _battleController.OnTurnStart -= HandleTurnStart;
+        if (_battleController != null)
+        {
+            _battleController.OnTurnStart -= HandleTurnStart;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        Unsubscribe();
     }
 
     private void HandleTurnStart(BattleUnit unit)
@@ -25,9 +33,9 @@ public class PlayerInputHandler : MonoBehaviour
         {
             OnPlayerInputReady?.Invoke(); // 스킬 버튼 활성화
         }
+        else
+        {
+           // 스킬 버튼 비활성화
+        }
     }
-
-    
-
-
 }
