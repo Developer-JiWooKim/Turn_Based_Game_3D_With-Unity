@@ -1,7 +1,12 @@
-using UnityEngine;
-
 public class BattleUnit : IDamageable
 {
+    public enum UnitType
+    {
+        Player,
+        Ally,
+        Enemy,
+    }
+
     private int _maxHp;
     private int _maxMp;
 
@@ -29,6 +34,7 @@ public class BattleUnit : IDamageable
     public bool IsDead => _currentHp <= 0;
 
     public bool IsPlayer { get; private set; }
+
 
     public BattleUnit(CharacterData data) 
     {
