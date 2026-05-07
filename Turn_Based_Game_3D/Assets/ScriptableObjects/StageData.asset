@@ -15,12 +15,9 @@ MonoBehaviour:
   stageNumber: 1
   stageTitle: Level 1
   enemySpawnDatas:
-  - enemyData: {fileID: 11400000, guid: 44af3f5a55ea41d468ba4003def3f928, type: 2}
-    spawnPoint: {fileID: 0}
-    enemyPrefab: {fileID: 0}
-  - enemyData: {fileID: 11400000, guid: 44af3f5a55ea41d468ba4003def3f928, type: 2}
-    spawnPoint: {fileID: 0}
-    enemyPrefab: {fileID: 0}
-  - enemyData: {fileID: 11400000, guid: 44af3f5a55ea41d468ba4003def3f928, type: 2}
-    spawnPoint: {fileID: 0}
-    enemyPrefab: {fileID: 0}
+  - enemyData: {fileID: 11400000, guid: e3d1847bd7bb5234199618850dd66b32, type: 2}
+    enemyPrefab: {fileID: 5994439466667278951, guid: d7fc4c406b7289d42b5dbbed90772f53, type: 3}
+  - enemyData: {fileID: 11400000, guid: ddcbd11b3779002439c71e8dcac81095, type: 2}
+    enemyPrefab: {fileID: 5994439466667278951, guid: d7fc4c406b7289d42b5dbbed90772f53, type: 3}
+  - enemyData: {fileID: 11400000, guid: 736d6c969c97b7b438ad22f89c88bf14, type: 2}
+    enemyPrefab: {fileID: 5994439466667278951, guid: d7fc4c406b7289d42b5dbbed90772f53, type: 3}
