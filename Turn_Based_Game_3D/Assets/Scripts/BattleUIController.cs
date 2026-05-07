@@ -34,6 +34,8 @@ public class BattleUIController : MonoBehaviour
 
     public void Subscribe(BattleController battleController, PlayerInputHandler playerInputHandler)
     {
+        Debug.Log($"Subscribe 호출됨 - playerInputHandler: {playerInputHandler}");
+        
         _battleController   = battleController;
         _playerInputHandler = playerInputHandler;
 
@@ -92,6 +94,10 @@ public class BattleUIController : MonoBehaviour
 
     private void OnSkillButtonClicked(PlayerSkillData skill)
     {
+        Debug.Log($"버튼 클릭됨! skill: {skill.SkillName}");
+        Debug.Log($"_playerInputHandler: {_playerInputHandler}");
+
+
         // TODO#: 나중에 타겟 선택 UI 추가 예정
         // 지금은 임시로 첫 번째 살아있는 적 자동 타겟
         _playerInputHandler.NotifyPlayerActed(skill);

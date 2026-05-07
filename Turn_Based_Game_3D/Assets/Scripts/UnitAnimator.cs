@@ -15,16 +15,16 @@ public class UnitAnimator : MonoBehaviour
 
     public void PlayHitAnim()
     {
-        _animator.SetTrigger("Hit");
+        _animator?.SetTrigger("Hit");
     }
 
     public void PlayDeathAnim()
     {
-        _animator.SetTrigger("Death");
+        _animator?.SetTrigger("Death");
     }
 
     public void PlaySkillAnim(string skillName)
     {
-        _animator.SetTrigger(skillName);
+        _animator?.SetTrigger(skillName);
     }
 }

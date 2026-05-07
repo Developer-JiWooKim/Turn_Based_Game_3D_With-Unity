@@ -42,6 +42,9 @@ public class PlayerInputHandler : MonoBehaviour
     /// </summary>
     public void NotifyPlayerActed(PlayerSkillData skill)
     {
+        Debug.Log($"NotifyPlayerActed 호출됨! skill: {skill.SkillName}");
+        Debug.Log($"_battleController: {_battleController}");
+
         // BattleController 에서 첫 번째 살아있는 적 찾기
         _battleController.OnPlayerAction(null, skill); // BattleController가 타겟 찾음
     }

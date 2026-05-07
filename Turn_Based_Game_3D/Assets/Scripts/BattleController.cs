@@ -170,8 +170,9 @@ public class BattleController : MonoBehaviour
     private IEnumerator PlayerTurn()
     {
         _playerActed = false;                           // 플레이어가 행동을 완료했는지 여부 초기화
-
+        Debug.Log("PlayerTurn 시작 - 입력 대기");
         yield return new WaitUntil(() => _playerActed); // 플레이어가 행동을 완료할 때까지 대기
+        Debug.Log("PlayerTurn 종료 - 행동 완료");
     }
 
     public void OnPlayerAction(IDamageable target, PlayerSkillData skill)
@@ -191,7 +192,7 @@ public class BattleController : MonoBehaviour
             Debug.LogError("PlayerSkillData is null. Cannot perform action.");
             return;
         }
-
+        Debug.Log($"OnPlayerAction 호출 - skill: {skill.SkillName}");
         // TODO#: 스킬의 데미지 계산 공식은 나중에 스킬 시스템이 완성되면 변경할 예정
         // TODO#: 현재는 플레이어가 한명이므로 무조건 리스트 0번 자리에 있지만 늘어나면 현재 행동하는 플레이어를 찾아 얻어오는 식으로 새로 짜야됨
         int damage = _playerUnits[0].Atk * (int)skill.Power; 
@@ -209,5 +210,6 @@ public class BattleController : MonoBehaviour
         }
 
         _playerActed = true; // 플레이어가 행동을 완료했음을 표시
+        Debug.Log("_playerActed = true");
     }
 }
