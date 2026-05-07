@@ -24,6 +24,8 @@ public class BattleController : MonoBehaviour
     private int   _turnCount;             // 현재 턴의 번호를 저장하는 변수
     private bool  _playerActed;           // 플레이어가 현재 턴에서 행동을 완료했는지 여부, true이면 플레이어가 행동을 마쳤음을 나타냄
 
+    public int TurnCount => _turnCount;
+
     public CharacterData PlayerData => _playerData;
 
     //TODO#: 현재는 OnTurnStart라고 이름을 정했지만, 자신의 차례가 되었을때 카메라 무빙, UI 업데이트 등등의 처리를 하기 위한 이벤트이므로 나중에 이름을 변경할 수도 있음
@@ -31,6 +33,7 @@ public class BattleController : MonoBehaviour
     public event Action<IDamageable, int>   OnUnitDamaged;          // 유닛이 피해를 입었을 때 호출되는 이벤트, 피해를 입은 유닛과 입은 피해량을 인자로 전달
     public event Action<bool>               OnBattleEnd;            // 전투가 종료될 때 호출되는 이벤트, 플레이어가 승리했는지 여부를 인자로 전달
     public event Action<PlayerBattleUnit>   OnPlayerActionComplete; // 플레이어의 행동이 종료되고 처리할 이벤트(MP갱신 등등)
+    public event Action<int>                OnTurnChanged;       
 
     private void Awake()
     {
@@ -44,19 +47,16 @@ public class BattleController : MonoBehaviour
 
         _playerUnits = new List<PlayerBattleUnit>();
         _enemyUnits = new List<EnemyBattleUnit>();
-        _turnCount = 0;
+        _turnCount = 1;
     }
 
     // TODO#: 현재는 테스트를 위해 게임을 시작하자마자 전투가 시작되지만, 나중에는 타이틀 화면에서 플레이어가 캐릭터를 고르고 게임 시작 버튼을 누르면 시작하도록 변경
     private void Start()
     {
-        _playerInputHandler.Subscribe(this);
-        _battleUIController.Subscribe(this, _playerInputHandler);
+        _playerInputHandler.Subscribe(this);                        
+        _battleUIController.Subscribe(this, _playerInputHandler);   
 
         BattleUnitManager.Instance.Subscribe(this);
-
-
-
 
         StartCoroutine(DelayedStartBattle());
     }
@@ -66,7 +66,6 @@ public class BattleController : MonoBehaviour
     /// </summary>
     public void StartBattle()
     {
-
         // 적 유닛 배열 초기화
         // TODO#: 몬스터 스포너를 새로 만들어서 턴이 시작되면 몬스터 스포너가 적 유닛을 생성하도록 변경
         foreach (var unit in _enemyDatas)
@@ -98,7 +97,7 @@ public class BattleController : MonoBehaviour
         // TODO#: 지울예정
         Debug.Log("BattleLoop 시작");
         BattleUnit currentUnit;
-
+        
         while (!CheckBattleEnd())
         {
             currentUnit = _unitOrderBySpeedSystem.GetCurrentUnit();  // 현재 턴에서 행동할 유닛을 가져옴
@@ -118,8 +117,8 @@ public class BattleController : MonoBehaviour
             if (!_unitOrderBySpeedSystem.NextUnit())
             {
                 _turnCount++;
-
                 _unitOrderBySpeedSystem.OrderBySpeed(battleUnits);   // 다음 턴을 위해 유닛의 속도에 따라 재정렬
+                OnTurnChanged?.Invoke(TurnCount);
             }
         }
     }

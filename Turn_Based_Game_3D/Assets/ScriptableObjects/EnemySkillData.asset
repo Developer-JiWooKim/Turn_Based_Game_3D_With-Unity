@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4332bfd6a53cc724290148e86ddb9515, type: 3}
   m_Name: EnemySkillData
   m_EditorClassIdentifier: Assembly-CSharp::EnemySkillData
-  Power: 0
+  skillType: 0
+  SkillName: attack
+  Description: attack
+  Power: 50
   CoolTime: 0

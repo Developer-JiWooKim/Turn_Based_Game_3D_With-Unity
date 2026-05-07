@@ -15,10 +15,17 @@ public class BattleUIController : MonoBehaviour
     private VisualElement _mpBar;
     private Label _hpText;
     private Label _mpText;
+    private Label _turnLabel;
+    private Button _quitBtn;
 
     public event Action<BattleUnit, PlayerSkillData> OnPlayerInput;
 
     private void Awake()
+    {
+        Initialize();
+    }
+
+    private void Initialize()
     {
         _uiDocument = GetComponent<UIDocument>();
         var root = _uiDocument.rootVisualElement;
@@ -28,7 +35,11 @@ public class BattleUIController : MonoBehaviour
         _mpBar      = root.Q<VisualElement>("mp-bar");
         _hpText     = root.Q<Label>("hp-text");
         _mpText     = root.Q<Label>("mp-text");
+        _turnLabel  = root.Q<Label>("turn-label");
+        _quitBtn    = root.Q<Button>("quit-btn");
 
+        _turnLabel.text = $"Turn [ 1 ]";    // 턴 초기값
+        _quitBtn.clicked += OnQuitButtonClicked;
         _skillBar.style.visibility = Visibility.Hidden;
     }
 
@@ -43,6 +54,21 @@ public class BattleUIController : MonoBehaviour
         _battleController.OnUnitDamaged             += HandleUnitDamaged;
         _battleController.OnBattleEnd               += HandleBattleEnd;
         _battleController.OnPlayerActionComplete    += HandlePlayerActionComplete;
+        _battleController.OnTurnChanged             += HangleTurnChanged;
+    }
+
+    private void OnQuitButtonClicked()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false; // 에디터에서 실행 중지
+#else
+        Application.Quit(); // 빌드에서 종료
+#endif
+    }
+
+    private void HangleTurnChanged(int currentTurn)
+    {
+        _turnLabel.text = $"Turn [ {currentTurn} ]";
     }
 
     private void HandlePlayerActionComplete(PlayerBattleUnit player)
@@ -80,6 +106,8 @@ public class BattleUIController : MonoBehaviour
 
     private void OnTurnStart(BattleUnit unit) 
     {
+
+
         if (unit is PlayerBattleUnit player)
         {
             // 카메라 위치를 플레이어 뒤쪽으로 이동
@@ -126,6 +154,7 @@ public class BattleUIController : MonoBehaviour
             _battleController.OnBattleEnd               -= HandleBattleEnd;
             _battleController.OnUnitDamaged             -= HandleUnitDamaged;
             _battleController.OnPlayerActionComplete    -= HandlePlayerActionComplete;
+            _battleController.OnTurnChanged             -= HangleTurnChanged;
         }
     }
 

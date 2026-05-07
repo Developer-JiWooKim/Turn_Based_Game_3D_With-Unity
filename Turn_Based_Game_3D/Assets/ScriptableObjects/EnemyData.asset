@@ -15,11 +15,12 @@ MonoBehaviour:
   EnemyName: Slime
   enemyType: 0
   enemyStat:
-    Hp: 50
+    Hp: 500
     Mp: 0
-    AttackPower: 15
+    AttackPower: 100
     DefenseValue: 5
     Speed: 10
-  Skills: []
+  Skills:
+  - {fileID: 11400000, guid: 967ec3172b942ad4ba672f24f3fc262c, type: 2}
   Exp: 10
   Gold: 100
