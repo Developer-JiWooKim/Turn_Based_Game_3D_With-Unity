@@ -27,9 +27,10 @@ public class BattleController : MonoBehaviour
     public CharacterData PlayerData => _playerData;
 
     //TODO#: 현재는 OnTurnStart라고 이름을 정했지만, 자신의 차례가 되었을때 카메라 무빙, UI 업데이트 등등의 처리를 하기 위한 이벤트이므로 나중에 이름을 변경할 수도 있음
-    public event Action<BattleUnit>         OnTurnStart;   // 턴이 시작될 때마다 호출되는 이벤트, 현재 턴에서 행동할 유닛을 인자로 전달
-    public event Action<IDamageable, int>   OnUnitDamaged; // 유닛이 피해를 입었을 때 호출되는 이벤트, 피해를 입은 유닛과 입은 피해량을 인자로 전달
-    public event Action<bool>               OnBattleEnd;   // 전투가 종료될 때 호출되는 이벤트, 플레이어가 승리했는지 여부를 인자로 전달
+    public event Action<BattleUnit>         OnTurnStart;            // 턴이 시작될 때마다 호출되는 이벤트, 현재 턴에서 행동할 유닛을 인자로 전달
+    public event Action<IDamageable, int>   OnUnitDamaged;          // 유닛이 피해를 입었을 때 호출되는 이벤트, 피해를 입은 유닛과 입은 피해량을 인자로 전달
+    public event Action<bool>               OnBattleEnd;            // 전투가 종료될 때 호출되는 이벤트, 플레이어가 승리했는지 여부를 인자로 전달
+    public event Action<PlayerBattleUnit>   OnPlayerActionComplete; // 플레이어의 행동이 종료되고 처리할 이벤트(MP갱신 등등)
 
     private void Awake()
     {
@@ -210,6 +211,7 @@ public class BattleController : MonoBehaviour
         }
 
         _playerActed = true; // 플레이어가 행동을 완료했음을 표시
-        Debug.Log("_playerActed = true");
+
+        OnPlayerActionComplete?.Invoke(_playerUnits[0]);
     }
 }

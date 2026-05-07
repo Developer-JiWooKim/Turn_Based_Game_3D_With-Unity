@@ -15,16 +15,19 @@ public class UnitAnimator : MonoBehaviour
 
     public void PlayHitAnim()
     {
+        Debug.Log($"{gameObject.name}의 공격 애니메이션.");
         _animator?.SetTrigger("Hit");
     }
 
     public void PlayDeathAnim()
     {
+        Debug.Log($"{gameObject.name} 이 죽는 애니메이션 재생.");
         _animator?.SetTrigger("Death");
     }
 
     public void PlaySkillAnim(string skillName)
     {
+        Debug.Log($"{skillName} 공격 애니메이션 실행");
         _animator?.SetTrigger(skillName);
     }
 }

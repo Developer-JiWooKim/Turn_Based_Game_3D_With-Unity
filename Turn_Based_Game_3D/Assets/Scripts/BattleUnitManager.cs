@@ -74,10 +74,12 @@ public class BattleUnitManager : MonoBehaviour
 
     private void OnUnitDamaged(IDamageable unit, int damage)
     {
+
         foreach (var view in _playerViews)
         {
-            if (view.LinkedUnit == unit as BattleUnit)
+            if (view.LinkedUnit == unit)
             {
+                Debug.Log("플레이어 유닛과 타겟이 일치합니다.");
                 view.OnDamaged(damage);
                 return;
             }
@@ -85,12 +87,15 @@ public class BattleUnitManager : MonoBehaviour
 
         foreach (var view in _enemyViews)
         {
-            if (view.LinkedUnit == unit as BattleUnit)
+            if (view.LinkedUnit == unit)
             {
+                Debug.Log("적 유닛과 일치합니다.");
                 view.OnDamaged(damage);
                 return;
             }
         }
+
+        Debug.Log("해당 유닛의 View를 찾지 못했습니다!");
     }
 
     private void UnSubscribe()

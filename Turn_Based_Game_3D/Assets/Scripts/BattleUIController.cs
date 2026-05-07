@@ -29,7 +29,7 @@ public class BattleUIController : MonoBehaviour
         _hpText     = root.Q<Label>("hp-text");
         _mpText     = root.Q<Label>("mp-text");
 
-        _skillBar.style.display = DisplayStyle.None;
+        _skillBar.style.visibility = Visibility.Hidden;
     }
 
     public void Subscribe(BattleController battleController, PlayerInputHandler playerInputHandler)
@@ -39,19 +39,42 @@ public class BattleUIController : MonoBehaviour
         _battleController   = battleController;
         _playerInputHandler = playerInputHandler;
 
-        _battleController.OnTurnStart   += OnTurnStart;
-        _battleController.OnUnitDamaged += HandleUnitDamaged;
-        _battleController.OnBattleEnd   += HandleBattleEnd;
+        _battleController.OnTurnStart               += OnTurnStart;
+        _battleController.OnUnitDamaged             += HandleUnitDamaged;
+        _battleController.OnBattleEnd               += HandleBattleEnd;
+        _battleController.OnPlayerActionComplete    += HandlePlayerActionComplete;
+    }
+
+    private void HandlePlayerActionComplete(PlayerBattleUnit player)
+    {
+        RefreshPlayerStatus(player);
     }
 
     private void HandleUnitDamaged(IDamageable target, int damage)
     {
-        // TODO#: 플레이어 HP/MP 갱신 예정
+        PlayerBattleUnit player = target as PlayerBattleUnit;
+        if (player != null)
+        {
+            RefreshPlayerStatus(player);
+        }
     }
+
+    private void RefreshPlayerStatus(PlayerBattleUnit player)
+    {
+        float hpRatio = (float)player.CurrentHp / player.MaxHp;
+        float mpRatio = (float)player.CurrentMp / player.MaxMp;
+
+        _hpBar.style.width = Length.Percent(hpRatio * 100f);
+        _mpBar.style.width = Length.Percent(mpRatio * 100f);
+
+        _hpText.text = $"{player.CurrentHp}/{player.MaxHp}";
+        _mpText.text = $"{player.CurrentMp}/{player.MaxMp}";
+    }
+
 
     private void HandleBattleEnd(bool result)
     {
-        _skillBar.style.display = DisplayStyle.None;
+        _skillBar.style.visibility = Visibility.Hidden;
         Debug.Log(result ? "승리!" : "패배...");
     }
 
@@ -67,18 +90,13 @@ public class BattleUIController : MonoBehaviour
         else
         {
             // 스킬 버튼 비활성화
-            _skillBar.style.display = DisplayStyle.None;
+            _skillBar.style.visibility = Visibility.Hidden;
         }
     }
     private void BuildSkillButtons(List<PlayerSkillData> skills)
     {
-
-        Debug.Log($"skills: {skills}");          // null 인지 확인
-        Debug.Log($"skills count: {skills?.Count}"); // 몇 개인지 확인
-        Debug.Log($"_skillBar: {_skillBar}");    // skillBar null 인지 확인
-
         _skillBar.Clear();
-        _skillBar.style.display = DisplayStyle.Flex;
+        _skillBar.style.visibility = Visibility.Visible;
 
         foreach (var skill in skills)
         {
@@ -94,23 +112,20 @@ public class BattleUIController : MonoBehaviour
 
     private void OnSkillButtonClicked(PlayerSkillData skill)
     {
-        Debug.Log($"버튼 클릭됨! skill: {skill.SkillName}");
-        Debug.Log($"_playerInputHandler: {_playerInputHandler}");
-
-
         // TODO#: 나중에 타겟 선택 UI 추가 예정
         // 지금은 임시로 첫 번째 살아있는 적 자동 타겟
         _playerInputHandler.NotifyPlayerActed(skill);
-        _skillBar.style.display = DisplayStyle.None;
+        _skillBar.style.visibility = Visibility.Hidden;
     }
 
     private void Unsubscribe()
     {
         if (_battleController != null)
         {
-            _battleController.OnTurnStart -= OnTurnStart;
-            _battleController.OnBattleEnd -= HandleBattleEnd;
-            _battleController.OnUnitDamaged -= HandleUnitDamaged;
+            _battleController.OnTurnStart               -= OnTurnStart;
+            _battleController.OnBattleEnd               -= HandleBattleEnd;
+            _battleController.OnUnitDamaged             -= HandleUnitDamaged;
+            _battleController.OnPlayerActionComplete    -= HandlePlayerActionComplete;
         }
     }
 
