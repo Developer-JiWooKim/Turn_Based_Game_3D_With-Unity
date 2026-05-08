@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83fbb9e342a64cb4192a7e31dd6819dd, type: 3}
-  m_Name: TestEnemyData2
+  m_Name: TestEnemyData 2
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  EnemyName: 
+  EnemyName: Monster 2
   enemyType: 0
   enemyStat:
-    Hp: 0
+    Hp: 200
     Mp: 0
-    AttackPower: 0
-    DefenseValue: 0
-    Speed: 0
-  Skills: []
-  Exp: 0
-  Gold: 0
+    AttackPower: 100
+    DefenseValue: 5
+    Speed: 10
+  Skills:
+  - {fileID: 11400000, guid: 967ec3172b942ad4ba672f24f3fc262c, type: 2}
+  Exp: 10
+  Gold: 100

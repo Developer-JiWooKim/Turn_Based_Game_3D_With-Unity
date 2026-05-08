@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
- <Style src="BattleUI.uss"/>   
+    <Style src="BattleUI.uss"/>
+
     <ui:VisualElement name="root" class="root">
 
         <!-- 상단 바 -->
@@ -58,5 +59,19 @@
 
         </ui:VisualElement>
 
+        <!-- Game Clear 패널 -->
+        <ui:VisualElement name="game-clear-panel" class="result-panel">
+            <ui:Label text="Stage Clear!" class="result-text"/>
+            <ui:Button name="title-btn-clear" text="타이틀로" class="result-btn"/>
+        </ui:VisualElement>
+
+        <!-- Game Over 패널 -->
+        <ui:VisualElement name="game-over-panel" class="result-panel">
+            <ui:Label text="Game Over" class="result-text"/>
+            <ui:Button name="retry-btn" text="재도전" class="result-btn"/>
+            <ui:Button name="title-btn-gameover" text="타이틀로" class="result-btn"/>
+        </ui:VisualElement>
+
     </ui:VisualElement>
+
 </ui:UXML>

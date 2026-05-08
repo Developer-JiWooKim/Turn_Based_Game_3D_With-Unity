@@ -4,13 +4,8 @@ public class PlayerUnitView : UnitView
 {
     protected override void OnAwake()
     {
-        _unitAnimator = GetComponentInChildren<UnitAnimator>();
-        _unitHUD = GetComponentInChildren<UnitHUD>();
-    }
-
-    private void Start()
-    {
-        BattleUnitManager.Instance.PlayerViewRegister(this);
+        _unitAnimator   = GetComponentInChildren<UnitAnimator>();
+        _unitHUD        = GetComponentInChildren<UnitHUD>();
     }
 
     protected override void PlayDeathAnim()

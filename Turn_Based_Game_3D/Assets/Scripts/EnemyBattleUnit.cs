@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 public class EnemyBattleUnit : BattleUnit
@@ -8,9 +9,15 @@ public class EnemyBattleUnit : BattleUnit
 
     public Dictionary<EnemySkillData, int> SkillCooldowns => _skillCooldowns;
 
+    private EnemyData enemyData;
+
+    public EnemyData EnemyData => enemyData;
+
     public EnemyBattleUnit(EnemyData data) : base(data)
     {
         _skillCooldowns = new Dictionary<EnemySkillData, int>();
+
+        enemyData = data;
 
         foreach (var skill in data.Skills)
         {
@@ -50,7 +57,6 @@ public class EnemyBattleUnit : BattleUnit
         _skillCooldowns[skill] = (int)skill.CoolTime;
     }
 
-    
     public void ReduceCooldowns(EnemySkillData skill)
     {
         _skillCooldowns[skill] = _skillCooldowns[skill] - 1 <= 0 ? 0 : _skillCooldowns[skill] - 1; // 턴이 끝날 때마다 모든 스킬의 쿨타임 1 감소, 최소값은 0

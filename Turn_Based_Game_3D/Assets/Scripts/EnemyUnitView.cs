@@ -5,12 +5,7 @@ public class EnemyUnitView : UnitView
     protected override void OnAwake()
     {
         _unitAnimator = GetComponentInChildren<UnitAnimator>();
-        _unitHUD = GetComponentInChildren<UnitHUD>();
-    }
-
-    private void Start()
-    {
-        BattleUnitManager.Instance.EnemyViewRegister(this);
+        _unitHUD      = GetComponentInChildren<UnitHUD>();
     }
 
     protected override void PlayDeathAnim()

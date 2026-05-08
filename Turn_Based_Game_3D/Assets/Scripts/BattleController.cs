@@ -5,28 +5,19 @@ using UnityEngine;
 
 public class BattleController : MonoBehaviour
 {
-    [SerializeField] private CharacterData  _playerData;   // 플레이어 캐릭터의 데이터
-    [SerializeField] private EnemyData[]    _enemyDatas;   // 적 캐릭터들의 데이터 배열
-
     [SerializeField] private PlayerInputHandler _playerInputHandler;    // 플레이어 입력 핸들러
     [SerializeField] private BattleUIController _battleUIController;    // 전투 UI 컨트롤러
 
-
     private UnitOrderBySpeedSystem  _unitOrderBySpeedSystem;    // 턴마다 유닛들의 행동 순서를 결정하는 시스템
 
-    // TODO#: 만약 플레이어 측이 여러명이면 이것도 리스트로 작성
-    private List<PlayerBattleUnit>  _playerUnits;                // 플레이어 캐릭터의 유닛
+    private List<PlayerBattleUnit>  _playerUnits;               // 플레이어 캐릭터의 유닛
     private List<EnemyBattleUnit>   _enemyUnits;                // 적 캐릭터들의 유닛 리스트
-
     private List<BattleUnit>        _battleUnits;               // 현재 전투에 참여하는 모든 유닛을 저장하는 리스트
-
 
     private int   _turnCount;             // 현재 턴의 번호를 저장하는 변수
     private bool  _playerActed;           // 플레이어가 현재 턴에서 행동을 완료했는지 여부, true이면 플레이어가 행동을 마쳤음을 나타냄
 
     public int TurnCount => _turnCount;
-
-    public CharacterData PlayerData => _playerData;
 
     //TODO#: 현재는 OnTurnStart라고 이름을 정했지만, 자신의 차례가 되었을때 카메라 무빙, UI 업데이트 등등의 처리를 하기 위한 이벤트이므로 나중에 이름을 변경할 수도 있음
     public event Action<BattleUnit>         OnTurnStart;            // 턴이 시작될 때마다 호출되는 이벤트, 현재 턴에서 행동할 유닛을 인자로 전달
@@ -35,61 +26,41 @@ public class BattleController : MonoBehaviour
     public event Action<PlayerBattleUnit>   OnPlayerActionComplete; // 플레이어의 행동이 종료되고 처리할 이벤트(MP갱신 등등)
     public event Action<int>                OnTurnChanged;       
 
-    private void Awake()
-    {
-        Initialize();
-    }
-
+    private void Awake() => Initialize();
+    private void Start() => SetUp();
     private void Initialize()
     {
         _unitOrderBySpeedSystem = new UnitOrderBySpeedSystem();
-        _battleUnits = new List<BattleUnit>();
 
+        _battleUnits = new List<BattleUnit>();
         _playerUnits = new List<PlayerBattleUnit>();
-        _enemyUnits = new List<EnemyBattleUnit>();
+        _enemyUnits  = new List<EnemyBattleUnit>();
+
         _turnCount = 1;
     }
 
-    // TODO#: 현재는 테스트를 위해 게임을 시작하자마자 전투가 시작되지만, 나중에는 타이틀 화면에서 플레이어가 캐릭터를 고르고 게임 시작 버튼을 누르면 시작하도록 변경
-    private void Start()
+    private void SetUp()
     {
-        _playerInputHandler.Subscribe(this);                        
-        _battleUIController.Subscribe(this, _playerInputHandler);   
-
-        BattleUnitManager.Instance.Subscribe(this);
-
-        StartCoroutine(DelayedStartBattle());
+        _playerInputHandler.Subscribe(this);
+        _battleUIController.Subscribe(this, _playerInputHandler);
     }
 
     /// <summary>
     /// 전투가 시작되면 한번만 호출되는 메소드 -> 플레이어 유닛과 적 유닛을 생성 / 전투에 참여하는 모든 유닛을 리스트에 추가 / 턴 시스템 초기화
     /// </summary>
-    public void StartBattle()
+    public void StartBattle(List<PlayerBattleUnit> players, List<EnemyBattleUnit> enemies)
     {
-        // 적 유닛 배열 초기화
-        // TODO#: 몬스터 스포너를 새로 만들어서 턴이 시작되면 몬스터 스포너가 적 유닛을 생성하도록 변경
-        foreach (var unit in _enemyDatas)
-        {
-            _enemyUnits.Add(new EnemyBattleUnit(unit));
-        }
+        _playerUnits = players;
+        _enemyUnits  = enemies;
 
-        _playerUnits.Add(new PlayerBattleUnit(PlayerData));
+        _battleUnits.AddRange(_playerUnits);
+        _battleUnits.AddRange(_enemyUnits);
 
-        _battleUnits.AddRange(_playerUnits);                // 플레이어 유닛을 전투 유닛 리스트에 추가
-        _battleUnits.AddRange(_enemyUnits);                 // 적 유닛들을 전투 유닛 리스트에 추가
+        _unitOrderBySpeedSystem.OrderBySpeed(_battleUnits);
 
-        _unitOrderBySpeedSystem.OrderBySpeed(_battleUnits); // 유닛의 속도에 따라 정렬 및 턴 초기화
-
-
-        BattleUnitManager.Instance.LinkUnit(_playerUnits, _enemyUnits);
+        OnTurnChanged?.Invoke(_turnCount);
 
         StartCoroutine(BattleLoop(_battleUnits));
-    }
-
-    private IEnumerator DelayedStartBattle()
-    {
-        yield return null; // 한 프레임 대기
-        StartBattle();
     }
 
     private IEnumerator BattleLoop(List<BattleUnit> battleUnits)

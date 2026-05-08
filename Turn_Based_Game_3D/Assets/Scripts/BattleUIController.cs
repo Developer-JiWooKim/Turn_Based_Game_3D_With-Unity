@@ -18,6 +18,10 @@ public class BattleUIController : MonoBehaviour
     private Label _turnLabel;
     private Button _quitBtn;
 
+    private VisualElement _gameClearPanel;
+    private VisualElement _gameOverPanel;
+
+
     public event Action<BattleUnit, PlayerSkillData> OnPlayerInput;
 
     private void Awake()
@@ -38,23 +42,59 @@ public class BattleUIController : MonoBehaviour
         _turnLabel  = root.Q<Label>("turn-label");
         _quitBtn    = root.Q<Button>("quit-btn");
 
+        _gameClearPanel = root.Q<VisualElement>("game-clear-panel");
+        _gameOverPanel  = root.Q<VisualElement>("game-over-panel");
+
         _turnLabel.text = $"Turn [ 1 ]";    // 턴 초기값
+
         _quitBtn.clicked += OnQuitButtonClicked;
+
+        root.Q<Button>("title-btn-clear").clicked    += OnTitleButtonClicked;
+        root.Q<Button>("title-btn-gameover").clicked += OnTitleButtonClicked;
+        root.Q<Button>("retry-btn").clicked          += OnRetryButtonClicked;
+
         _skillBar.style.visibility = Visibility.Hidden;
     }
 
     public void Subscribe(BattleController battleController, PlayerInputHandler playerInputHandler)
     {
         Debug.Log($"Subscribe 호출됨 - playerInputHandler: {playerInputHandler}");
-        
-        _battleController   = battleController;
+
+        _battleController = battleController;
         _playerInputHandler = playerInputHandler;
 
-        _battleController.OnTurnStart               += OnTurnStart;
-        _battleController.OnUnitDamaged             += HandleUnitDamaged;
-        _battleController.OnBattleEnd               += HandleBattleEnd;
-        _battleController.OnPlayerActionComplete    += HandlePlayerActionComplete;
-        _battleController.OnTurnChanged             += HangleTurnChanged;
+        _battleController.OnTurnStart            += OnTurnStart;
+        _battleController.OnUnitDamaged          += HandleUnitDamaged;
+        _battleController.OnBattleEnd            += HandleBattleEnd;
+        _battleController.OnPlayerActionComplete += HandlePlayerActionComplete;
+        _battleController.OnTurnChanged          += HangleTurnChanged;
+
+        GameManager.Instance.OnGameClear += HandleGameClear;
+        GameManager.Instance.OnGameOver  += HandleGameOver;
+    }
+
+    private void HandleGameOver()
+    {
+        _gameOverPanel.style.display = DisplayStyle.Flex;
+        _skillBar.style.visibility = Visibility.Hidden;
+    }
+
+    private void HandleGameClear()
+    {
+        _gameClearPanel.style.display = DisplayStyle.Flex;
+        _skillBar.style.visibility = Visibility.Hidden;
+    }
+
+    private void OnTitleButtonClicked()
+    {
+        // TODO#: 타이틀 씬으로 이동
+        Debug.Log("타이틀로 이동");
+    }
+
+    private void OnRetryButtonClicked()
+    {
+        // TODO#: 재도전
+        Debug.Log("재도전");
     }
 
     private void OnQuitButtonClicked()
@@ -155,6 +195,11 @@ public class BattleUIController : MonoBehaviour
             _battleController.OnUnitDamaged             -= HandleUnitDamaged;
             _battleController.OnPlayerActionComplete    -= HandlePlayerActionComplete;
             _battleController.OnTurnChanged             -= HangleTurnChanged;
+
+
+            GameManager.Instance.OnGameOver -= HandleGameOver;
+            GameManager.Instance.OnGameOver -= HandleGameClear;
+
         }
     }
 
