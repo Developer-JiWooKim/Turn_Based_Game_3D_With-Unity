@@ -1,0 +1,130 @@
+게임 설계 문서
+
+📌 게임 컨셉
+장르: 턴제 전투 RPG (JRPG 스타일)
+배경: 미래 전투 시뮬레이션
+플랫폼: PC (Unity 6.5 LTS)
+
+📌 씬 구조
+TitleScene (index 0)
+└── 게임 타이틀 화면
+└── 게임 시작 / 옵션 / 종료 버튼
+└── 게임 시작 → WeaponSelectScene
+
+WeaponSelectScene (index 1)
+└── 왼쪽: 플레이어 캐릭터 3D 미리보기
+└── 가운데: 선택된 무기 설명
+└── 오른쪽: 무기 아이콘 목록
+└── 게임 시작 버튼 → BattleScene
+
+BattleScene (index 2)
+└── 실제 전투 진행
+└── 스테이지 클리어 → 다음 스테이지 (BattleScene 재로드)
+└── 게임 오버 → 재도전 or TitleScene
+
+📌 전투 시스템
+턴 시스템
+모든 유닛의 Speed 수치 기반으로 행동 순서 결정
+모든 유닛 1회 행동 완료 → 턴 증가 → 순서 재정렬 반복
+플레이어 턴
+스킬 버튼 활성화 → 플레이어 입력 대기
+선택한 스킬로 적 공격
+적 턴
+우선순위 높은 스킬 순서대로 자동 사용
+쿨타임 기반 스킬 관리
+(나중에) 누적확률 + 상태 고려 AI로 확장 예정
+승패 조건
+플레이어 사망 → 즉시 게임 오버
+모든 적 사망 → 스테이지 클리어
+
+📌 무기 시스템 (구현 예정)
+총류
+├── 스킬 = 총쏘기 애니메이션
+├── 자원 = 탄약 (사용 횟수)
+└── 탄약 0 → 사용 불가
+
+근접류 (검, 해머 등)
+├── 스킬 = 공격 애니메이션
+├── 자원 = 스태미나
+├── 매 턴 시작 시 스태미나 일정량 회복
+└── 스태미나 부족 → 사용 불가
+
+기본 공격 (주먹)
+├── 모든 공격 수단 사용 불가 시 자동 활성화
+├── 4번째 버튼에 주먹 아이콘 표시
+└── 자원 없음 / 무한 사용
+
+📌 스테이지 시스템
+현재 방식 (수동 설정)
+StageData SO 로 스테이지별 몬스터 수동 설정
+초반 스테이지 / 튜토리얼에 적합
+나중에 구현 예정 (자동 생성)
+난이도 기반 몬스터 자동 조합
+무한 스테이지 가능
+스테이지 클리어 시
+다음 스테이지로 전환
+플레이어 HP 리필
+
+📌 코드 아키텍처
+씬별 주요 오브젝트
+TitleScene
+└── GameManager (DontDestroyOnLoad)
+└── TitleUI (UIDocument + TitleSceneController)
+
+WeaponSelectScene
+└── WeaponSelectUI
+└── WeaponSelectController
+
+BattleScene
+└── BattleSceneController  ← 전투 환경 셋팅
+└── BattleController       ← 실제 전투 로직
+└── BattleUIController     ← UI 관리
+└── PlayerInputHandler     ← 플레이어 입력
+└── EnemySpawner           ← 적 생성
+└── BattleUnitLinker       ← UnitView ↔ BattleUnit 연결
+네이밍 규칙
+Manager    → 싱글톤 (GameManager, BattleUnitManager 등)
+Controller → 특정 씬/오브젝트 전담, 싱글톤 아님
+System     → 순수 로직 담당
+Spawner    → 오브젝트 생성 담당
+Linker     → 연결 담당
+이벤트 기반 통신 원칙
+두 클래스가 강하게 연결되면 안 될 때 이벤트 사용
+직접 참조 가능하면 직접 호출
+static 이벤트 최소화
+데이터 흐름
+ScriptableObject (원본 데이터)
+    ↓
+BattleUnit / EnemyBattleUnit / PlayerBattleUnit (런타임 데이터)
+    ↓
+UnitView / EnemyUnitView / PlayerUnitView (시각적 표현)
+
+📌 퀄리티업 계획 (나중에)
+1. 애니메이션
+   └── Attack / Hit / Death 클립
+   └── Animator 스테이트 머신
+   └── Mixamo 애니메이션 적용
+
+2. 카메라 시스템
+   └── 플레이어 턴 / 몬스터 턴 카메라 전환
+
+3. 배틀씬 진입 연출
+   └── 카메라 내려오기
+   └── 플레이어 등장 (걷기/구르기)
+   └── 몬스터 등장 (낙하/솟구치기)
+
+4. 몬스터 에셋 교체
+   └── 캡슐 → 몬스터 캐릭터
+
+5. 사운드 시스템
+   └── BGM / 효과음
+
+6. 이펙트 시스템
+   └── 공격 / 피격 이펙트
+
+7. 옵션 씬
+   └── 볼륨 / 해상도 설정
+
+8. 적 AI 고도화
+   └── 누적확률 + 상태 고려
+   └── 플레이어 상태에 따른 스킬 선택
