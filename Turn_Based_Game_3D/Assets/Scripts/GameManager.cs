@@ -1,5 +1,4 @@
 using System;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -28,7 +27,7 @@ public class GameManager : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(this.gameObject);
             SceneManager.sceneLoaded += OnSceneLoaded;
-            _currentStageIndex = 1;
+            _currentStageIndex = 0;
         }
         else
         {
@@ -40,7 +39,7 @@ public class GameManager : MonoBehaviour
     {
         // TODO#: 나중에 타이틀 씬에서 시작하도록 변경
         // 임시 테스트용 바로 배틀씬 로드
-        LoadBattleScene();
+        // LoadBattleScene();
     }
 
     // TODO#: 테스트용 메소드
@@ -82,6 +81,4 @@ public class GameManager : MonoBehaviour
     {
         OnGameOver?.Invoke();
     }
-
-
 }
