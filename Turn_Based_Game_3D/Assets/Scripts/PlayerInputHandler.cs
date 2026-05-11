@@ -1,16 +1,68 @@
-using System;
 using UnityEngine;
 
 public class PlayerInputHandler : MonoBehaviour
 {
-    private BattleController _battleController;
+    [SerializeField] private PlayerInputSystem _playerInputSystem;
 
-    public event Action OnPlayerInputReady;
+    private BattleController  _battleController;
+    private TargetSelector    _targetSelector;
+    private Camera            _camera;
 
-    public void Subscribe(BattleController battleController)
+    private bool _isPlayerTurn = false;
+
+    private void Awake()
     {
-        _battleController = battleController;
+        Initialize();
+    }
+
+    private void Initialize()
+    {
+        _camera = Camera.main;
+    }
+
+    public void Subscribe(BattleController battleController, 
+                          TargetSelector targetSelector)
+    {
+        _battleController  = battleController;
+        _targetSelector    = targetSelector;
+
         _battleController.OnTurnStart += HandleTurnStart;
+
+        _playerInputSystem.OnNextInput           += HandleNext;
+        _playerInputSystem.OnPrevInput           += HandlePrev;
+        _playerInputSystem.OnSelectTargetInput   += HandleSelectTarget;
+    }
+
+    private void HandleSelectTarget(Vector2 vector)
+    {
+        if (!_isPlayerTurn) return;
+
+        Ray ray = _camera.ScreenPointToRay(vector);
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            EnemyUnitView view = hit.collider.GetComponentInParent<EnemyUnitView>(); // 몬스터 프리팹 자체에 EnemyUnitView가 붙어있는데 부모로 찾아야되는가?
+
+            if (view != null)
+            {
+                int index = _targetSelector.EnemyViews.IndexOf(view); // 타겟 셀렉터에는 이런 메소드 없음
+                if (index >= 0)
+                {
+                    _targetSelector.SelectTarget(index);
+                }
+            }
+        }
+    }
+
+    private void HandlePrev()
+    {
+        if (!_isPlayerTurn) return;
+        _targetSelector.SelectPrev();
+    }
+
+    private void HandleNext()
+    {
+        if (!_isPlayerTurn) return;
+        _targetSelector.SelectNext();
     }
 
     private void Unsubscribe()
@@ -18,6 +70,13 @@ public class PlayerInputHandler : MonoBehaviour
         if (_battleController != null)
         {
             _battleController.OnTurnStart -= HandleTurnStart;
+        }
+
+        if (_playerInputSystem != null)
+        {
+            _playerInputSystem.OnNextInput         -= HandleNext;
+            _playerInputSystem.OnPrevInput         -= HandlePrev;
+            _playerInputSystem.OnSelectTargetInput -= HandleSelectTarget;
         }
     }
 
@@ -30,11 +89,8 @@ public class PlayerInputHandler : MonoBehaviour
     {
         // TODO#: 지울예정
         Debug.Log($"HandleTurnStart 호출됨: {unit.Name} IsPlayer: {unit.IsPlayer}");
-        
-        if (unit is PlayerBattleUnit)
-        {
-            OnPlayerInputReady?.Invoke();
-        }
+
+        _isPlayerTurn = unit is PlayerBattleUnit;
     }
 
     /// <summary>
@@ -45,7 +101,6 @@ public class PlayerInputHandler : MonoBehaviour
         Debug.Log($"NotifyPlayerActed 호출됨! skill: {skill.SkillName}");
         Debug.Log($"_battleController: {_battleController}");
 
-        // BattleController 에서 첫 번째 살아있는 적 찾기
-        _battleController.OnPlayerAction(null, skill); // BattleController가 타겟 찾음
+        _battleController.OnPlayerAction(_targetSelector.CurrentTarget?.LinkedUnit as IDamageable, skill); // BattleController가 타겟 찾음
     }
 }

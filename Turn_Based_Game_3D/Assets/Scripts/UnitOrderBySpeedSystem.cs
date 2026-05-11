@@ -64,10 +64,12 @@ public class UnitOrderBySpeedSystem
     {
         int removedIndex = _units.IndexOf(deadUnit);
 
+        if (removedIndex < 0) return; // 리스트에 없으면 무시
+
         _units.Remove(deadUnit);
 
-        // 제거된 유닛이 현재 인덱스보다 앞이면 인덱스 보정
-        if (removedIndex < _currentIndex)
+        // 제거된 유닛이 현재 인덱스보다 앞이거나 같으면 인덱스 보정
+        if (removedIndex <= _currentIndex)
         {
             _currentIndex--;
         }

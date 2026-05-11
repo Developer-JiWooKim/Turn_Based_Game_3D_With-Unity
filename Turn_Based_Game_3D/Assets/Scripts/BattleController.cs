@@ -7,8 +7,10 @@ public class BattleController : MonoBehaviour
 {
     [SerializeField] private PlayerInputHandler _playerInputHandler;    // 플레이어 입력 핸들러
     [SerializeField] private BattleUIController _battleUIController;    // 전투 UI 컨트롤러
+    [SerializeField] private TargetSelector     _targetSelector;        // 플레이어가 현재 선택한 타겟을 알려주는 Selector
 
     private UnitOrderBySpeedSystem  _unitOrderBySpeedSystem;    // 턴마다 유닛들의 행동 순서를 결정하는 시스템
+    
 
     private List<PlayerBattleUnit>  _playerUnits;               // 플레이어 캐릭터의 유닛
     private List<EnemyBattleUnit>   _enemyUnits;                // 적 캐릭터들의 유닛 리스트
@@ -24,7 +26,8 @@ public class BattleController : MonoBehaviour
     public event Action<IDamageable, int>   OnUnitDamaged;          // 유닛이 피해를 입었을 때 호출되는 이벤트, 피해를 입은 유닛과 입은 피해량을 인자로 전달
     public event Action<bool>               OnBattleEnd;            // 전투가 종료될 때 호출되는 이벤트, 플레이어가 승리했는지 여부를 인자로 전달
     public event Action<PlayerBattleUnit>   OnPlayerActionComplete; // 플레이어의 행동이 종료되고 처리할 이벤트(MP갱신 등등)
-    public event Action<int>                OnTurnChanged;       
+    public event Action<int>                OnTurnChanged;
+    public event Action<BattleUnit>         OnEnemyDied;
 
     private void Awake() => Initialize();
     private void Start() => SetUp();
@@ -41,7 +44,8 @@ public class BattleController : MonoBehaviour
 
     private void SetUp()
     {
-        _playerInputHandler.Subscribe(this);
+        Debug.Log($"_targetSelector: {_targetSelector}"); // null 인지 확인
+        _playerInputHandler.Subscribe(this, _targetSelector);
         _battleUIController.Subscribe(this, _playerInputHandler);
     }
 
@@ -163,6 +167,7 @@ public class BattleController : MonoBehaviour
             Debug.LogError("PlayerSkillData is null. Cannot perform action.");
             return;
         }
+
         Debug.Log($"OnPlayerAction 호출 - skill: {skill.SkillName}");
         // TODO#: 스킬의 데미지 계산 공식은 나중에 스킬 시스템이 완성되면 변경할 예정
         // TODO#: 현재는 플레이어가 한명이므로 무조건 리스트 0번 자리에 있지만 늘어나면 현재 행동하는 플레이어를 찾아 얻어오는 식으로 새로 짜야됨
@@ -175,9 +180,14 @@ public class BattleController : MonoBehaviour
 
         if (target.IsDead)
         {
-            _enemyUnits.Remove(target as EnemyBattleUnit);
-            _battleUnits.Remove(target as BattleUnit);
-            _unitOrderBySpeedSystem.RemoveUnit(target as BattleUnit); // 유닛이 죽었을 때 턴 시스템에서 해당 유닛 제거
+            EnemyBattleUnit deadUnit = target as EnemyBattleUnit;
+
+            _enemyUnits.Remove(deadUnit);
+            _battleUnits.Remove(deadUnit);
+
+            _unitOrderBySpeedSystem.RemoveUnit(deadUnit); // 유닛이 죽었을 때 턴 시스템에서 해당 유닛 제거
+
+            OnEnemyDied?.Invoke(deadUnit);
         }
 
         _playerActed = true; // 플레이어가 행동을 완료했음을 표시
