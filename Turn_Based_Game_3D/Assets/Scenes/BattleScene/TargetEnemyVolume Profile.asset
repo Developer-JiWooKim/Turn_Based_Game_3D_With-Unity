@@ -1,20 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: Global Volume Profile
-  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.VolumeProfile
-  components:
-  - {fileID: 8991719638670267607}
---- !u!114 &8991719638670267607
+--- !u!114 &-375778287804895919
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -28,29 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ToonShadersPro.URP.OutlineSettings
   active: 1
   renderPassEvent:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   outlineType:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 2
   outlineColor:
     m_OverrideState: 1
-    m_Value: {r: 0, g: 0, b: 0, a: 1}
+    m_Value: {r: 1, g: 0, b: 0, a: 1}
   colorSensitivity:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.1
   colorStrength:
     m_OverrideState: 0
     m_Value: 0.5
   depthSensitivity:
-    m_OverrideState: 1
-    m_Value: 0.5
+    m_OverrideState: 0
+    m_Value: 0.01
   depthStrength:
     m_OverrideState: 0
     m_Value: 0.75
   normalSensitivity:
-    m_OverrideState: 1
-    m_Value: 0.5
+    m_OverrideState: 0
+    m_Value: 0.1
   normalStrength:
     m_OverrideState: 0
     m_Value: 0.75
@@ -61,7 +47,7 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value:
       serializedVersion: 2
-      m_Bits: 64
+      m_Bits: 256
   maskDrawingMode:
     m_OverrideState: 0
     m_Value: 0
@@ -78,14 +64,14 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
   maskedOutlineThickness:
-    m_OverrideState: 1
-    m_Value: 2
-  maskedOutlineSmoothing:
-    m_OverrideState: 1
-    m_Value: 5
-  outlineDrawSides:
     m_OverrideState: 0
     m_Value: 1
+  maskedOutlineSmoothing:
+    m_OverrideState: 0
+    m_Value: 1
+  outlineDrawSides:
+    m_OverrideState: 0
+    m_Value: 2
   outlineFadeStart:
     m_OverrideState: 0
     m_Value: 25
@@ -93,8 +79,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 50
   outlineThickness:
-    m_OverrideState: 1
-    m_Value: 0.1
+    m_OverrideState: 0
+    m_Value: 0.02
   outlineTransparency:
     m_OverrideState: 0
     m_Value: 0
@@ -107,3 +93,17 @@ MonoBehaviour:
   outlineMinLighting:
     m_OverrideState: 0
     m_Value: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
+  m_Name: TargetEnemyVolume Profile
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.VolumeProfile
+  components:
+  - {fileID: -375778287804895919}
