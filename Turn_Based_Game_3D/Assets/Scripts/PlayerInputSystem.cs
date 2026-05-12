@@ -18,6 +18,8 @@ public class PlayerInputSystem : MonoBehaviour
     private void OnEnable()
     {
         _inputActions.Player.Enable();
+        _inputActions.UI.Enable();
+
         _inputActions.Player.Next.performed += OnNext;
         _inputActions.Player.Previous.performed += OnPrevious;
         _inputActions.Player.SelectTarget.performed += OnSelectTarget;
@@ -28,7 +30,9 @@ public class PlayerInputSystem : MonoBehaviour
         _inputActions.Player.Next.performed -= OnNext;
         _inputActions.Player.Previous.performed -= OnPrevious;
         _inputActions.Player.SelectTarget.performed -= OnSelectTarget;
+
         _inputActions.Player.Disable();
+        _inputActions.UI.Enable();
     }
 
 

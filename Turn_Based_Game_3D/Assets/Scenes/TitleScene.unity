@@ -256,7 +256,7 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!1001 &725186037
+--- !u!1001 &970712049
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -264,18 +264,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1502362188}
     m_Modifications:
-    - target: {fileID: 1422569521682314831, guid: 7ad2aa669f491c94b8308253cd490c17, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1422569521682314831, guid: 7ad2aa669f491c94b8308253cd490c17, type: 3}
-      propertyPath: _uiDocument
-      value: 
-      objectReference: {fileID: 725186039}
-    - target: {fileID: 4503519984388779289, guid: 7ad2aa669f491c94b8308253cd490c17, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7035730818105406115, guid: 7ad2aa669f491c94b8308253cd490c17, type: 3}
       propertyPath: m_Name
       value: FadeController
@@ -329,22 +317,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ad2aa669f491c94b8308253cd490c17, type: 3}
---- !u!4 &725186038 stripped
+--- !u!4 &1148389012 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7743569699985683947, guid: 7ad2aa669f491c94b8308253cd490c17, type: 3}
-  m_PrefabInstance: {fileID: 725186037}
+  m_PrefabInstance: {fileID: 970712049}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &725186039 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4503519984388779289, guid: 7ad2aa669f491c94b8308253cd490c17, type: 3}
-  m_PrefabInstance: {fileID: 725186037}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
 --- !u!1 &1502362186
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,7 +367,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 725186038}
+  - {fileID: 1148389012}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1629207651

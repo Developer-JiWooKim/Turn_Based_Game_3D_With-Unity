@@ -27,17 +27,19 @@ public class TitleSceneController : MonoBehaviour
     }
 
 
+
     private void OnDestroy()
     {
-        _startBtn.clicked  -= OnStartButtonClicked;
+        _startBtn.clicked -= OnStartButtonClicked;
         _optionBtn.clicked -= OnOptionButtonClicked;
-        _quitBtn.clicked   -= OnQuitButtonClicked;
+        _quitBtn.clicked -= OnQuitButtonClicked;
     }
 
 
     private void OnStartButtonClicked()
     {
         // TODO#: 나중에 무기 선택 씬으로 변경
+
         GameManager.Instance.LoadScene("BattleScene");
     }
 
@@ -49,10 +51,12 @@ public class TitleSceneController : MonoBehaviour
 
     private void OnQuitButtonClicked()
     {
+        _uiDocument.enabled = false;
+
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-            Application.Quit();
+        Application.Quit();
 #endif
     }
 }
