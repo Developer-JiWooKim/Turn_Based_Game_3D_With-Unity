@@ -44,7 +44,6 @@ public class BattleController : MonoBehaviour
 
     private void SetUp()
     {
-        Debug.Log($"_targetSelector: {_targetSelector}"); // null 인지 확인
         _playerInputHandler.Subscribe(this, _targetSelector);
         _battleUIController.Subscribe(this, _playerInputHandler);
     }
@@ -126,15 +125,15 @@ public class BattleController : MonoBehaviour
         if (skill != null)
         {
             // TODO#: 스킬 사용 시 고유의 애니메이션, 이펙트, 카메라 무빙 등 작동하는 이벤트
-            OnUnitDamaged?.Invoke(_playerUnits[0], (int)skill.Power);   // 이 이벤트에서 작동 시키면 될듯
+            OnUnitDamaged?.Invoke(_playerUnits[0], (int)skill.Power); // 이 이벤트에서 작동 시키면 될듯
 
-            yield return new WaitForSeconds(2f);                    // 적이 플레이어를 타격하는 애니메이션 작동, 현재는 임시로 2초 대기
+            yield return new WaitForSeconds(2f);                      // 적이 플레이어를 타격하는 애니메이션 작동, 현재는 임시로 2초 대기
 
 
             // TODO#: 현재는 적 입장에서는 타겟이 플레이어 밖에 없으므로 _playerUnit의 TakeDamage를 쓰지만, 나중에 플레이어 측 유닛이 더 생기면 타겟을 정하는 로직 작성 필요            
-            _playerUnits[0].TakeDamage((int)skill.Power);               // 스킬 사용 시 플레이어에게 스킬 데미지 만큼의 데미지를 입힘
+            _playerUnits[0].TakeDamage((int)skill.Power);             // 스킬 사용 시 플레이어에게 스킬 데미지 만큼의 데미지를 입힘
 
-            currentEnemy.SetCooldown(skill);                        // 스킬 사용 후 쿨 타임 적용
+            currentEnemy.SetCooldown(skill);                          // 스킬 사용 후 쿨 타임 적용
         }
         else
         {

@@ -42,10 +42,9 @@ public class GameManager : MonoBehaviour
         // LoadBattleScene();
     }
 
-    // TODO#: 테스트용 메소드
-    public void LoadBattleScene()
+    public void LoadScene(string sceneName)
     {
-        SceneManager.LoadScene("BattleScene");
+        SceneManager.LoadScene(sceneName);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -64,7 +63,7 @@ public class GameManager : MonoBehaviour
 
         if (_currentStageIndex < _stageDatas.Length)
         {
-            LoadBattleScene();
+            LoadScene("BattleScene");
         }
         else
         {
@@ -80,5 +79,11 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         OnGameOver?.Invoke();
+    }
+
+    public void ResetStage()
+    {
+        _currentStageIndex = 0;
+        LoadScene("BattleScene");
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 public class TitleSceneController : MonoBehaviour
 {
     private UIDocument _uiDocument;
+
     private Button _startBtn;
     private Button _optionBtn;
     private Button _quitBtn;
@@ -13,21 +14,22 @@ public class TitleSceneController : MonoBehaviour
     private void Initialize()
     {
         _uiDocument = GetComponent<UIDocument>();
+
         var root = _uiDocument.rootVisualElement;
 
-        _startBtn = root.Q<Button>("start-btn");
+        _startBtn  = root.Q<Button>("start-btn");
         _optionBtn = root.Q<Button>("option-btn");
-        _quitBtn = root.Q<Button>("quit-btn");
+        _quitBtn   = root.Q<Button>("quit-btn");
 
-        _startBtn.clicked += OnStartButtonClicked;
+        _startBtn.clicked  += OnStartButtonClicked;
         _optionBtn.clicked += OnOptionButtonClicked;
-        _quitBtn.clicked += OnQuitButtonClicked;
+        _quitBtn.clicked   += OnQuitButtonClicked;
     }
 
     private void OnStartButtonClicked()
     {
         // TODO#: 나중에 무기 선택 씬으로 변경
-        GameManager.Instance.LoadBattleScene();
+        GameManager.Instance.LoadScene("BattleScene");
     }
 
     private void OnOptionButtonClicked()

@@ -89,12 +89,14 @@ public class BattleUIController : MonoBehaviour
     {
         // TODO#: 타이틀 씬으로 이동
         Debug.Log("타이틀로 이동");
+        GameManager.Instance.LoadScene("TitleScene");
     }
 
     private void OnRetryButtonClicked()
     {
         // TODO#: 재도전
         Debug.Log("재도전");
+        GameManager.Instance.ResetStage();
     }
 
     private void OnQuitButtonClicked()
@@ -199,7 +201,6 @@ public class BattleUIController : MonoBehaviour
 
             GameManager.Instance.OnGameOver -= HandleGameOver;
             GameManager.Instance.OnGameOver -= HandleGameClear;
-
         }
     }
 

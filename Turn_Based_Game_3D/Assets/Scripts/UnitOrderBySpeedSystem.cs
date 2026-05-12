@@ -64,7 +64,7 @@ public class UnitOrderBySpeedSystem
     {
         int removedIndex = _units.IndexOf(deadUnit);
 
-        if (removedIndex < 0) return; // 리스트에 없으면 무시
+        if (removedIndex < 0) return;
 
         _units.Remove(deadUnit);
 
