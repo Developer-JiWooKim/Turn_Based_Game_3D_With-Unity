@@ -40,16 +40,30 @@ public class GameManager : MonoBehaviour
         // TODO#: 나중에 타이틀 씬에서 시작하도록 변경
         // 임시 테스트용 바로 배틀씬 로드
         // LoadBattleScene();
+
+        Debug.Log("GameManager Start 호출");
     }
 
     public void LoadScene(string sceneName)
     {
+        // await FadeController.Instance.FadeOutAsync();
         SceneManager.LoadScene(sceneName);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // TODO#: 씬별 처리 추가 예정
+        //if (FadeController.Instance == null) return;
+        //_ = FadeInAfterSceneLoaded();
+    }
+
+    private async Awaitable FadeInAfterSceneLoaded()
+    {
+        // 몇 프레임 기다려보기
+        for (int i = 0; i < 5; i++)
+        {
+            await Awaitable.NextFrameAsync();
+        }
+        await FadeController.Instance.FadeInAsync();
     }
 
     private void OnDestroy()

@@ -8,6 +8,31 @@ public class PlayerInputSystem : MonoBehaviour
     public event Action OnPrevInput;
     public event Action<Vector2> OnSelectTargetInput; // 화면상 마우스 위치 전달
 
+    private InputSystem_Actions _inputActions;
+
+    private void Awake()
+    {
+        _inputActions = new InputSystem_Actions();
+    }
+
+    private void OnEnable()
+    {
+        _inputActions.Player.Enable();
+        _inputActions.Player.Next.performed += OnNext;
+        _inputActions.Player.Previous.performed += OnPrevious;
+        _inputActions.Player.SelectTarget.performed += OnSelectTarget;
+    }
+
+    private void OnDisable()
+    {
+        _inputActions.Player.Next.performed -= OnNext;
+        _inputActions.Player.Previous.performed -= OnPrevious;
+        _inputActions.Player.SelectTarget.performed -= OnSelectTarget;
+        _inputActions.Player.Disable();
+    }
+
+
+
     public void OnNext(InputAction.CallbackContext context)
     {
         if (context.performed) OnNextInput?.Invoke();

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class PlayerUnitView : UnitView
 {
     protected override void OnAwake()

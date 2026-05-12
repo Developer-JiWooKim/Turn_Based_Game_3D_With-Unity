@@ -22,12 +22,9 @@ public class BattleUIController : MonoBehaviour
     private VisualElement _gameOverPanel;
 
 
-    public event Action<BattleUnit, PlayerSkillData> OnPlayerInput;
+    // public event Action<BattleUnit, PlayerSkillData> OnPlayerInput;
 
-    private void Awake()
-    {
-        Initialize();
-    }
+    private void Awake() => Initialize();
 
     private void Initialize()
     {
@@ -58,9 +55,7 @@ public class BattleUIController : MonoBehaviour
 
     public void Subscribe(BattleController battleController, PlayerInputHandler playerInputHandler)
     {
-        Debug.Log($"Subscribe 호출됨 - playerInputHandler: {playerInputHandler}");
-
-        _battleController = battleController;
+        _battleController   = battleController;
         _playerInputHandler = playerInputHandler;
 
         _battleController.OnTurnStart            += OnTurnStart;
@@ -69,8 +64,8 @@ public class BattleUIController : MonoBehaviour
         _battleController.OnPlayerActionComplete += HandlePlayerActionComplete;
         _battleController.OnTurnChanged          += HangleTurnChanged;
 
-        GameManager.Instance.OnGameClear += HandleGameClear;
-        GameManager.Instance.OnGameOver  += HandleGameOver;
+         GameManager.Instance.OnGameClear += HandleGameClear;
+         GameManager.Instance.OnGameOver  += HandleGameOver;
     }
 
     private void HandleGameOver()
@@ -148,11 +143,8 @@ public class BattleUIController : MonoBehaviour
 
     private void OnTurnStart(BattleUnit unit) 
     {
-
-
         if (unit is PlayerBattleUnit player)
         {
-            // 카메라 위치를 플레이어 뒤쪽으로 이동
             // 스킬 버튼 활성화
             // 플레이어 입력을 기다림
             BuildSkillButtons(player.Skills);
@@ -198,14 +190,10 @@ public class BattleUIController : MonoBehaviour
             _battleController.OnPlayerActionComplete    -= HandlePlayerActionComplete;
             _battleController.OnTurnChanged             -= HangleTurnChanged;
 
-
             GameManager.Instance.OnGameOver -= HandleGameOver;
             GameManager.Instance.OnGameOver -= HandleGameClear;
         }
     }
 
-    private void OnDestroy()
-    {
-        Unsubscribe();
-    }
+    private void OnDestroy() => Unsubscribe();
 }

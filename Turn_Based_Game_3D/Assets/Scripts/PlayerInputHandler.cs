@@ -10,10 +10,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     private bool _isPlayerTurn = false;
 
-    private void Awake()
-    {
-        Initialize();
-    }
+    private void Awake() => Initialize();
 
     private void Initialize()
     {
@@ -87,9 +84,6 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void HandleTurnStart(BattleUnit unit)
     {
-        // TODO#: 지울예정
-        Debug.Log($"HandleTurnStart 호출됨: {unit.Name} IsPlayer: {unit.IsPlayer}");
-
         _isPlayerTurn = unit is PlayerBattleUnit;
     }
 
@@ -98,9 +92,6 @@ public class PlayerInputHandler : MonoBehaviour
     /// </summary>
     public void NotifyPlayerActed(PlayerSkillData skill)
     {
-        Debug.Log($"NotifyPlayerActed 호출됨! skill: {skill.SkillName}");
-        Debug.Log($"_battleController: {_battleController}");
-
         _battleController.OnPlayerAction(_targetSelector.CurrentTarget?.LinkedUnit as IDamageable, skill); // BattleController가 타겟 찾음
     }
 }

@@ -68,15 +68,12 @@ public class BattleController : MonoBehaviour
 
     private IEnumerator BattleLoop(List<BattleUnit> battleUnits)
     {
-        // TODO#: 지울예정
-        Debug.Log("BattleLoop 시작");
         BattleUnit currentUnit;
         
         while (!CheckBattleEnd())
         {
             currentUnit = _unitOrderBySpeedSystem.GetCurrentUnit();  // 현재 턴에서 행동할 유닛을 가져옴
-            // TODO#: 지울예정
-            Debug.Log($"{currentUnit.Name}의 턴");
+
             OnTurnStart?.Invoke(currentUnit);                        // 자신의 차례가 시작될 때마다 이벤트 호출
 
             if (currentUnit.IsPlayer)

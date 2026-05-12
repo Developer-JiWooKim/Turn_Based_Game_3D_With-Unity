@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,10 +8,7 @@ public class EnemySpawner : MonoBehaviour
 
     private List<EnemyData> _enemyDatas;    // TODO#: 오브젝트 풀링에 쓸 모든 적 데이터 리스트
 
-    private void Awake()
-    {
-        Initialize();
-    }
+    private void Awake() => Initialize();
 
     private void Initialize()
     {

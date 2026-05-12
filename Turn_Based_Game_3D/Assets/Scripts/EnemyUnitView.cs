@@ -34,6 +34,8 @@ public class EnemyUnitView : UnitView
     {
         obj.layer = layer;
         foreach (Transform child in obj.transform)
+        {
             SetLayerRecursively(child.gameObject, layer);
+        }
     }
 }

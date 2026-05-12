@@ -26,6 +26,15 @@ public class TitleSceneController : MonoBehaviour
         _quitBtn.clicked   += OnQuitButtonClicked;
     }
 
+
+    private void OnDestroy()
+    {
+        _startBtn.clicked  -= OnStartButtonClicked;
+        _optionBtn.clicked -= OnOptionButtonClicked;
+        _quitBtn.clicked   -= OnQuitButtonClicked;
+    }
+
+
     private void OnStartButtonClicked()
     {
         // TODO#: 나중에 무기 선택 씬으로 변경
