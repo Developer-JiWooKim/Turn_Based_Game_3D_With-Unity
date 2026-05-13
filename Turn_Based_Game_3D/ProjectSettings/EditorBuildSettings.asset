@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/TitleScene.unity
     guid: 3218391f8fb078949bab1ee56bf71a3d
   - enabled: 1
+    path: Assets/Scenes/WeaponSelectScene.unity
+    guid: f2b6d62e4c3c56b43af85cd71acb9b92
+  - enabled: 1
     path: Assets/Scenes/BattleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:

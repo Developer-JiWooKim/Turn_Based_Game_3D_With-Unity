@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:Style src="WeaponSelectUI.uss"/>
+
+    <ui:VisualElement name="root" class="root">
+
+        <ui:VisualElement name="top-area" class="top-area">
+
+            <ui:VisualElement name="preview-area" class="preview-area"/>
+
+            <ui:VisualElement name="weapon-info" class="weapon-info">
+                <ui:Label name="weapon-name" text="WEAPON NAME" class="weapon-name"/>
+                <ui:VisualElement class="weapon-stat-row">
+                    <ui:Label text="ATK" class="weapon-stat-label"/>
+                    <ui:Label name="weapon-atk" text="0" class="weapon-stat-value"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="weapon-stat-row">
+                    <ui:Label text="SPD" class="weapon-stat-label"/>
+                    <ui:Label name="weapon-speed" text="0" class="weapon-stat-value"/>
+                </ui:VisualElement>
+                <ui:Label name="weapon-desc" text="Description..." class="weapon-desc"/>
+            </ui:VisualElement>
+
+            <ui:VisualElement name="weapon-list" class="weapon-list">
+                <ui:Label text="WEAPON LIST" class="list-title"/>
+                <ui:VisualElement name="weapon-grid" class="weapon-grid"/>
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+
+        <ui:VisualElement name="bottom-area" class="bottom-area">
+            <ui:Button name="back-btn" text="BACK" class="back-btn"/>
+            <ui:VisualElement name="selected-weapons-area" class="selected-weapons-area">
+                <ui:Label text="SELECTED WEAPONS" class="selected-title"/>
+                <ui:VisualElement name="selected-weapons" class="selected-weapons">
+                    <ui:VisualElement name="selected-slot-0" class="selected-slot"/>
+                    <ui:VisualElement name="selected-slot-1" class="selected-slot"/>
+                    <ui:VisualElement name="selected-slot-2" class="selected-slot"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:Button name="start-btn" text="START" class="start-btn"/>
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

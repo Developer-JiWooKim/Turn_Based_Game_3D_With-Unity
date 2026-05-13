@@ -38,7 +38,6 @@ public class TitleSceneController : MonoBehaviour
 
     private void OnStartButtonClicked()
     {
-        // TODO#: 나중에 무기 선택 씬으로 변경
         GameManager.Instance.LoadScene("BattleScene");
     }
 

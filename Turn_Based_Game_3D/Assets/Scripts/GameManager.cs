@@ -37,25 +37,28 @@ public class GameManager : MonoBehaviour
 
     public async void LoadScene(string sceneName)
     {
-        Debug.Log("페이드 아웃 시작");
         await FadeController.Instance.FadeOutAsync();
-        Debug.Log("페이드 아웃 완료 - 씬 전환");
         SceneManager.LoadScene(sceneName);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log($"OnSceneLoaded: {scene.name}");
+
         if (FadeController.Instance == null) return;
 
         if (scene.name == "TitleScene") return;
 
+        Debug.Log("FadeIn 시작");
+
         _ = FadeInAfterSceneLoaded();
+
+        
     }
 
     private async Awaitable FadeInAfterSceneLoaded()
     {
         await Awaitable.NextFrameAsync();
-
         await FadeController.Instance.FadeInAsync();
     }
 

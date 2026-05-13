@@ -22,7 +22,7 @@ public class BattleUIController : MonoBehaviour
     private VisualElement _gameOverPanel;
 
 
-    public event Action<BattleUnit, PlayerSkillData> OnPlayerInput;
+    // public event Action<BattleUnit, PlayerSkillData> OnPlayerInput;
 
     private void Awake() => Initialize();
 
