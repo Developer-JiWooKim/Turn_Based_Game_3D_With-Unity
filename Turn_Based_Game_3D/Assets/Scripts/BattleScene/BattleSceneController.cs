@@ -37,7 +37,22 @@ public class BattleSceneController : MonoBehaviour
         // 플레이어 유닛 생성
         // TODO#: 플레이어 스폰 역시 EnemySpawner 이름을 UnitSpawner로 바꾸고 여기서 생성하고 배치하는걸로 바꾸는게 좋을듯
         List<PlayerBattleUnit> players = new List<PlayerBattleUnit>();
-        players.Add(new PlayerBattleUnit(_playerData));
+
+        WeaponData[] selectedWeapons = GameManager.Instance.SelectedWeapons;
+        List<PlayerSkillData> weaponSkills = new List<PlayerSkillData>();
+
+        foreach(var weapon in selectedWeapons)
+        {
+            if (weapon != null && weapon.skill != null)
+                weaponSkills.Add(weapon.skill);
+        }
+
+        // 무기 스킬이 있으면 무기 스킬로, 없으면 기본 캐릭터 스킬로
+        if (weaponSkills.Count > 0)
+            players.Add(new PlayerBattleUnit(_playerData, weaponSkills));
+        else
+            players.Add(new PlayerBattleUnit(_playerData));
+
         _battleUnitLinker.RegisterPlayerView(_playerUnitView);
 
 

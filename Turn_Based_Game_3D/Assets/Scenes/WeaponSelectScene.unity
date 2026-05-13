@@ -336,7 +336,7 @@ Transform:
   m_GameObject: {fileID: 800192030}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.30461, y: -0, z: 1.09246}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -430,6 +430,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1849134933}
+  - component: {fileID: 1849134934}
   m_Layer: 0
   m_Name: WeaponSelectController
   m_TagString: Untagged
@@ -446,12 +447,31 @@ Transform:
   m_GameObject: {fileID: 1849134932}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.30461, y: -0, z: 1.09246}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1849134934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849134932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5a6a5e6f12f9f64eb7a943cf7814794, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponSelectSceneController
+  _uiDocument: {fileID: 767695557}
+  _weaponDatas:
+  - {fileID: 11400000, guid: 679c7e58d424b1b46b63ca8b832790d9, type: 2}
+  - {fileID: 11400000, guid: 730a6b40b9ab2d542ac5e4c171cbc079, type: 2}
+  - {fileID: 11400000, guid: 192684643afaee449a0cc666afd3fc6f, type: 2}
+  - {fileID: 11400000, guid: ce29eda4de30eea4d8db5723cdd9e05d, type: 2}
+  _previewPoint: {fileID: 800192031}
 --- !u!1 &2098786415
 GameObject:
   m_ObjectHideFlags: 0

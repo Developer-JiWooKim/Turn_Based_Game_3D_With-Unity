@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: Rigle Weapon
   WeaponIcon: {fileID: 0}
   WeaponPrefab: {fileID: 0}
-  skill: {fileID: 0}
+  skill: {fileID: 11400000, guid: b095ee5ad249e5848b876471a463161f, type: 2}
   bonusStat:
     Hp: 0
     Mp: 0
