@@ -23,6 +23,8 @@ public class FadeController : MonoBehaviour
             _instance = this;
 
             _fadePanel = _uiDocument.rootVisualElement.Q<VisualElement>("fade-panel");
+            _fadePanel.pickingMode = PickingMode.Ignore; // 항상 입력 무시로 고정
+            _fadePanel.style.display = DisplayStyle.None;
 
             SetOpacity(0f);
         }
@@ -36,9 +38,6 @@ public class FadeController : MonoBehaviour
     {
         // 패널의 opacity(투명도) 조절
         _fadePanel.style.opacity = opacity;
-
-        // opacity가 0이면 입력 차단 안 되도록
-        _fadePanel.pickingMode = opacity == 0f ? PickingMode.Ignore : PickingMode.Position;
     }
 
     public async Awaitable FadeOutAsync()

@@ -264,13 +264,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1502362188}
     m_Modifications:
+    - target: {fileID: 1422569521682314831, guid: 7ad2aa669f491c94b8308253cd490c17, type: 3}
+      propertyPath: _uiDocument
+      value: 
+      objectReference: {fileID: 2099536866}
+    - target: {fileID: 4503519984388779289, guid: 7ad2aa669f491c94b8308253cd490c17, type: 3}
+      propertyPath: m_PanelSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 0a2477f934444e043a16bf5211229f7c, type: 2}
     - target: {fileID: 7035730818105406115, guid: 7ad2aa669f491c94b8308253cd490c17, type: 3}
       propertyPath: m_Name
       value: FadeController
       objectReference: {fileID: 0}
     - target: {fileID: 7035730818105406115, guid: 7ad2aa669f491c94b8308253cd490c17, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7743569699985683947, guid: 7ad2aa669f491c94b8308253cd490c17, type: 3}
       propertyPath: m_LocalPosition.x
@@ -415,7 +423,7 @@ MonoBehaviour:
   m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
-  m_PanelSettings: {fileID: 11400000, guid: 0a2477f934444e043a16bf5211229f7c, type: 2}
+  m_PanelSettings: {fileID: 11400000, guid: f74496e3f63d14a488799809852f2df3, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 956d3519094ab7f47ba273d4becbcc3c, type: 3}
   m_SortingOrder: 0
@@ -565,6 +573,17 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!114 &2099536866 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4503519984388779289, guid: 7ad2aa669f491c94b8308253cd490c17, type: 3}
+  m_PrefabInstance: {fileID: 970712049}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -39,9 +39,11 @@ public class GameManager : MonoBehaviour
     {
         // TODO#: 나중에 타이틀 씬에서 시작하도록 변경
         // 임시 테스트용 바로 배틀씬 로드
-        // LoadBattleScene();
+
 
         Debug.Log("GameManager Start 호출");
+
+        //LoadScene("BattleScene");
     }
 
     public void LoadScene(string sceneName)

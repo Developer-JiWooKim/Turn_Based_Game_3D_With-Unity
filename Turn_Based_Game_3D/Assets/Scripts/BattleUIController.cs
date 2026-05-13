@@ -22,7 +22,7 @@ public class BattleUIController : MonoBehaviour
     private VisualElement _gameOverPanel;
 
 
-    // public event Action<BattleUnit, PlayerSkillData> OnPlayerInput;
+    public event Action<BattleUnit, PlayerSkillData> OnPlayerInput;
 
     private void Awake() => Initialize();
 
@@ -66,6 +66,20 @@ public class BattleUIController : MonoBehaviour
 
          GameManager.Instance.OnGameClear += HandleGameClear;
          GameManager.Instance.OnGameOver  += HandleGameOver;
+    }
+    private void Unsubscribe()
+    {
+        if (_battleController != null)
+        {
+            _battleController.OnTurnStart -= OnTurnStart;
+            _battleController.OnBattleEnd -= HandleBattleEnd;
+            _battleController.OnUnitDamaged -= HandleUnitDamaged;
+            _battleController.OnPlayerActionComplete -= HandlePlayerActionComplete;
+            _battleController.OnTurnChanged -= HangleTurnChanged;
+
+            GameManager.Instance.OnGameOver -= HandleGameOver;
+            GameManager.Instance.OnGameOver -= HandleGameClear;
+        }
     }
 
     private void HandleGameOver()
@@ -157,13 +171,18 @@ public class BattleUIController : MonoBehaviour
     }
     private void BuildSkillButtons(List<PlayerSkillData> skills)
     {
+        Debug.Log("BuildSkillButtons 호출됨");
+
         _skillBar.Clear();
         _skillBar.style.visibility = Visibility.Visible;
 
         foreach (var skill in skills)
         {
             PlayerSkillData captured = skill;
-            var btn = new Button(() => OnSkillButtonClicked(captured))
+            var btn = new Button(() => {
+                Debug.Log($"스킬 버튼 클릭됨: {captured.SkillName}");
+                OnSkillButtonClicked(captured);
+                })
             {
                 text = skill.SkillName
             };
@@ -180,20 +199,7 @@ public class BattleUIController : MonoBehaviour
         _skillBar.style.visibility = Visibility.Hidden;
     }
 
-    private void Unsubscribe()
-    {
-        if (_battleController != null)
-        {
-            _battleController.OnTurnStart               -= OnTurnStart;
-            _battleController.OnBattleEnd               -= HandleBattleEnd;
-            _battleController.OnUnitDamaged             -= HandleUnitDamaged;
-            _battleController.OnPlayerActionComplete    -= HandlePlayerActionComplete;
-            _battleController.OnTurnChanged             -= HangleTurnChanged;
-
-            GameManager.Instance.OnGameOver -= HandleGameOver;
-            GameManager.Instance.OnGameOver -= HandleGameClear;
-        }
-    }
+    
 
     private void OnDestroy() => Unsubscribe();
 }
