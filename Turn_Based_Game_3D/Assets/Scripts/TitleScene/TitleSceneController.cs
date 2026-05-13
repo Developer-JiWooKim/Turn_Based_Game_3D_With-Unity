@@ -38,7 +38,7 @@ public class TitleSceneController : MonoBehaviour
 
     private void OnStartButtonClicked()
     {
-        GameManager.Instance.LoadScene("BattleScene");
+        GameManager.Instance.LoadScene("WeaponSelectScene");
     }
 
     private void OnOptionButtonClicked()

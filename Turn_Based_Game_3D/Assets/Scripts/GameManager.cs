@@ -7,8 +7,25 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance = null;
     public static GameManager Instance => _instance;
 
-    [SerializeField] private StageData[]    _stageDatas;
-    [SerializeField] private CharacterData  _playerData;
+    
+
+    // TODO#: 나중에 DataManager로 분리 예정
+    private WeaponData[] _selectedWeapons = new WeaponData[3];
+    public WeaponData[] SelectedWeapons => _selectedWeapons;
+    [SerializeField] private StageData[] _stageDatas;
+    [SerializeField] private CharacterData _playerData;
+
+    public void SelectWeapon(int slot, WeaponData weapon)
+    {
+        if (slot < 0 || slot >= 3) return;
+
+        _selectedWeapons[slot] = weapon;
+    }
+
+    public void ClearSelectWeapons()
+    {
+        _selectedWeapons = new WeaponData[3];
+    }
 
     private int _currentStageIndex;
 

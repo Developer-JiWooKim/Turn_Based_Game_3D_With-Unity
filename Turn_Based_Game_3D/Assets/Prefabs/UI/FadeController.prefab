@@ -98,7 +98,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7743569699985683947}
   - component: {fileID: 1422569521682314831}
-  - component: {fileID: 4503519984388779289}
   - component: {fileID: 789375589410876784}
   m_Layer: 0
   m_Name: FadeController
@@ -142,29 +141,6 @@ MonoBehaviour:
   _canvasGroup: {fileID: 5697414531409168151}
   _fadeOutDuration: 0.5
   _fadeInDuration: 1
---- !u!114 &4503519984388779289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7035730818105406115}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
-  m_PanelSettings: {fileID: 11400000, guid: 0a2477f934444e043a16bf5211229f7c, type: 2}
-  m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: f96310957aa48b64ba87e70cce608c68, type: 3}
-  m_SortingOrder: 100
-  m_Position: 0
-  m_WorldSpaceSizeMode: 1
-  m_WorldSpaceWidth: 1920
-  m_WorldSpaceHeight: 1080
-  m_PivotReferenceSize: 0
-  m_Pivot: 0
-  m_WorldSpaceCollider: {fileID: 0}
 --- !u!223 &789375589410876784
 Canvas:
   m_ObjectHideFlags: 0

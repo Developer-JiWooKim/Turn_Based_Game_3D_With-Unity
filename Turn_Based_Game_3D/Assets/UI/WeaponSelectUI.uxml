@@ -19,6 +19,7 @@
                     <ui:Label name="weapon-speed" text="0" class="weapon-stat-value"/>
                 </ui:VisualElement>
                 <ui:Label name="weapon-desc" text="Description..." class="weapon-desc"/>
+                <ui:Button name="select-btn" text="SELECT" class="select-btn"/>
             </ui:VisualElement>
 
             <ui:VisualElement name="weapon-list" class="weapon-list">
