@@ -8,6 +8,7 @@ public class WeaponSelectSceneController : MonoBehaviour
     [SerializeField] private WeaponData[] _weaponDatas;
     [SerializeField] private Transform _previewPoint;
     [SerializeField] private RenderTexture _previewRenderTexture;
+    [SerializeField] private WeaponPreviewRotator _previewRotator;
 
     private VisualElement _previewArea;
     private VisualElement   _weaponGrid;
@@ -62,6 +63,12 @@ public class WeaponSelectSceneController : MonoBehaviour
 
         // Render Texture 프리뷰 설정
         _previewArea.style.backgroundImage = new StyleBackground(Background.FromRenderTexture(_previewRenderTexture));
+
+
+        _previewArea.RegisterCallback<MouseDownEvent>(evt => _previewRotator?.OnDragStart());
+        _previewArea.RegisterCallback<MouseUpEvent>(evt => _previewRotator?.OnDragEnd());
+        _previewArea.RegisterCallback<MouseLeaveEvent>(evt => _previewRotator?.OnDragEnd());
+
 
         _backBtn.clicked   += OnBackButtonClicked;
         _startBtn.clicked  += OnStartButtonClicked;

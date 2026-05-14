@@ -83,6 +83,7 @@
     <Compile Include="Assets\Scripts\Manager\PlayerDataManager.cs" />
     <Compile Include="Assets\Scripts\Scriptable\PlayerSkillData.cs" />
     <Compile Include="Assets\Scripts\BattleScene\UnitSpawner.cs" />
+    <Compile Include="Assets\Scripts\WeaponSelectScene\WeaponPreviewRotator.cs" />
     <Compile Include="Assets\Scripts\Scriptable\WeaponData.cs" />
     <Compile Include="Assets\Scripts\Scriptable\EnemyData.cs" />
     <Compile Include="Assets\Scripts\BattleScene\UnitOrderBySpeedSystem.cs" />
