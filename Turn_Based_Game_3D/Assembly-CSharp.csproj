@@ -63,7 +63,6 @@
     <Compile Include="Assets\Scripts\Scriptable\CharacterData.cs" />
     <Compile Include="Assets\Scripts\BattleScene\UnitAnimator.cs" />
     <Compile Include="Assets\Scripts\Scriptable\StageData.cs" />
-    <Compile Include="Assets\Scripts\BattleScene\EnemySpawner.cs" />
     <Compile Include="Assets\External Assets\Toon Shaders Pro\Shaders\Outline\Scripts\OutlineSettings.cs" />
     <Compile Include="Assets\Scripts\BattleScene\BattleUnitLinker.cs" />
     <Compile Include="Assets\Scripts\BattleScene\BattleController.cs" />
@@ -80,6 +79,7 @@
     <Compile Include="Assets\InputSystem_Actions.cs" />
     <Compile Include="Assets\Scripts\BattleScene\UnitView.cs" />
     <Compile Include="Assets\Scripts\Scriptable\PlayerSkillData.cs" />
+    <Compile Include="Assets\Scripts\BattleScene\UnitSpawner.cs" />
     <Compile Include="Assets\Scripts\Scriptable\WeaponData.cs" />
     <Compile Include="Assets\Scripts\Scriptable\EnemyData.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />

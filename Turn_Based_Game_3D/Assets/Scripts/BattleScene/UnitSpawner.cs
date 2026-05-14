@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+public class UnitSpawner : MonoBehaviour
 {
     [SerializeField] private Transform[] _enemySpawnPoints;
     [SerializeField] private Transform[] _playerSpawnPoints;
+    [SerializeField] private GameObject  _playerPrefab;
 
     private List<EnemyData> _enemyDatas;    // TODO#: 오브젝트 풀링에 쓸 모든 적 데이터 리스트
 
@@ -39,8 +40,20 @@ public class EnemySpawner : MonoBehaviour
     }
 
     // TODO#: 플레이어가 무기를 전부 고르고 게임을 시작해서 배틀 씬이 로딩될때 확정된 플레이어 데이터를 받아서 필드에 플레이어 캐릭터를 스폰할 때 
-    public void SpawnPlayer()
+    public GameObject SpawnPlayer()
     {
-        
+        if (_playerPrefab == null)
+        {
+            Debug.LogError("PlayerPrefab이 없습니다!");
+            return null;
+        }
+
+        if (_playerSpawnPoints.Length == 0)
+        {
+            Debug.LogError("PlayerSpawnPoints가 없습니다!");
+            return null;
+        }
+
+        return Instantiate(_playerPrefab, _playerSpawnPoints[0].position, _playerSpawnPoints[0].rotation);
     }
 }

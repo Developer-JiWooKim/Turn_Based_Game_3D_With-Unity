@@ -4,7 +4,7 @@ using UnityEngine;
 public class BattleSceneController : MonoBehaviour
 {
     [SerializeField] private BattleController _battleController;
-    [SerializeField] private EnemySpawner     _enemySpawner;
+    [SerializeField] private UnitSpawner      _unitSpawner; 
     [SerializeField] private BattleUnitLinker _battleUnitLinker;
     [SerializeField] private TargetSelector   _targetSelector;
     [SerializeField] private StageData        _stageData;   // TODO#: 나중에 GameManager에서 받아오기
@@ -12,14 +12,14 @@ public class BattleSceneController : MonoBehaviour
     
 
 
-    [SerializeField] private PlayerUnitView   _playerUnitView; // TODO#: 테스트용으로 일단 인스펙터에서 플레이어 프리팹 가져오기
+    // [SerializeField] private PlayerUnitView   _playerUnitView; // TODO#: 테스트용으로 일단 인스펙터에서 플레이어 프리팹 가져오기
 
-    private void Start() => SetUpBattle();
+    private void Start() => SetupBattle();
 
-    private void SetUpBattle()
+    private void SetupBattle()
     {
         // 적 스폰
-        List<GameObject> enemyObjects = _enemySpawner.SpawnEnemies(_stageData);
+        List<GameObject> enemyObjects = _unitSpawner.SpawnEnemies(_stageData);
         List<EnemyBattleUnit> enemies = new List<EnemyBattleUnit>();
         List<EnemyUnitView> enemyViews = new List<EnemyUnitView>();
 
@@ -36,8 +36,12 @@ public class BattleSceneController : MonoBehaviour
 
         // 플레이어 유닛 생성
         // TODO#: 플레이어 스폰 역시 EnemySpawner 이름을 UnitSpawner로 바꾸고 여기서 생성하고 배치하는걸로 바꾸는게 좋을듯
+        GameObject playerObject = _unitSpawner.SpawnPlayer();
+        PlayerUnitView playerUnitView = playerObject.GetComponent<PlayerUnitView>();
+
         List<PlayerBattleUnit> players = new List<PlayerBattleUnit>();
 
+        // GameManager에서 선택한 무기 스킬 가져오기
         WeaponData[] selectedWeapons = GameManager.Instance.SelectedWeapons;
         List<PlayerSkillData> weaponSkills = new List<PlayerSkillData>();
 
@@ -53,7 +57,7 @@ public class BattleSceneController : MonoBehaviour
         else
             players.Add(new PlayerBattleUnit(_playerData));
 
-        _battleUnitLinker.RegisterPlayerView(_playerUnitView);
+        _battleUnitLinker.RegisterPlayerView(playerUnitView);
 
 
         _battleUnitLinker.LinkUnits(players, enemies);
