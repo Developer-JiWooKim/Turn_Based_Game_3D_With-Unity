@@ -42,7 +42,7 @@ public class BattleSceneController : MonoBehaviour
         List<PlayerBattleUnit> players = new List<PlayerBattleUnit>();
 
         // GameManager에서 선택한 무기 스킬 가져오기
-        WeaponData[] selectedWeapons = GameManager.Instance.SelectedWeapons;
+        WeaponData[] selectedWeapons = PlayerDataManager.Instance.SelectedWeapons;
         List<PlayerSkillData> weaponSkills = new List<PlayerSkillData>();
 
         foreach(var weapon in selectedWeapons)

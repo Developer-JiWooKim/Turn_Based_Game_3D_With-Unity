@@ -220,7 +220,7 @@ public class WeaponSelectSceneController : MonoBehaviour
     private void OnStartButtonClicked()
     {
         for (int i = 0; i < _selectedWeapons.Length; i++)
-            GameManager.Instance.SelectWeapon(i, _selectedWeapons[i]);
+            PlayerDataManager.Instance.SelectWeapon(i, _selectedWeapons[i]);
 
         GameManager.Instance.LoadScene("BattleScene");
     }

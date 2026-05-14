@@ -44,15 +44,16 @@ public class TargetSelector : MonoBehaviour
 
     public void SelectNext()
     {
-        int nextIndex = (_currentTargetIndex + 1) % _enemyViews.Count; // 리스트 끝에 도달시 처음으로 순환
+        // 리스트 끝에 도달시 처음으로 순환
+        int nextIndex = (_currentTargetIndex - 1 + _enemyViews.Count) % _enemyViews.Count;
 
         SelectTarget(nextIndex);
     }
 
     public void SelectPrev()
     {
-        int prevIndex = (_currentTargetIndex - 1 + _enemyViews.Count) % _enemyViews.Count; // 리스트 처음일때 옆으로 이동시 마지막으로 순환
-
+        // 리스트 처음일때 옆으로 이동시 마지막으로 순환
+        int prevIndex = (_currentTargetIndex + 1) % _enemyViews.Count;
         SelectTarget(prevIndex);
     }
 

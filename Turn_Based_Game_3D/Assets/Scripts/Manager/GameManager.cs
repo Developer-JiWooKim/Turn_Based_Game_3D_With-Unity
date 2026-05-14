@@ -7,32 +7,6 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance = null;
     public static GameManager Instance => _instance;
 
-    
-
-    // TODO#: 나중에 DataManager로 분리 예정
-    private WeaponData[] _selectedWeapons = new WeaponData[3];
-    public WeaponData[] SelectedWeapons => _selectedWeapons;
-    [SerializeField] private StageData[] _stageDatas;
-    [SerializeField] private CharacterData _playerData;
-
-
-    public void SelectWeapon(int slot, WeaponData weapon)
-    {
-        if (slot < 0 || slot >= 3) return;
-
-        _selectedWeapons[slot] = weapon;
-    }
-
-    public void ClearSelectWeapons()
-    {
-        _selectedWeapons = new WeaponData[3];
-    }
-
-    private int _currentStageIndex;
-
-    public CharacterData PlayerData => _playerData;
-    public StageData CurrentStageData => _stageDatas[_currentStageIndex];
-
     public event Action OnGameClear;
     public event Action OnGameOver;
 
@@ -45,7 +19,6 @@ public class GameManager : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(this.gameObject);
             SceneManager.sceneLoaded += OnSceneLoaded;
-            _currentStageIndex = 0;
         }
         else
         {
@@ -68,8 +41,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("FadeIn 시작");
 
         _ = FadeInAfterSceneLoaded();
-
-        
     }
 
     private async Awaitable FadeInAfterSceneLoaded()
@@ -85,16 +56,12 @@ public class GameManager : MonoBehaviour
 
     public void NextStage()
     {
-        _currentStageIndex++;
+        StageDataManager.Instance.NextStage();
 
-        if (_currentStageIndex < _stageDatas.Length)
-        {
+        if (!StageDataManager.Instance.IsLastStage())
             LoadScene("BattleScene");
-        }
         else
-        {
             GameClear();
-        }
     }
 
     private void GameClear()
@@ -109,8 +76,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetStage()
     {
-        _currentStageIndex = 0;
-
+        StageDataManager.Instance.ResetStage();
         LoadScene("BattleScene");
     }
 }
