@@ -96,10 +96,13 @@ public class BattleController : MonoBehaviour
 
     private bool CheckBattleEnd()
     {
-        if (_playerUnits.TrueForAll(u => u.IsDead) || _enemyUnits.TrueForAll(u => u.IsDead))
+        bool playerAllDead = _playerUnits.TrueForAll(u => u.IsDead);
+        bool enemyAllDead = _enemyUnits.TrueForAll(u => u.IsDead);
+
+        if (playerAllDead || enemyAllDead)
         {
-            OnBattleEnd?.Invoke(!_playerUnits.TrueForAll(u => u.IsDead)); // 플레이어가 죽었을때 전투 종료 이벤트 호출
-            return true;                
+            OnBattleEnd?.Invoke(!playerAllDead);
+            return true;
         }
 
         return false;
@@ -146,33 +149,35 @@ public class BattleController : MonoBehaviour
         Debug.Log("PlayerTurn 종료 - 행동 완료");
     }
 
-    public void OnPlayerAction(IDamageable target, PlayerSkillData skill)
+    public void OnPlayerAction(IDamageable target, int weaponIndex)
     {
-        // TODO#: 수정 예정, 타겟이 null이면 첫 번째 살아있는 적 자동 선택
         if (target == null)
             target = _enemyUnits.Find(u => !u.IsDead);
 
+        // 다시 검사했는데 살아있는적이 없으면 리턴
         if (target == null)
         {
             Debug.LogError("타겟이 없습니다!");
             return;
         }
 
-        if (skill == null)
+
+        PlayerBattleUnit player = _playerUnits[0];
+        if (!player.CanUseWeapon(weaponIndex))
         {
-            Debug.LogError("PlayerSkillData is null. Cannot perform action.");
+            Debug.Log("무기를 사용할 수 없습니다!");
             return;
         }
 
-        Debug.Log($"OnPlayerAction 호출 - skill: {skill.SkillName}");
         // TODO#: 스킬의 데미지 계산 공식은 나중에 스킬 시스템이 완성되면 변경할 예정
-        // TODO#: 현재는 플레이어가 한명이므로 무조건 리스트 0번 자리에 있지만 늘어나면 현재 행동하는 플레이어를 찾아 얻어오는 식으로 새로 짜야됨
-        int damage = _playerUnits[0].Atk * (int)skill.Power; 
-        _playerUnits[0].UseMp((int)skill.Cost); // 플레이어의 MP를 스킬의 비용만큼 감소
+        // TODO#: 현재는 플레이어가 한명이므로 무조건 리스트 0번 자리에 있지만 늘어나면
+        //        현재 행동하는 플레이어를 찾아 얻어오는 식으로 새로 짜야됨
+        WeaponData weapon = player.Weapons[weaponIndex];
+        int damage = _playerUnits[0].Atk + weapon.Damage;
 
-        target.TakeDamage(damage); // 타겟 유닛에게 데미지를 입힘
-
-        OnUnitDamaged?.Invoke(target, damage); // 유닛이 피해를 입었을 때 이벤트 호출
+        player.UseWeapon(weaponIndex);          // 무기 사용
+        target.TakeDamage(damage);              // 타겟 유닛에게 데미지를 입힘
+        OnUnitDamaged?.Invoke(target, damage);  // 유닛이 피해를 입었을 때 이벤트 호출
 
         if (target.IsDead)
         {

@@ -19,7 +19,7 @@ public class EnemyBattleUnit : BattleUnit
 
         enemyData = data;
 
-        foreach (var skill in data.Skills)
+        foreach (var skill in data.ActiveSkills)
         {
             _skillCooldowns.Add(skill, 0); // 초기에는 모든 스킬의 현재 쿨타임이 0으로 설정되어 있다고 가정
         }

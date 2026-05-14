@@ -67,6 +67,8 @@ public class BattleUIController : MonoBehaviour
          GameManager.Instance.OnGameClear += HandleGameClear;
          GameManager.Instance.OnGameOver  += HandleGameOver;
     }
+
+    private void OnDestroy() => Unsubscribe();
     private void Unsubscribe()
     {
         if (_battleController != null)
@@ -139,15 +141,14 @@ public class BattleUIController : MonoBehaviour
     private void RefreshPlayerStatus(PlayerBattleUnit player)
     {
         float hpRatio = (float)player.CurrentHp / player.MaxHp;
-        float mpRatio = (float)player.CurrentMp / player.MaxMp;
+        float mpRatio = (float)player.CurrentStamina / player.MaxStamina;
 
         _hpBar.style.width = Length.Percent(hpRatio * 100f);
         _mpBar.style.width = Length.Percent(mpRatio * 100f);
 
         _hpText.text = $"{player.CurrentHp}/{player.MaxHp}";
-        _mpText.text = $"{player.CurrentMp}/{player.MaxMp}";
+        _mpText.text = $"{player.CurrentStamina}/{player.MaxStamina}";
     }
-
 
     private void HandleBattleEnd(bool result)
     {
@@ -159,9 +160,8 @@ public class BattleUIController : MonoBehaviour
     {
         if (unit is PlayerBattleUnit player)
         {
-            // 스킬 버튼 활성화
-            // 플레이어 입력을 기다림
-            BuildSkillButtons(player.Skills);
+            // 스킬 버튼 활성화, 플레이어 입력을 기다림
+            BuildWeaponButtons(player);
         }
         else
         {
@@ -169,37 +169,33 @@ public class BattleUIController : MonoBehaviour
             _skillBar.style.visibility = Visibility.Hidden;
         }
     }
-    private void BuildSkillButtons(List<PlayerSkillData> skills)
-    {
-        Debug.Log("BuildSkillButtons 호출됨");
 
+    private void BuildWeaponButtons(PlayerBattleUnit player)
+    {
         _skillBar.Clear();
         _skillBar.style.visibility = Visibility.Visible;
 
-        foreach (var skill in skills)
+        for (int i = 0; i < player.Weapons.Length; i++)
         {
-            PlayerSkillData captured = skill;
-            var btn = new Button(() => {
-                Debug.Log($"스킬 버튼 클릭됨: {captured.SkillName}");
-                OnSkillButtonClicked(captured);
-                })
+            WeaponData weapon = player.Weapons[i];
+            int capturedIndex = i;
+
+            var btn = new Button(() => OnWeaponButtonClicked(capturedIndex))
             {
-                text = skill.SkillName
+                text = weapon.WeaponName
             };
+
+            // 사용 불가능한 무기는 비활성화
+            btn.SetEnabled(player.CanUseWeapon(capturedIndex));
+
             btn.AddToClassList("skill-btn");
             _skillBar.Add(btn);
         }
     }
 
-    private void OnSkillButtonClicked(PlayerSkillData skill)
+    private void OnWeaponButtonClicked(int weaponIndex)
     {
-        // TODO#: 나중에 타겟 선택 UI 추가 예정
-        // 지금은 임시로 첫 번째 살아있는 적 자동 타겟
-        _playerInputHandler.NotifyPlayerActed(skill);
+        _playerInputHandler.NotifyPlayerActed(weaponIndex);
         _skillBar.style.visibility = Visibility.Hidden;
     }
-
-    
-
-    private void OnDestroy() => Unsubscribe();
 }

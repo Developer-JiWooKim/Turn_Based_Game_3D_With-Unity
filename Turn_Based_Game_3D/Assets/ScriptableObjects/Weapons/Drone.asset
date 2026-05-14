@@ -17,10 +17,14 @@ MonoBehaviour:
   Description: Drone Weapon
   WeaponIcon: {fileID: 0}
   WeaponPrefab: {fileID: 0}
-  skill: {fileID: 11400000, guid: 6483c93ef5baa7d45abe7aec3650f02b, type: 2}
+  Damage: 20
+  MaxAmmo: 0
+  StaminaCost: 0
   bonusStat:
     Hp: 0
-    Mp: 0
+    Stamina: 0
+    StaminaRecovery: 0
     AttackPower: 0
     DefenseValue: 0
     Speed: 0
+  skill: {fileID: 11400000, guid: 6483c93ef5baa7d45abe7aec3650f02b, type: 2}

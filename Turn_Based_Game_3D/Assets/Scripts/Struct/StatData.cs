@@ -7,7 +7,9 @@ using System;
 public struct StatData
 {
     public int Hp;
-    public int Mp;
+
+    public int Stamina;
+    public int StaminaRecovery;
 
     public int AttackPower;
     public int DefenseValue;

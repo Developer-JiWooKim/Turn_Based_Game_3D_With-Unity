@@ -6,11 +6,11 @@ public class PlayerDataManager : MonoBehaviour
     private static PlayerDataManager _instance;
     public static PlayerDataManager Instance => _instance;
 
-    [SerializeField] private CharacterData _playerData;
+    [SerializeField] private PlayerData _playerData;
 
     private WeaponData[] _selectedWeapons = new WeaponData[3];
 
-    public CharacterData characterData => _playerData;
+    public PlayerData PlayerData => _playerData;
     public WeaponData[] SelectedWeapons => _selectedWeapons;
 
     private void Awake() => Initialize();

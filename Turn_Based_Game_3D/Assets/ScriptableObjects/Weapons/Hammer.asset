@@ -17,10 +17,14 @@ MonoBehaviour:
   Description: Hammer Weapon
   WeaponIcon: {fileID: 0}
   WeaponPrefab: {fileID: 0}
-  skill: {fileID: 11400000, guid: b095ee5ad249e5848b876471a463161f, type: 2}
+  Damage: 80
+  MaxAmmo: 0
+  StaminaCost: 30
   bonusStat:
     Hp: 0
-    Mp: 0
+    Stamina: 0
+    StaminaRecovery: 0
     AttackPower: 0
     DefenseValue: 0
     Speed: 0
+  skill: {fileID: 11400000, guid: b095ee5ad249e5848b876471a463161f, type: 2}

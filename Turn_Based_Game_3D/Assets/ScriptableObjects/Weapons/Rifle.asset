@@ -17,10 +17,14 @@ MonoBehaviour:
   Description: Rigle Weapon
   WeaponIcon: {fileID: 0}
   WeaponPrefab: {fileID: 0}
-  skill: {fileID: 11400000, guid: b3273ebc83bedfb4cb7b9d2d59a2a2b4, type: 2}
+  Damage: 25
+  MaxAmmo: 6
+  StaminaCost: 0
   bonusStat:
     Hp: 0
-    Mp: 0
+    Stamina: 0
+    StaminaRecovery: 0
     AttackPower: 0
     DefenseValue: 0
     Speed: 0
+  skill: {fileID: 11400000, guid: b3273ebc83bedfb4cb7b9d2d59a2a2b4, type: 2}

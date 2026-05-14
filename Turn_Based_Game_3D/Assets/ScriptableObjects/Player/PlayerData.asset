@@ -10,17 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9662ff2d310128145bcdb972892aa99a, type: 3}
-  m_Name: CharacterData
+  m_Name: PlayerData
   m_EditorClassIdentifier: Assembly-CSharp::CharacterData
-  CharacterName: "\uC804\uC0AC"
-  characterType: 0
-  characterStat:
-    Hp: 350
-    Mp: 80
-    AttackPower: 45
-    DefenseValue: 30
-    Speed: 25
-  Skills:
-  - {fileID: 11400000, guid: b095ee5ad249e5848b876471a463161f, type: 2}
-  - {fileID: 11400000, guid: b095ee5ad249e5848b876471a463161f, type: 2}
-  - {fileID: 11400000, guid: b095ee5ad249e5848b876471a463161f, type: 2}
+  PlayerName: Actor
+  playerStat:
+    Hp: 100
+    Stamina: 50
+    StaminaRecovery: 10
+    AttackPower: 10
+    DefenseValue: 5
+    Speed: 10

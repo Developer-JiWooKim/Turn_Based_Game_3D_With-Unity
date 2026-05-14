@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum EnemyType
@@ -19,7 +20,8 @@ public class EnemyData : ScriptableObject
     public StatData enemyStat;
 
     [Header("Skills")]
-    public System.Collections.Generic.List<EnemySkillData> Skills;
+    public List<EnemySkillData> ActiveSkills;
+    public List<EnemySkillData> PassiveSkills;
 
     [Header("Reward")]
     public double Exp;

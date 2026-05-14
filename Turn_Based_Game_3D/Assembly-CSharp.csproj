@@ -62,7 +62,6 @@
     <Compile Include="Assets\Scripts\Manager\GameManager.cs" />
     <Compile Include="Assets\Scripts\BattleScene\PlayerInputHandler.cs" />
     <Compile Include="Assets\Scripts\WeaponSelectScene\WeaponSelectSceneController.cs" />
-    <Compile Include="Assets\Scripts\Scriptable\CharacterData.cs" />
     <Compile Include="Assets\Scripts\BattleScene\UnitAnimator.cs" />
     <Compile Include="Assets\Scripts\Scriptable\StageData.cs" />
     <Compile Include="Assets\External Assets\Toon Shaders Pro\Shaders\Outline\Scripts\OutlineSettings.cs" />
@@ -83,6 +82,7 @@
     <Compile Include="Assets\Scripts\Manager\PlayerDataManager.cs" />
     <Compile Include="Assets\Scripts\Scriptable\PlayerSkillData.cs" />
     <Compile Include="Assets\Scripts\BattleScene\UnitSpawner.cs" />
+    <Compile Include="Assets\Scripts\Scriptable\PlayerData.cs" />
     <Compile Include="Assets\Scripts\WeaponSelectScene\WeaponPreviewRotator.cs" />
     <Compile Include="Assets\Scripts\Scriptable\WeaponData.cs" />
     <Compile Include="Assets\Scripts\Scriptable\EnemyData.cs" />

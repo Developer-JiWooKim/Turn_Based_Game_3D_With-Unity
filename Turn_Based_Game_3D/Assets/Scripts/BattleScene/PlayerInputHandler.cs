@@ -90,8 +90,8 @@ public class PlayerInputHandler : MonoBehaviour
     /// <summary>
     /// 플레이어가 사용할 스킬 버튼을 누르면 대상과 사용한 스킬을 알림
     /// </summary>
-    public void NotifyPlayerActed(PlayerSkillData skill)
+    public void NotifyPlayerActed(int weaponIndex)
     {
-        _battleController.OnPlayerAction(_targetSelector.CurrentTarget?.LinkedUnit as IDamageable, skill); // BattleController가 타겟 찾음
+        _battleController.OnPlayerAction(_targetSelector.CurrentTarget?.LinkedUnit as IDamageable, weaponIndex); // BattleController가 타겟 찾음
     }
 }

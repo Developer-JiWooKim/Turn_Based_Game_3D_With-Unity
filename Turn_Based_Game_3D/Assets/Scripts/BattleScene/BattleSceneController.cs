@@ -7,26 +7,23 @@ public class BattleSceneController : MonoBehaviour
     [SerializeField] private UnitSpawner      _unitSpawner; 
     [SerializeField] private BattleUnitLinker _battleUnitLinker;
     [SerializeField] private TargetSelector   _targetSelector;
-    [SerializeField] private StageData        _stageData;   // TODO#: 나중에 GameManager에서 받아오기
-    [SerializeField] private CharacterData    _playerData;  // TODO#: 나중에 GameManager에서 받아오기
-    
-
-
-    // [SerializeField] private PlayerUnitView   _playerUnitView; // TODO#: 테스트용으로 일단 인스펙터에서 플레이어 프리팹 가져오기
 
     private void Start() => SetupBattle();
-
     private void SetupBattle()
     {
+        StageData currentStageData = StageDataManager.Instance.CurrentStageData;
+        PlayerData playerData = PlayerDataManager.Instance.PlayerData;
+
         // 적 스폰
-        List<GameObject> enemyObjects = _unitSpawner.SpawnEnemies(_stageData);
+        List<GameObject> enemyObjects = _unitSpawner.SpawnEnemies(currentStageData);
+
         List<EnemyBattleUnit> enemies = new List<EnemyBattleUnit>();
         List<EnemyUnitView> enemyViews = new List<EnemyUnitView>();
 
         for (int i = 0; i < enemyObjects.Count; i++)
         {
             EnemyUnitView enemyView = enemyObjects[i].GetComponent<EnemyUnitView>();
-            EnemyBattleUnit enemyUnit = new EnemyBattleUnit(_stageData.enemySpawnDatas[i].enemyData);
+            EnemyBattleUnit enemyUnit = new EnemyBattleUnit(currentStageData.enemySpawnDatas[i].enemyData);
 
             _battleUnitLinker.RegisterEnemyView(enemyView);
 
@@ -43,22 +40,10 @@ public class BattleSceneController : MonoBehaviour
 
         // GameManager에서 선택한 무기 스킬 가져오기
         WeaponData[] selectedWeapons = PlayerDataManager.Instance.SelectedWeapons;
-        List<PlayerSkillData> weaponSkills = new List<PlayerSkillData>();
 
-        foreach(var weapon in selectedWeapons)
-        {
-            if (weapon != null && weapon.skill != null)
-                weaponSkills.Add(weapon.skill);
-        }
-
-        // 무기 스킬이 있으면 무기 스킬로, 없으면 기본 캐릭터 스킬로
-        if (weaponSkills.Count > 0)
-            players.Add(new PlayerBattleUnit(_playerData, weaponSkills));
-        else
-            players.Add(new PlayerBattleUnit(_playerData));
+        players.Add(new PlayerBattleUnit(playerData, selectedWeapons));
 
         _battleUnitLinker.RegisterPlayerView(playerUnitView);
-
 
         _battleUnitLinker.LinkUnits(players, enemies);
         _battleUnitLinker.SubscribeViews(_battleController);
@@ -88,8 +73,9 @@ public class BattleSceneController : MonoBehaviour
 
     private void HandleTargetChanged(EnemyUnitView prevTarget, EnemyUnitView nextTarget)
     {
-        prevTarget?.SetAsTarget(false);  // 왜 false?
-        nextTarget?.SetAsTarget(true);  // 왜 true?
+        // TODO#: 질문 => 왜 true false?
+        prevTarget?.SetAsTarget(false);
+        nextTarget?.SetAsTarget(true);
     }
 
     private void HandleBattleEnd(bool isWin)

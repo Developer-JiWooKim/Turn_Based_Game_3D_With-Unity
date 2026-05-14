@@ -320,6 +320,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 800192031}
+  - component: {fileID: 800192032}
   m_Layer: 0
   m_Name: WeaponPreview
   m_TagString: Untagged
@@ -343,6 +344,20 @@ Transform:
   - {fileID: 1991387588}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &800192032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 800192030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d676709fcd24c34897e67679764ef31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponPreviewRotator
+  _autoRotateSpeed: 30
+  _dragRotateSpeed: 0.3
 --- !u!1 &1209963973
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,6 +617,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ce29eda4de30eea4d8db5723cdd9e05d, type: 2}
   _previewPoint: {fileID: 800192031}
   _previewRenderTexture: {fileID: 8400000, guid: 0752f704e62ed2c4785251532c30bc35, type: 2}
+  _previewRotator: {fileID: 800192032}
 --- !u!1 &1991387587
 GameObject:
   m_ObjectHideFlags: 0
