@@ -7,7 +7,9 @@ public class WeaponSelectSceneController : MonoBehaviour
     [SerializeField] private UIDocument _uiDocument;
     [SerializeField] private WeaponData[] _weaponDatas;
     [SerializeField] private Transform _previewPoint;
+    [SerializeField] private RenderTexture _previewRenderTexture;
 
+    private VisualElement _previewArea;
     private VisualElement   _weaponGrid;
     private VisualElement[] _selectedSlots = new VisualElement[3];
 
@@ -27,6 +29,15 @@ public class WeaponSelectSceneController : MonoBehaviour
     
 
     private Dictionary<WeaponData, Button> _weaponButtons = new Dictionary<WeaponData, Button>();
+    private void OnDestroy()
+    {
+        _backBtn.clicked -= OnBackButtonClicked;
+        _startBtn.clicked -= OnStartButtonClicked;
+        _selectBtn.clicked -= OnSelectButtonClicked;
+
+        if (_currentPreviewObj != null)
+            Destroy(_currentPreviewObj);
+    }
 
     private void Awake() => Initialize();
 
@@ -35,6 +46,8 @@ public class WeaponSelectSceneController : MonoBehaviour
         var root = _uiDocument.rootVisualElement;
 
         _weaponGrid = root.Q<VisualElement>("weapon-grid");
+        _previewArea = root.Q<VisualElement>("preview-area");
+
         _weaponName = root.Q<Label>("weapon-name");
         _weaponAtk  = root.Q<Label>("weapon-atk");
         _weaponSpd  = root.Q<Label>("weapon-speed");
@@ -46,6 +59,9 @@ public class WeaponSelectSceneController : MonoBehaviour
         _selectedSlots[0] = root.Q<VisualElement>("selected-slot-0");
         _selectedSlots[1] = root.Q<VisualElement>("selected-slot-1");
         _selectedSlots[2] = root.Q<VisualElement>("selected-slot-2");
+
+        // Render Texture 프리뷰 설정
+        _previewArea.style.backgroundImage = new StyleBackground(Background.FromRenderTexture(_previewRenderTexture));
 
         _backBtn.clicked   += OnBackButtonClicked;
         _startBtn.clicked  += OnStartButtonClicked;
@@ -127,7 +143,15 @@ public class WeaponSelectSceneController : MonoBehaviour
             Destroy(_currentPreviewObj);
 
         if (weapon.WeaponPrefab != null && _previewPoint != null)
+        {
             _currentPreviewObj = Instantiate(weapon.WeaponPrefab, _previewPoint.position, _previewPoint.rotation);
+
+            int layer = LayerMask.NameToLayer("WeaponPreview");
+            foreach (Transform t in _currentPreviewObj.GetComponentsInChildren<Transform>(true))
+            {
+                t.gameObject.layer = layer;
+            }
+        }
     }
 
     private void AddToSelectedSlot(WeaponData weapon)
@@ -199,15 +223,5 @@ public class WeaponSelectSceneController : MonoBehaviour
             GameManager.Instance.SelectWeapon(i, _selectedWeapons[i]);
 
         GameManager.Instance.LoadScene("BattleScene");
-    }
-
-    private void OnDestroy()
-    {
-        _backBtn.clicked   -= OnBackButtonClicked;
-        _startBtn.clicked  -= OnStartButtonClicked;
-        _selectBtn.clicked -= OnSelectButtonClicked;
-
-        if (_currentPreviewObj != null)
-            Destroy(_currentPreviewObj);
     }
 }
