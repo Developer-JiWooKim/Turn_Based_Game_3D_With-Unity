@@ -15,5 +15,5 @@ MonoBehaviour:
   skillType: 0
   SkillName: Sword
   Description: Sword Weapon Attack
-  Power: 10
-  Cost: 5
+  Power: 30
+  Cost: 20

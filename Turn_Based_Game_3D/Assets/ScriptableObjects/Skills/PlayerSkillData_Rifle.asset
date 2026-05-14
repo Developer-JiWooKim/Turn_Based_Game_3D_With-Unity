@@ -15,5 +15,5 @@ MonoBehaviour:
   skillType: 0
   SkillName: Rifle
   Description: Rifle Weapon shoot
-  Power: 50
-  Cost: 5
+  Power: 20
+  Cost: 10

@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: Sword Weapon
   WeaponIcon: {fileID: 0}
   WeaponPrefab: {fileID: 0}
-  skill: {fileID: 11400000, guid: b095ee5ad249e5848b876471a463161f, type: 2}
+  skill: {fileID: 11400000, guid: 86f33a1dcbd571244be4e4f1ef024b5b, type: 2}
   bonusStat:
     Hp: 0
     Mp: 0

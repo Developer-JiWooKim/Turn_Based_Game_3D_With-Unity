@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerSkillData_Hammer
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSkillData
   skillType: 0
-  SkillName: Attack
+  SkillName: Hammer
   Description: enemy attack
-  Power: 10
-  Cost: 5
+  Power: 50
+  Cost: 20

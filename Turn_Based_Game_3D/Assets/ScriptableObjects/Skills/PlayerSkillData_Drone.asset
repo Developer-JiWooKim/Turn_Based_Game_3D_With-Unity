@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5432a95f7846a24689d47d505a61bc0, type: 3}
   m_Name: PlayerSkillData_Drone
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSkillData
-  skillType: 0
-  SkillName: Attack
+  skillType: 1
+  SkillName: Drone
   Description: enemy attack
   Power: 10
-  Cost: 5
+  Cost: 0

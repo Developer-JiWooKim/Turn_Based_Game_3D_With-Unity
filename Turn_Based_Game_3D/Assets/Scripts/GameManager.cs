@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private StageData[] _stageDatas;
     [SerializeField] private CharacterData _playerData;
 
+
     public void SelectWeapon(int slot, WeaponData weapon)
     {
         if (slot < 0 || slot >= 3) return;
@@ -63,8 +64,6 @@ public class GameManager : MonoBehaviour
         Debug.Log($"OnSceneLoaded: {scene.name}");
 
         if (FadeController.Instance == null) return;
-
-        if (scene.name == "TitleScene") return;
 
         Debug.Log("FadeIn 시작");
 
