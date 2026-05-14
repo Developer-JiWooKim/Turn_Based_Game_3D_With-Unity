@@ -126,6 +126,7 @@ public class BattleUIController : MonoBehaviour
 
     private void HandlePlayerActionComplete(PlayerBattleUnit player)
     {
+        Debug.Log($"HandlePlayerActionComplete - Stamina: {player.CurrentStamina}/{player.MaxStamina}");
         RefreshPlayerStatus(player);
     }
 

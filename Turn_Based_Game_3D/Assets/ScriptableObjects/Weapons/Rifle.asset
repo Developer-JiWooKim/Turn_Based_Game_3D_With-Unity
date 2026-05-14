@@ -18,7 +18,7 @@ MonoBehaviour:
   WeaponIcon: {fileID: 0}
   WeaponPrefab: {fileID: 0}
   Damage: 25
-  MaxAmmo: 6
+  MaxAmmo: 3
   StaminaCost: 0
   bonusStat:
     Hp: 0

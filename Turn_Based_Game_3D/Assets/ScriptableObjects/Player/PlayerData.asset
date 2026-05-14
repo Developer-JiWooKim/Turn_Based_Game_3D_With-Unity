@@ -16,7 +16,7 @@ MonoBehaviour:
   playerStat:
     Hp: 100
     Stamina: 50
-    StaminaRecovery: 10
+    StaminaRecovery: 5
     AttackPower: 10
     DefenseValue: 5
     Speed: 10

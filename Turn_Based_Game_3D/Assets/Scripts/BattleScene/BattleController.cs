@@ -143,10 +143,23 @@ public class BattleController : MonoBehaviour
 
     private IEnumerator PlayerTurn()
     {
-        _playerActed = false;                           // 플레이어가 행동을 완료했는지 여부 초기화
-        Debug.Log("PlayerTurn 시작 - 입력 대기");
-        yield return new WaitUntil(() => _playerActed); // 플레이어가 행동을 완료할 때까지 대기
-        Debug.Log("PlayerTurn 종료 - 행동 완료");
+        PlayerBattleUnit player = _playerUnits[0];
+
+        // 턴 시작 시 스태미나 회복
+        player.RecoverStaminaPerTurn(player.PlayerData.playerStat.StaminaRecovery);
+        Debug.Log($"스태미나 회복 후: {player.CurrentStamina}/{player.MaxStamina}");
+
+        OnPlayerActionComplete?.Invoke(player); // UI 업데이트
+
+        // 사용 가능한 무기가 없으면 턴 스킵
+        if (!player.HasAnyUsableWeapon())
+        {
+            Debug.Log("사용 가능한 무기 없음 - 턴 스킵");
+            yield break;
+        }
+
+        _playerActed = false;
+        yield return new WaitUntil(() => _playerActed);
     }
 
     public void OnPlayerAction(IDamageable target, int weaponIndex)
