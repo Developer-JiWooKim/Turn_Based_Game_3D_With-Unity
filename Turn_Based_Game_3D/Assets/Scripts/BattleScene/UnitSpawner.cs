@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class UnitSpawner : MonoBehaviour
@@ -58,7 +57,11 @@ public class UnitSpawner : MonoBehaviour
             GameObject enemyObj = GetFromPool(prefab);
 
             enemyObj.transform.position = _enemySpawnPoints[i].position;
-            enemyObj.transform.rotation = _enemySpawnPoints[i].rotation;
+
+            // 플레이어 캐릭터 위치에서 스폰할 몬스터의 위치를 빼면 방향 벡터 나옴
+            Vector3 direction = _playerSpawnPoints[0].position - _enemySpawnPoints[i].position;
+            direction.y = 0f; // 수평 회전만 적용 위해 y축 0
+            enemyObj.transform.rotation = Quaternion.LookRotation(direction); // 몬스터가 플레이어 캐릭터를 바라보게 회전
             enemyObj.SetActive(true);
 
             spawnedUnits.Add(enemyObj);

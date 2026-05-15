@@ -14,6 +14,16 @@ public class BattleSceneController : MonoBehaviour
         StageData  currentStageData  = StageManager.Instance.CurrentStageData;
         PlayerData playerData        = PlayerDataManager.Instance.PlayerData;
 
+        // 플레이어 스폰
+        GameObject playerObject = _unitSpawner.SpawnPlayer();
+        PlayerUnitView playerUnitView = playerObject.GetComponent<PlayerUnitView>();
+
+        List<PlayerBattleUnit> players = new List<PlayerBattleUnit>();
+
+        WeaponData[] selectedWeapons = PlayerDataManager.Instance.SelectedWeapons;
+
+        players.Add(new PlayerBattleUnit(playerData, selectedWeapons));
+
         // 사전 풀링 작업
         _unitSpawner.PreparePool(currentStageData);
 
@@ -33,16 +43,6 @@ public class BattleSceneController : MonoBehaviour
             enemyViews.Add(enemyView);
             enemies.Add(enemyUnit);
         }
-
-        // 플레이어 스폰
-        GameObject     playerObject   = _unitSpawner.SpawnPlayer();
-        PlayerUnitView playerUnitView = playerObject.GetComponent<PlayerUnitView>();
-
-        List<PlayerBattleUnit> players = new List<PlayerBattleUnit>();
-
-        WeaponData[] selectedWeapons = PlayerDataManager.Instance.SelectedWeapons;
-
-        players.Add(new PlayerBattleUnit(playerData, selectedWeapons));
 
         _battleUnitLinker.RegisterPlayerView(playerUnitView);
 
