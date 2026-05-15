@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UnitSpawner : MonoBehaviour
@@ -8,27 +9,44 @@ public class UnitSpawner : MonoBehaviour
     [SerializeField] private GameObject  _playerPrefab;
 
 
-    [Header("Enemy Pool")]
-    [SerializeField] private EnemyData[]  _enemyPool;
-    [SerializeField] private GameObject[] _enemyPrefabs;
-    [SerializeField] private int          _monsterPerStage = 3; // 스테이지 당 소환할 몬스터 수(현재 3고정)
+    // 풀: 프리팹별로 미리 생성한 오브젝트 보관
+    private Dictionary<GameObject, List<GameObject>> _pool;
+    private GameObject _playerInstance;
+
+
 
     private void Awake() => Initialize();
 
     private void Initialize()
     {
-        // 모든 몬스터 미리 생성 후 비활성화
-        for (int i = 0; i < _enemyPrefabs.Length; i++)
+        _pool = new Dictionary<GameObject, List<GameObject>>();
+
+        // 플레이어 생성 후 비활성화
+        _playerInstance = Instantiate(_playerPrefab, _playerSpawnPoints[0].position, _playerSpawnPoints[0].rotation);
+        _playerInstance.SetActive(false);
+    }
+
+    public void PreparePool(StageData stageData)
+    {
+        foreach(var spawnData in stageData.enemySpawnDatas)
         {
-            
+            if(!_pool.ContainsKey(spawnData.enemyPrefab))
+            {
+                _pool[spawnData.enemyPrefab] = new List<GameObject>();
+
+                GameObject enemyObj = Instantiate(spawnData.enemyPrefab);
+                enemyObj.SetActive(false);
+
+                _pool[spawnData.enemyPrefab].Add(enemyObj);
+            }
         }
     }
 
-    public List<GameObject> SpawnEnemies()
+    public List<GameObject> SpawnEnemies(StageData stageData)
     {
         List<GameObject> spawnedUnits = new List<GameObject>();
 
-        for (int i = 0; i < _monsterPerStage; i++)
+        for (int i = 0; i < stageData.enemySpawnDatas.Count; i++)
         {
             if (i >= _enemySpawnPoints.Length)
             {
@@ -36,42 +54,65 @@ public class UnitSpawner : MonoBehaviour
                
                 break;
             }
-            int randomIndex = Random.Range(0, _enemyPool.Length);
+            GameObject prefab = stageData.enemySpawnDatas[i].enemyPrefab;
+            GameObject enemyObj = GetFromPool(prefab);
 
-            //TODO#: 생성할 필요가 있나? 이미 인스펙터 창에서 모든 몬스터 데이터를 넣어놨는데? 그냥 가져오면 되는거 아님?
-            spawnedUnits.Add(Instantiate(
-                _enemyPrefabs[randomIndex],
-                _enemySpawnPoints[i].position,
-                _enemySpawnPoints[i].rotation
-            ));
+            enemyObj.transform.position = _enemySpawnPoints[i].position;
+            enemyObj.transform.rotation = _enemySpawnPoints[i].rotation;
+            enemyObj.SetActive(true);
 
-            // 스테이지 레벨에 따른 스탯 스케일링 적용
-            EnemyUnitView view = spawnedUnits[i].GetComponent<EnemyUnitView>();
-
-            //TODO#: ??? 이 작업을 왜 여기에서? 배틀 씬 컨트롤러가 배틀씬 사전 세팅을 담당하고 있으면 여기가 아닌 배틀씬 컨트롤러에서 하는게 맞지 않음?
-            //if (view != null)
-                // view.SetEnemyData(ScaleEnemyData(_enemyPool[randomIndex]));
+            spawnedUnits.Add(enemyObj);
         }
 
         return spawnedUnits;
     }
 
-    // TODO#: 플레이어가 무기를 전부 고르고 게임을 시작해서 배틀 씬이 로딩될때 확정된 플레이어 데이터를 받아서 필드에 플레이어 캐릭터를 스폰할 때 
+    public void ReturnToPool(GameObject obj)
+    {
+        obj.SetActive(false);
+    }
+
+    private GameObject GetFromPool(GameObject prefab)
+    {
+        if (_pool.ContainsKey(prefab))
+        {
+            foreach(var obj in _pool[prefab])
+            {
+                if (!obj.activeSelf)
+                {
+                    // View 초기화
+                    EnemyUnitView view = obj.GetComponent<EnemyUnitView>();
+                    view?.Reset();
+                    return obj;
+                }
+            }
+        }
+
+        // 풀에 없으면 새로 생성
+        Debug.LogWarning($"{prefab.name} 풀 부족 - 새로 생성");
+        GameObject newObj = Instantiate(prefab);
+        newObj.SetActive(false);
+
+        if (!_pool.ContainsKey(prefab))
+        {
+            _pool[prefab] = new List<GameObject>();
+        }
+
+        _pool[prefab].Add(newObj);
+        return newObj;
+    }
+
     public GameObject SpawnPlayer()
     {
-        if (_playerPrefab == null)
-        {
-            Debug.LogError("PlayerPrefab이 없습니다!");
-            return null;
-        }
+        _playerInstance.transform.position = _playerSpawnPoints[0].position;
+        _playerInstance.transform.rotation = _playerSpawnPoints[0].rotation;
+        _playerInstance.SetActive(true);
 
-        if (_playerSpawnPoints.Length == 0)
-        {
-            Debug.LogError("PlayerSpawnPoints가 없습니다!");
-            return null;
-        }
+        return _playerInstance;
+    }
 
-        // TODO#: 왜 플레이어를 새로 생성해서 리턴? 그냥 얘가 지금 갖고 있는 플레이어 프리팹을 리턴하면 되는거 아님?
-        return Instantiate(_playerPrefab, _playerSpawnPoints[0].position, _playerSpawnPoints[0].rotation);
+    public void ReturnPlayerToPool()
+    {
+        _playerInstance.SetActive(false);
     }
 }

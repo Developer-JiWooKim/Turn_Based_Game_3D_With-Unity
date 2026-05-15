@@ -11,18 +11,21 @@ public class BattleSceneController : MonoBehaviour
     private void Start() => SetupBattle();
     private void SetupBattle()
     {
-        StageData currentStageData = StageManager.Instance.CurrentStageData;
-        PlayerData playerData = PlayerDataManager.Instance.PlayerData;
+        StageData  currentStageData  = StageManager.Instance.CurrentStageData;
+        PlayerData playerData        = PlayerDataManager.Instance.PlayerData;
+
+        // 사전 풀링 작업
+        _unitSpawner.PreparePool(currentStageData);
 
         // 적 스폰
-        List<GameObject> enemyObjects = _unitSpawner.SpawnEnemies();
+        List<GameObject> enemyObjects = _unitSpawner.SpawnEnemies(currentStageData);
 
-        List<EnemyBattleUnit> enemies = new List<EnemyBattleUnit>();
-        List<EnemyUnitView> enemyViews = new List<EnemyUnitView>();
+        List<EnemyBattleUnit> enemies    = new List<EnemyBattleUnit>();
+        List<EnemyUnitView>   enemyViews = new List<EnemyUnitView>();
 
         for (int i = 0; i < enemyObjects.Count; i++)
         {
-            EnemyUnitView enemyView = enemyObjects[i].GetComponent<EnemyUnitView>();
+            EnemyUnitView   enemyView = enemyObjects[i].GetComponent<EnemyUnitView>();
             EnemyBattleUnit enemyUnit = new EnemyBattleUnit(currentStageData.enemySpawnDatas[i].enemyData);
 
             _battleUnitLinker.RegisterEnemyView(enemyView);
@@ -31,13 +34,12 @@ public class BattleSceneController : MonoBehaviour
             enemies.Add(enemyUnit);
         }
 
-        // 플레이어 유닛 생성
-        GameObject playerObject = _unitSpawner.SpawnPlayer();
+        // 플레이어 스폰
+        GameObject     playerObject   = _unitSpawner.SpawnPlayer();
         PlayerUnitView playerUnitView = playerObject.GetComponent<PlayerUnitView>();
 
         List<PlayerBattleUnit> players = new List<PlayerBattleUnit>();
 
-        // GameManager에서 선택한 무기 스킬 가져오기
         WeaponData[] selectedWeapons = PlayerDataManager.Instance.SelectedWeapons;
 
         players.Add(new PlayerBattleUnit(playerData, selectedWeapons));
@@ -45,10 +47,11 @@ public class BattleSceneController : MonoBehaviour
         _battleUnitLinker.RegisterPlayerView(playerUnitView);
 
         _battleUnitLinker.LinkUnits(players, enemies);
+
         _battleUnitLinker.SubscribeViews(_battleController);
 
-        _battleController.OnBattleEnd   += HandleBattleEnd;
-        _battleController.OnEnemyDied   += HandleEnemyDied;
+        _battleController.OnBattleEnd += HandleBattleEnd;
+        _battleController.OnEnemyDied += HandleEnemyDied;
 
         _targetSelector.OnTargetChanged += HandleTargetChanged;
         _targetSelector.Initialize(enemyViews);
@@ -67,6 +70,8 @@ public class BattleSceneController : MonoBehaviour
             deadView.OnDeath();
 
             _targetSelector.RemoveDeadTarget(deadView);
+
+            _unitSpawner.ReturnToPool(deadView.gameObject); // 풀 반납
         }
     }
 

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class UnitHUD : MonoBehaviour
 {
-    [SerializeField] private Image _hpBarFill;
+    [SerializeField] private Image           _hpBarFill;
     [SerializeField] private TextMeshProUGUI _nameText;
 
     public void SetUnitName(string unitName)
@@ -28,5 +28,12 @@ public class UnitHUD : MonoBehaviour
     {
         // TODO#: 데미지 팝업 UI 구현 예정
         Debug.Log($"{damage} 데미지!");
+    }
+
+    public void Reset()
+    {
+        _nameText.text = "";
+        _hpBarFill.fillAmount = 1f;
+        _hpBarFill.color = Color.green;
     }
 }

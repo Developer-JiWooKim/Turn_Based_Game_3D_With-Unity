@@ -11,7 +11,6 @@ public class BattleController : MonoBehaviour
 
     private UnitOrderBySpeedSystem  _unitOrderBySpeedSystem;    // 턴마다 유닛들의 행동 순서를 결정하는 시스템
     
-
     private List<PlayerBattleUnit>  _playerUnits;               // 플레이어 캐릭터의 유닛
     private List<EnemyBattleUnit>   _enemyUnits;                // 적 캐릭터들의 유닛 리스트
     private List<BattleUnit>        _battleUnits;               // 현재 전투에 참여하는 모든 유닛을 저장하는 리스트

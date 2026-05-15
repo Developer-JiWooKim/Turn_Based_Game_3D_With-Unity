@@ -69,4 +69,16 @@ public abstract class UnitView : MonoBehaviour
     {
         _unitAnimator?.PlayDeathAnim();
     }
+
+    public virtual void Reset()
+    {
+        // BattleController 구독 해제
+        Unsubscribe();
+
+        _battleController = null;
+        _linkedUnit       = null;
+
+        // HUD 초기화
+        _unitHUD?.Reset();
+    }
 }

@@ -38,4 +38,12 @@ public class EnemyUnitView : UnitView
             SetLayerRecursively(child.gameObject, layer);
         }
     }
+
+    public override void Reset()
+    {
+        base.Reset();
+
+        // 아웃라인 초기화 (Enemy 레이어로 복구)
+        SetLayerRecursively(gameObject, _enemyLayer);
+    }
 }
