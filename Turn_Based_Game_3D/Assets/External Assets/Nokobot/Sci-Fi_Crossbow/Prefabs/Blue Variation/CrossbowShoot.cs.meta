@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: c02240f5ddf427a4384309ae5d5b1834
+timeCreated: 1527839478
+licenseType: Store
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 119816
+  packageName: Sci Fi Crossbow
+  packageVersion: 2.0
+  assetPath: Assets/Nokobot/Sci-Fi_Crossbow/Demo/Scripts/CrossbowShoot.cs
+  uploadId: 723552

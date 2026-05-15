@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fcf948003f652a848982ac9ade8ce40b, type: 3}
-  m_Name: Hammer
+  m_Name: Crossbow
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  WeaponName: Hammer
-  weaponType: 2
-  Description: Hammer Weapon
-  WeaponIcon: {fileID: 0}
-  WeaponPrefab: {fileID: 0}
-  Damage: 80
-  MaxAmmo: 0
-  StaminaCost: 30
+  WeaponName: Crossbow
+  weaponType: 0
+  Description: Crossbow Weapon
+  WeaponIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  WeaponPrefab: {fileID: 1519058888169846, guid: 188e2efbe937a2442812a9eac7934eb1, type: 3}
+  Damage: 50
+  MaxAmmo: 3
+  StaminaCost: 0
   bonusStat:
     Hp: 0
     Stamina: 0
@@ -27,4 +27,3 @@ MonoBehaviour:
     AttackPower: 0
     DefenseValue: 0
     Speed: 0
-  skill: {fileID: 11400000, guid: b095ee5ad249e5848b876471a463161f, type: 2}

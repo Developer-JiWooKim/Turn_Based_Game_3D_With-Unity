@@ -695,6 +695,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StageDataManager
   _stageDatas:
   - {fileID: 11400000, guid: e2bdd36ccbf139d42b1cbc9accee17b7, type: 2}
+  - {fileID: 11400000, guid: 74ea5d3ef5b41b04b9e84a03ca0dd519, type: 2}
+  - {fileID: 11400000, guid: b8c9a7c7f4cd68244847ef0fde2f3be9, type: 2}
+  - {fileID: 11400000, guid: ab381170cfea26944b2317476039fd5a, type: 2}
+  - {fileID: 11400000, guid: 91888c705b467734c8e6b9b6a06a85ac, type: 2}
+  _hpIncreasePerStage: 20
+  _atkIncreasePerStage: 5
+  _spdIncreasePerStage: 1
 --- !u!1 &2140773768
 GameObject:
   m_ObjectHideFlags: 0

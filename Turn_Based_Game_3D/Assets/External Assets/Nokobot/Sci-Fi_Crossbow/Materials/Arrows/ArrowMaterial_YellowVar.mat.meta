@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 989287c51da0a4949b975140fa2bd587
+timeCreated: 1527838796
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 119816
+  packageName: Sci Fi Crossbow
+  packageVersion: 2.0
+  assetPath: Assets/Nokobot/Sci-Fi_Crossbow/Materials/Arrows/ArrowMaterial_YellowVar.mat
+  uploadId: 723552

@@ -81,6 +81,7 @@
     <Compile Include="Assets\Scripts\BattleScene\UnitView.cs" />
     <Compile Include="Assets\Scripts\Manager\PlayerDataManager.cs" />
     <Compile Include="Assets\Scripts\Scriptable\PlayerSkillData.cs" />
+    <Compile Include="Assets\External Assets\Nokobot\Sci-Fi_Crossbow\Prefabs\Blue Variation\CrossbowShoot.cs" />
     <Compile Include="Assets\Scripts\BattleScene\UnitSpawner.cs" />
     <Compile Include="Assets\Scripts\Scriptable\PlayerData.cs" />
     <Compile Include="Assets\Scripts\WeaponSelectScene\WeaponPreviewRotator.cs" />

@@ -15,9 +15,9 @@ MonoBehaviour:
   WeaponName: Sword
   weaponType: 1
   Description: Sword Weapon
-  WeaponIcon: {fileID: 0}
-  WeaponPrefab: {fileID: 0}
-  Damage: 50
+  WeaponIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  WeaponPrefab: {fileID: 7283376583338269279, guid: dad57a9c1d0d34f418a355bf8b0a55e7, type: 3}
+  Damage: 70
   MaxAmmo: 0
   StaminaCost: 20
   bonusStat:
@@ -27,4 +27,3 @@ MonoBehaviour:
     AttackPower: 0
     DefenseValue: 0
     Speed: 0
-  skill: {fileID: 11400000, guid: 86f33a1dcbd571244be4e4f1ef024b5b, type: 2}

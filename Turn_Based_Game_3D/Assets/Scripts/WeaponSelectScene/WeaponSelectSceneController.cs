@@ -10,7 +10,7 @@ public class WeaponSelectSceneController : MonoBehaviour
     [SerializeField] private RenderTexture _previewRenderTexture;
     [SerializeField] private WeaponPreviewRotator _previewRotator;
 
-    private VisualElement _previewArea;
+    private VisualElement   _previewArea;
     private VisualElement   _weaponGrid;
     private VisualElement[] _selectedSlots = new VisualElement[3];
 
@@ -27,21 +27,18 @@ public class WeaponSelectSceneController : MonoBehaviour
 
     private WeaponData   _currentWeapon; // 현재 하이라이트된 무기
     private WeaponData[] _selectedWeapons = new WeaponData[3];
-    
 
-    private Dictionary<WeaponData, Button> _weaponButtons = new Dictionary<WeaponData, Button>();
-    private void OnDestroy()
+    private Dictionary<WeaponData, GameObject> _previewPool   = new Dictionary<WeaponData, GameObject>();
+    private Dictionary<WeaponData, Button>     _weaponButtons = new Dictionary<WeaponData, Button>();
+    private void OnDestroy() => UnSubscribeButtonEvent();
+    private void UnSubscribeButtonEvent()
     {
-        _backBtn.clicked -= OnBackButtonClicked;
-        _startBtn.clicked -= OnStartButtonClicked;
+        _backBtn.clicked   -= OnBackButtonClicked;
+        _startBtn.clicked  -= OnStartButtonClicked;
         _selectBtn.clicked -= OnSelectButtonClicked;
-
-        if (_currentPreviewObj != null)
-            Destroy(_currentPreviewObj);
     }
 
     private void Awake() => Initialize();
-
     private void Initialize()
     {
         var root = _uiDocument.rootVisualElement;
@@ -64,11 +61,9 @@ public class WeaponSelectSceneController : MonoBehaviour
         // Render Texture 프리뷰 설정
         _previewArea.style.backgroundImage = new StyleBackground(Background.FromRenderTexture(_previewRenderTexture));
 
-
         _previewArea.RegisterCallback<MouseDownEvent>(evt => _previewRotator?.OnDragStart());
         _previewArea.RegisterCallback<MouseUpEvent>(evt => _previewRotator?.OnDragEnd());
         _previewArea.RegisterCallback<MouseLeaveEvent>(evt => _previewRotator?.OnDragEnd());
-
 
         _backBtn.clicked   += OnBackButtonClicked;
         _startBtn.clicked  += OnStartButtonClicked;
@@ -80,8 +75,28 @@ public class WeaponSelectSceneController : MonoBehaviour
             _selectedSlots[i].RegisterCallback<ClickEvent>(evt => OnSelectedSlotClicked(captured));
         }
 
+        InitPreviewPool();
         BuildWeaponGrid();
         UpdateStartButton();
+    }
+
+    private void InitPreviewPool()
+    {
+        foreach (var weapon in _weaponDatas)
+        {
+            if (weapon.WeaponPrefab == null) continue;
+
+            GameObject obj = Instantiate(weapon.WeaponPrefab, 
+                _previewPoint.position + weapon.WeaponPrefab.GetComponent<Transform>().position, 
+                _previewPoint.rotation, _previewPoint);
+
+            int layer = LayerMask.NameToLayer("WeaponPreview");
+            foreach (Transform t in obj.GetComponentsInChildren<Transform>(true))
+                t.gameObject.layer = layer;
+
+            obj.SetActive(false);
+            _previewPool[weapon] = obj;
+        }
     }
 
     private void BuildWeaponGrid()
@@ -142,23 +157,18 @@ public class WeaponSelectSceneController : MonoBehaviour
         _weaponDesc.text = weapon.Description;
     }
 
-
-    // TODO#: 추후 무기 선택씬 로드 되면 미리 다 생성후 리스트에 보관(오브젝트 풀링)해서 업데이트마다 생성 파괴 하지 않게 하기
     private void UpdatePreview(WeaponData weapon)
     {
+        // 현재 활성화된 프리뷰 비활성화
         if (_currentPreviewObj != null)
-            Destroy(_currentPreviewObj);
+            _currentPreviewObj.SetActive(false);
 
-        if (weapon.WeaponPrefab != null && _previewPoint != null)
-        {
-            _currentPreviewObj = Instantiate(weapon.WeaponPrefab, _previewPoint.position, _previewPoint.rotation);
+        if (weapon.WeaponPrefab == null || !_previewPool.ContainsKey(weapon)) return;
 
-            int layer = LayerMask.NameToLayer("WeaponPreview");
-            foreach (Transform t in _currentPreviewObj.GetComponentsInChildren<Transform>(true))
-            {
-                t.gameObject.layer = layer;
-            }
-        }
+        _currentPreviewObj = _previewPool[weapon];
+        _previewPoint.rotation = new Quaternion(0, 0, 0, 0);
+
+        _currentPreviewObj.SetActive(true);
     }
 
     private void AddToSelectedSlot(WeaponData weapon)
