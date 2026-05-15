@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e234321bf1fa635479e8b5cc6311f483, type: 3}
-  m_Name: StageData
+  m_Name: StageData 3
   m_EditorClassIdentifier: Assembly-CSharp::StageData
-  stageNumber: 1
-  stageTitle: Level 1
+  stageNumber: 4
+  stageTitle: Level 4
   enemySpawnDatas:
   - enemyData: {fileID: 11400000, guid: e3d1847bd7bb5234199618850dd66b32, type: 2}
     enemyPrefab: {fileID: 5994439466667278951, guid: d7fc4c406b7289d42b5dbbed90772f53, type: 3}
