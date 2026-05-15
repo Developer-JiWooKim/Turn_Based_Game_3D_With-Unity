@@ -20,6 +20,7 @@ public class BattleController : MonoBehaviour
     private bool  _playerActed;           // 플레이어가 현재 턴에서 행동을 완료했는지 여부, true이면 플레이어가 행동을 마쳤음을 나타냄
 
     public int TurnCount => _turnCount;
+    public List<PlayerBattleUnit> PlayerUnits => _playerUnits;
 
     //TODO#: 현재는 OnTurnStart라고 이름을 정했지만, 자신의 차례가 되었을때 카메라 무빙, UI 업데이트 등등의 처리를 하기 위한 이벤트이므로 나중에 이름을 변경할 수도 있음
     public event Action<BattleUnit>         OnTurnStart;            // 턴이 시작될 때마다 호출되는 이벤트, 현재 턴에서 행동할 유닛을 인자로 전달
@@ -147,9 +148,9 @@ public class BattleController : MonoBehaviour
 
         // 턴 시작 시 스태미나 회복
         player.RecoverStaminaPerTurn(player.PlayerData.playerStat.StaminaRecovery);
-        Debug.Log($"스태미나 회복 후: {player.CurrentStamina}/{player.MaxStamina}");
 
         OnPlayerActionComplete?.Invoke(player); // UI 업데이트
+        OnTurnStart?.Invoke(player); // 버튼 다시 빌드
 
         // 사용 가능한 무기가 없으면 턴 스킵
         if (!player.HasAnyUsableWeapon())
@@ -159,6 +160,7 @@ public class BattleController : MonoBehaviour
         }
 
         _playerActed = false;
+
         yield return new WaitUntil(() => _playerActed);
     }
 

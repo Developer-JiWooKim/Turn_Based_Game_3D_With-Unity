@@ -27,9 +27,5 @@ public class WeaponData : ScriptableObject
     [Header("Bonus Stats")]
     public StatData bonusStat; // 무기 장착 시 추가 스탯
 
-    //TODO#: 지울예정
-    [Header("Weapon Skill")]
-    public PlayerSkillData skill; // 이 무기의 스킬
-
     
 }

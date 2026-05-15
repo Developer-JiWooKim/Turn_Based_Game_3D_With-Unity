@@ -49,7 +49,7 @@
                     <ui:Label name="hp-text" text="350/350" class="bar-text"/>
                 </ui:VisualElement>
                 <ui:VisualElement class="bar-row">
-                    <ui:Label text="MP" class="bar-label"/>
+                    <ui:Label text="ST" class="bar-label"/>
                     <ui:VisualElement name="mp-bar-bg" class="bar-bg">
                         <ui:VisualElement name="mp-bar" class="bar mp-bar"/>
                     </ui:VisualElement>

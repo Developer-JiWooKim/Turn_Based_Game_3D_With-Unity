@@ -32,7 +32,6 @@ public class BattleSceneController : MonoBehaviour
         }
 
         // 플레이어 유닛 생성
-        // TODO#: 플레이어 스폰 역시 EnemySpawner 이름을 UnitSpawner로 바꾸고 여기서 생성하고 배치하는걸로 바꾸는게 좋을듯
         GameObject playerObject = _unitSpawner.SpawnPlayer();
         PlayerUnitView playerUnitView = playerObject.GetComponent<PlayerUnitView>();
 
@@ -82,6 +81,10 @@ public class BattleSceneController : MonoBehaviour
     {
         if (isWin)
         {
+            // 다음 스테이지 전 총알 리셋
+            // TODO#: 나중에 플레이어 유닛 리스트로 교체
+            foreach (var player in _battleController.PlayerUnits)
+                player.ResetAmmos();
             GameManager.Instance.NextStage();
         }
         else
