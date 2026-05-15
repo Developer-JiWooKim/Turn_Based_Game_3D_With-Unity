@@ -11,11 +11,11 @@ public class BattleSceneController : MonoBehaviour
     private void Start() => SetupBattle();
     private void SetupBattle()
     {
-        StageData currentStageData = StageDataManager.Instance.CurrentStageData;
+        StageData currentStageData = StageManager.Instance.CurrentStageData;
         PlayerData playerData = PlayerDataManager.Instance.PlayerData;
 
         // 적 스폰
-        List<GameObject> enemyObjects = _unitSpawner.SpawnEnemies(currentStageData);
+        List<GameObject> enemyObjects = _unitSpawner.SpawnEnemies();
 
         List<EnemyBattleUnit> enemies = new List<EnemyBattleUnit>();
         List<EnemyUnitView> enemyViews = new List<EnemyUnitView>();
@@ -72,7 +72,6 @@ public class BattleSceneController : MonoBehaviour
 
     private void HandleTargetChanged(EnemyUnitView prevTarget, EnemyUnitView nextTarget)
     {
-        // TODO#: 질문 => 왜 true false?
         prevTarget?.SetAsTarget(false);
         nextTarget?.SetAsTarget(true);
     }

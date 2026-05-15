@@ -7,21 +7,28 @@ public class UnitSpawner : MonoBehaviour
     [SerializeField] private Transform[] _playerSpawnPoints;
     [SerializeField] private GameObject  _playerPrefab;
 
-    private List<EnemyData> _enemyDatas;    // TODO#: 오브젝트 풀링에 쓸 모든 적 데이터 리스트
+
+    [Header("Enemy Pool")]
+    [SerializeField] private EnemyData[]  _enemyPool;
+    [SerializeField] private GameObject[] _enemyPrefabs;
+    [SerializeField] private int          _monsterPerStage = 3; // 스테이지 당 소환할 몬스터 수(현재 3고정)
 
     private void Awake() => Initialize();
 
     private void Initialize()
     {
-        _enemyDatas = new List<EnemyData>();
+        // 모든 몬스터 미리 생성 후 비활성화
+        for (int i = 0; i < _enemyPrefabs.Length; i++)
+        {
+            
+        }
     }
 
-    public List<GameObject> SpawnEnemies(StageData stageData)
+    public List<GameObject> SpawnEnemies()
     {
         List<GameObject> spawnedUnits = new List<GameObject>();
-        EnemySpawnData spawnData = null;
 
-        for (int i = 0; i < stageData.enemySpawnDatas.Count; i++)
+        for (int i = 0; i < _monsterPerStage; i++)
         {
             if (i >= _enemySpawnPoints.Length)
             {
@@ -29,11 +36,21 @@ public class UnitSpawner : MonoBehaviour
                
                 break;
             }
+            int randomIndex = Random.Range(0, _enemyPool.Length);
 
-            spawnData = stageData.enemySpawnDatas[i];
+            //TODO#: 생성할 필요가 있나? 이미 인스펙터 창에서 모든 몬스터 데이터를 넣어놨는데? 그냥 가져오면 되는거 아님?
+            spawnedUnits.Add(Instantiate(
+                _enemyPrefabs[randomIndex],
+                _enemySpawnPoints[i].position,
+                _enemySpawnPoints[i].rotation
+            ));
 
-            // TODO#: 오브젝트 풀링을 쓰면 만들어져있는 리스트에서 오브젝트를 가져옴
-            spawnedUnits.Add(Instantiate(spawnData.enemyPrefab, _enemySpawnPoints[i].position, _enemySpawnPoints[i].rotation));
+            // 스테이지 레벨에 따른 스탯 스케일링 적용
+            EnemyUnitView view = spawnedUnits[i].GetComponent<EnemyUnitView>();
+
+            //TODO#: ??? 이 작업을 왜 여기에서? 배틀 씬 컨트롤러가 배틀씬 사전 세팅을 담당하고 있으면 여기가 아닌 배틀씬 컨트롤러에서 하는게 맞지 않음?
+            //if (view != null)
+                // view.SetEnemyData(ScaleEnemyData(_enemyPool[randomIndex]));
         }
 
         return spawnedUnits;
@@ -54,6 +71,7 @@ public class UnitSpawner : MonoBehaviour
             return null;
         }
 
+        // TODO#: 왜 플레이어를 새로 생성해서 리턴? 그냥 얘가 지금 갖고 있는 플레이어 프리팹을 리턴하면 되는거 아님?
         return Instantiate(_playerPrefab, _playerSpawnPoints[0].position, _playerSpawnPoints[0].rotation);
     }
 }

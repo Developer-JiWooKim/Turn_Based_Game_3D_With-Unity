@@ -56,12 +56,17 @@ public class GameManager : MonoBehaviour
 
     public void NextStage()
     {
-        StageDataManager.Instance.NextStage();
+        StageManager.Instance.NextStage();
 
-        if (!StageDataManager.Instance.IsLastStage())
-            LoadScene("BattleScene");
-        else
+        if (StageManager.Instance.CurrentGameMode == GameMode.Normal
+        && StageManager.Instance.IsLastStage)
+        {
             GameClear();
+        }
+        else
+        {
+            LoadScene("BattleScene");
+        }
     }
 
     private void GameClear()
@@ -76,7 +81,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetStage()
     {
-        StageDataManager.Instance.ResetStage();
+        StageManager.Instance.ResetStage();
         LoadScene("BattleScene");
     }
 }

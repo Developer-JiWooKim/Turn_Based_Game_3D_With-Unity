@@ -660,7 +660,7 @@ GameObject:
   - component: {fileID: 2138211474}
   - component: {fileID: 2138211475}
   m_Layer: 0
-  m_Name: StageDataManager
+  m_Name: StageManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

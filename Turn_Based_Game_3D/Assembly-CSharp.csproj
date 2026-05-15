@@ -58,7 +58,7 @@
     <Compile Include="Assets\Scripts\BattleScene\BattleUIController.cs" />
     <Compile Include="Assets\Scripts\BattleScene\BattleUnit.cs" />
     <Compile Include="Assets\External Assets\Toon Shaders Pro\Demo\Scripts\VertexColorRandom.cs" />
-    <Compile Include="Assets\Scripts\Manager\StageDataManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\StageManager.cs" />
     <Compile Include="Assets\Scripts\Manager\GameManager.cs" />
     <Compile Include="Assets\Scripts\BattleScene\PlayerInputHandler.cs" />
     <Compile Include="Assets\Scripts\WeaponSelectScene\WeaponSelectSceneController.cs" />
