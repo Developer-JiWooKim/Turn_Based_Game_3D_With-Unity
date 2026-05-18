@@ -76,7 +76,9 @@
     <Compile Include="Assets\Scripts\FadeScreenEffect\FadeController.cs" />
     <Compile Include="Assets\External Assets\Toon Shaders Pro\Demo\Scripts\Worm.cs" />
     <Compile Include="Assets\Scripts\BattleScene\EnemyBattleUnit.cs" />
+    <Compile Include="Assets\Scripts\BattleScene\WeaponCloakEffect.cs" />
     <Compile Include="Assets\Scripts\Scriptable\SkillData.cs" />
+    <Compile Include="Assets\Scripts\Test\WeaponCloakTest.cs" />
     <Compile Include="Assets\InputSystem_Actions.cs" />
     <Compile Include="Assets\Scripts\BattleScene\UnitView.cs" />
     <Compile Include="Assets\Scripts\Manager\PlayerDataManager.cs" />

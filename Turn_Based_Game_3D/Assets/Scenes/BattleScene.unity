@@ -4409,6 +4409,67 @@ MonoBehaviour:
   _unitSpawner: {fileID: 1489484282}
   _battleUnitLinker: {fileID: 1992171824}
   _targetSelector: {fileID: 1310833032}
+--- !u!1001 &1098491892
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 663002579499853369, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.35976
+      objectReference: {fileID: 0}
+    - target: {fileID: 663002579499853369, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.045
+      objectReference: {fileID: 0}
+    - target: {fileID: 663002579499853369, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.4034
+      objectReference: {fileID: 0}
+    - target: {fileID: 663002579499853369, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 663002579499853369, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 663002579499853369, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 663002579499853369, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 663002579499853369, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 663002579499853369, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 663002579499853369, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1117946502981194165, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
+      propertyPath: _cloakDuration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1945694829724387042, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
+      propertyPath: m_Name
+      value: Rifle
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
 --- !u!1 &1135258060
 GameObject:
   m_ObjectHideFlags: 0
@@ -5890,6 +5951,51 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!1 &1426934956
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1426934958}
+  - component: {fileID: 1426934957}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1426934957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426934956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2260215bdec33944eadedd700fc659d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponCloakTest
+  _cloakEffect: {fileID: 1451657662}
+--- !u!4 &1426934958
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426934956}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.25446, y: -1, z: -3.82909}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1434222361
 GameObject:
   m_ObjectHideFlags: 0
@@ -6129,6 +6235,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1450132021}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1451657662 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1117946502981194165, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
+  m_PrefabInstance: {fileID: 1098491892}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 958f651a54a601749b02ab990ec5e672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponCloakEffect
 --- !u!1 &1451838662
 GameObject:
   m_ObjectHideFlags: 0
@@ -9168,3 +9285,5 @@ SceneRoots:
   - {fileID: 1148618852}
   - {fileID: 1489484283}
   - {fileID: 289361421}
+  - {fileID: 1098491892}
+  - {fileID: 1426934958}
