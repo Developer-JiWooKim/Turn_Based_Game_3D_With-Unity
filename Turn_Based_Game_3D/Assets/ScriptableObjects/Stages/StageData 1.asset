@@ -15,9 +15,9 @@ MonoBehaviour:
   stageNumber: 2
   stageTitle: Level 2
   enemySpawnDatas:
-  - enemyData: {fileID: 11400000, guid: e3d1847bd7bb5234199618850dd66b32, type: 2}
+  - enemyData: {fileID: 11400000, guid: 23af27b4e8fb54544a08e8b191fccba4, type: 2}
     enemyPrefab: {fileID: 5994439466667278951, guid: d7fc4c406b7289d42b5dbbed90772f53, type: 3}
-  - enemyData: {fileID: 11400000, guid: 9f016f77eb21c8e45bb3933adeaf971f, type: 2}
+  - enemyData: {fileID: 11400000, guid: 23af27b4e8fb54544a08e8b191fccba4, type: 2}
     enemyPrefab: {fileID: 5994439466667278951, guid: d7fc4c406b7289d42b5dbbed90772f53, type: 3}
-  - enemyData: {fileID: 11400000, guid: b28edfcc979dbe14da3c493fe22165a8, type: 2}
+  - enemyData: {fileID: 11400000, guid: 23af27b4e8fb54544a08e8b191fccba4, type: 2}
     enemyPrefab: {fileID: 5994439466667278951, guid: d7fc4c406b7289d42b5dbbed90772f53, type: 3}

@@ -7,6 +7,14 @@ public class UnitHUD : MonoBehaviour
     [SerializeField] private Image           _hpBarFill;
     [SerializeField] private TextMeshProUGUI _nameText;
 
+    private RectTransform _rectTransform;
+
+    private void Awake() => _rectTransform = GetComponent<RectTransform>();
+    private void LateUpdate()
+    {
+        _rectTransform.rotation = Quaternion.LookRotation(Camera.main.transform.forward);
+    }
+
     public void SetUnitName(string unitName)
     {
         _nameText.text = unitName;
