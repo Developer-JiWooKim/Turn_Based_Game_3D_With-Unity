@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -181,15 +179,29 @@ public class BattleUIController : MonoBehaviour
             WeaponData weapon = player.Weapons[i];
             int capturedIndex = i;
 
-            var btn = new Button(() => OnWeaponButtonClicked(capturedIndex))
+            var btn = new Button(() => OnWeaponButtonClicked(capturedIndex));
+            btn.AddToClassList("skill-btn");
+
+            // 아이콘 설정
+            if (weapon.WeaponIcon != null)
+                btn.style.backgroundImage = new StyleBackground(weapon.WeaponIcon);
+
+
+            // 마우스 오버 시 무기 이름 표시
+            btn.RegisterCallback<MouseEnterEvent>(evt =>
             {
-                text = weapon.WeaponName
-            };
+                btn.text = weapon.WeaponName;
+                btn.style.unityBackgroundImageTintColor = new Color(0.5f, 0.5f, 0.5f, 1f);
+            });
+
+            btn.RegisterCallback<MouseLeaveEvent>(evt =>
+            {
+                btn.text = "";
+                btn.style.unityBackgroundImageTintColor = new Color(1f, 1f, 1f, 1f);
+            });
 
             // 사용 불가능한 무기는 비활성화
             btn.SetEnabled(player.CanUseWeapon(capturedIndex));
-
-            btn.AddToClassList("skill-btn");
             _skillBar.Add(btn);
         }
     }

@@ -15,7 +15,7 @@ MonoBehaviour:
   WeaponName: Crossbow
   weaponType: 0
   Description: Crossbow Weapon
-  WeaponIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  WeaponIcon: {fileID: 21300000, guid: 7be858d441ef26a449ce5370ffc43f00, type: 3}
   WeaponPrefab: {fileID: 1519058888169846, guid: 188e2efbe937a2442812a9eac7934eb1, type: 3}
   Damage: 50
   MaxAmmo: 3

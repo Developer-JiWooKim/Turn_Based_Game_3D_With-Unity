@@ -335,7 +335,7 @@ Transform:
   m_GameObject: {fileID: 64872972}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.1664898, y: 2.0900002, z: 6.85618}
+  m_LocalPosition: {x: 6.12, y: 2.2, z: 4.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1031,7 +1031,7 @@ Transform:
   m_GameObject: {fileID: 264543424}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.72, y: 0, z: 0.43}
+  m_LocalPosition: {x: 7.64, y: 0, z: 0.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1891,7 +1891,7 @@ Transform:
   m_GameObject: {fileID: 406464802}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.31, y: 0, z: -3.16}
+  m_LocalPosition: {x: 4.8, y: 0, z: -2.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3716,7 +3716,7 @@ Transform:
   m_GameObject: {fileID: 870567591}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.18, y: 0, z: -3.47}
+  m_LocalPosition: {x: 0.04, y: 0, z: -3.93}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4409,8 +4409,6 @@ MonoBehaviour:
   _unitSpawner: {fileID: 1489484282}
   _battleUnitLinker: {fileID: 1992171824}
   _targetSelector: {fileID: 1310833032}
-  _stageData: {fileID: 11400000, guid: e2bdd36ccbf139d42b1cbc9accee17b7, type: 2}
-  _playerData: {fileID: 11400000, guid: e97178e32eaf8694fbed73976b64d389, type: 2}
 --- !u!1 &1135258060
 GameObject:
   m_ObjectHideFlags: 0
