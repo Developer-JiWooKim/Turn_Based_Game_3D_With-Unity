@@ -2,32 +2,32 @@ using UnityEngine;
 
 public class UnitAnimator : MonoBehaviour
 {
-    private Animator _animator;
+    protected Animator _animator;
 
-    private void Awake()
+    private void Awake() => Initialize();
+
+    private void Initialize()
     {
         _animator = GetComponentInParent<Animator>();
-        if ( _animator != null )
+        if (_animator == null)
         {
             Debug.Log($"{gameObject.name} 에 Animator 가 없습니다.");
         }
     }
-
-    public void PlayHitAnim()
+    public virtual void PlayAttackAnim(WeaponType weaponType)
     {
         Debug.Log($"{gameObject.name}의 공격 애니메이션.");
+    }
+
+    public virtual void PlayHitAnim()
+    {
+        Debug.Log($"{gameObject.name}의 히트 애니메이션.");
         _animator?.SetTrigger("Hit");
     }
 
-    public void PlayDeathAnim()
+    public virtual void PlayDeathAnim()
     {
         Debug.Log($"{gameObject.name} 이 죽는 애니메이션 재생.");
         _animator?.SetTrigger("Death");
-    }
-
-    public void PlaySkillAnim(string skillName)
-    {
-        Debug.Log($"{skillName} 공격 애니메이션 실행");
-        _animator?.SetTrigger(skillName);
     }
 }

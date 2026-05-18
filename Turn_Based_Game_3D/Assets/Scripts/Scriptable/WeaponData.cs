@@ -5,7 +5,7 @@ public enum WeaponType
     None = -1,
     Gun,
     Sword,
-    Hammer,
+    Crossbow,
     Drone
 }
 

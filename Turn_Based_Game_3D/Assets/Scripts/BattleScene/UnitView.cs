@@ -14,6 +14,8 @@ public abstract class UnitView : MonoBehaviour
     protected abstract void PlayHitAnim();
     protected abstract void PlayDeathAnim();
 
+    protected abstract void PlayAttackAnim(WeaponType weaponType);
+
 
     private void Awake() => OnAwake();
 

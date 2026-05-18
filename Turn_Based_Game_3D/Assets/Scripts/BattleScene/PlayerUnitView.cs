@@ -15,4 +15,9 @@ public class PlayerUnitView : UnitView
     {
         _unitAnimator?.PlayHitAnim();
     }
+
+    protected override void PlayAttackAnim(WeaponType weaponType)
+    {
+        _unitAnimator?.PlayAttackAnim(weaponType);
+    }
 }

@@ -46,4 +46,9 @@ public class EnemyUnitView : UnitView
         // 아웃라인 초기화 (Enemy 레이어로 복구)
         SetLayerRecursively(gameObject, _enemyLayer);
     }
+
+    protected override void PlayAttackAnim(WeaponType weaponType)
+    {
+        //TODO#: 몬스터에 맞게 수정 필요
+    }
 }
