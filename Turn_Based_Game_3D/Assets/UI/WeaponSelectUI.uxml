@@ -38,6 +38,7 @@
                     <ui:VisualElement name="selected-slot-1" class="selected-slot"/>
                     <ui:VisualElement name="selected-slot-2" class="selected-slot"/>
                 </ui:VisualElement>
+                <ui:Button name="reset-btn" text="RESET" class="reset-btn"/>
             </ui:VisualElement>
             <ui:Button name="start-btn" text="START" class="start-btn"/>
         </ui:VisualElement>

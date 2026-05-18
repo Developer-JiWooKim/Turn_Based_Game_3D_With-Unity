@@ -22,6 +22,7 @@ public class WeaponSelectSceneController : MonoBehaviour
     private Button _backBtn;
     private Button _startBtn;
     private Button _selectBtn;
+    private Button _resetBtn;
 
     private GameObject _currentPreviewObj;
 
@@ -36,6 +37,7 @@ public class WeaponSelectSceneController : MonoBehaviour
         _backBtn.clicked   -= OnBackButtonClicked;
         _startBtn.clicked  -= OnStartButtonClicked;
         _selectBtn.clicked -= OnSelectButtonClicked;
+        _resetBtn.clicked  -= OnResetButtonClicked;
     }
 
     private void Awake() => Initialize();
@@ -50,9 +52,11 @@ public class WeaponSelectSceneController : MonoBehaviour
         _weaponAtk  = root.Q<Label>("weapon-atk");
         _weaponSpd  = root.Q<Label>("weapon-speed");
         _weaponDesc = root.Q<Label>("weapon-desc");
+
         _backBtn    = root.Q<Button>("back-btn");
         _startBtn   = root.Q<Button>("start-btn");
         _selectBtn  = root.Q<Button>("select-btn");
+        _resetBtn   = root.Q<Button>("reset-btn");
 
         _selectedSlots[0] = root.Q<VisualElement>("selected-slot-0");
         _selectedSlots[1] = root.Q<VisualElement>("selected-slot-1");
@@ -65,9 +69,7 @@ public class WeaponSelectSceneController : MonoBehaviour
         _previewArea.RegisterCallback<MouseUpEvent>(evt => _previewRotator?.OnDragEnd());
         _previewArea.RegisterCallback<MouseLeaveEvent>(evt => _previewRotator?.OnDragEnd());
 
-        _backBtn.clicked   += OnBackButtonClicked;
-        _startBtn.clicked  += OnStartButtonClicked;
-        _selectBtn.clicked += OnSelectButtonClicked;
+        subscribeButtonEvent();
 
         for (int i = 0; i < _selectedSlots.Length; i++)
         {
@@ -77,6 +79,24 @@ public class WeaponSelectSceneController : MonoBehaviour
 
         InitPreviewPool();
         BuildWeaponGrid();
+        UpdateStartButton();
+    }
+    private void subscribeButtonEvent()
+    {
+        _backBtn.clicked   += OnBackButtonClicked;
+        _startBtn.clicked  += OnStartButtonClicked;
+        _selectBtn.clicked += OnSelectButtonClicked;
+        _resetBtn.clicked  += OnResetButtonClicked;
+    }
+
+    private void OnResetButtonClicked()
+    {
+        for (int i = 0; i < _selectedWeapons.Length; i++)
+        {
+            _selectedWeapons[i] = null;
+            _selectedSlots[i].style.backgroundImage = null;
+            _selectedSlots[i].RemoveFromClassList("selected-slot-filled");
+        }
         UpdateStartButton();
     }
 
