@@ -4,6 +4,8 @@ public class PlayerAnimator : UnitAnimator
 {
     private PlayerWeaponController _weaponController;
 
+    private float _weaponIdleTransitionDuration = 0.5f;
+
     protected override void Initialize()
     {
         base.Initialize();
@@ -18,21 +20,26 @@ public class PlayerAnimator : UnitAnimator
         {
             int layerIndex = GetWeaponLayerIndex(weaponType);
 
-            // 무기 언클로킹 완료까지 대기
-            await _weaponController?.UncloakWeapon(weaponType);
+            Awaitable uncloakTask = _weaponController?.UncloakWeapon(weaponType);
+            Awaitable fadeTask    = FadeLayerWeight(layerIndex, 0f, 1f, _weaponIdleTransitionDuration);
 
-            // 무기 언클로킹 효과 끝나고 공격 애니메이션 시작
-            await FadeLayerWeight(layerIndex, 0f, 1f, 0.1f); // 서서히 해당 무기 Layer 활성화
+            await uncloakTask;
+            await fadeTask;
 
             _animator.SetTrigger($"{weaponType}Attack");
 
             // 공격애니메이션 끝날때까지 대기, 비동기 작업중 오브젝트가 파괴되면 실행중인 비동기 작업 취소
             await Awaitable.WaitForSecondsAsync(GetAnimationLength($"{weaponType}Attack"), destroyCancellationToken);
 
-            await FadeLayerWeight(layerIndex, 1f, 0f, 0.3f); // 서서히 해당 무기 Layer 비활성화
+            // SwordIdle 전환 대기
+            await Awaitable.WaitForSecondsAsync(GetAnimationLength($"{weaponType}Idle"), destroyCancellationToken);
 
             // 무기 클로킹 완료까지 대기
-            await _weaponController?.CloakWeapon(weaponType);
+            Awaitable cloakTask = _weaponController?.CloakWeapon(weaponType);
+            fadeTask = FadeLayerWeight(layerIndex, 1f, 0f, _weaponIdleTransitionDuration); // 서서히 해당 무기 Layer 비활성화
+
+            await cloakTask;
+            await fadeTask;
 
         } catch (System.OperationCanceledException)
         {

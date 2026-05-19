@@ -773,8 +773,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958f651a54a601749b02ab990ec5e672, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponCloakEffect
-  _uncloakDuration: 0.5
-  _cloakDuration: 0.5
+  _uncloakDuration: 1
+  _cloakDuration: 1
   _cloakMaterial: {fileID: 2100000, guid: 8e0044ed46c0aec42b1f7758043b033c, type: 2}
 --- !u!1 &9177742804422035994
 GameObject:
