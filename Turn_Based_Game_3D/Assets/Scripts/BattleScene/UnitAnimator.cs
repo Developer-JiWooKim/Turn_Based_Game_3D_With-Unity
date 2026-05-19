@@ -14,6 +14,7 @@ public class UnitAnimator : MonoBehaviour
             Debug.Log($"{gameObject.name} 에 Animator 가 없습니다.");
         }
     }
+
     public virtual void PlayAttackAnim(WeaponType weaponType)
     {
         Debug.Log($"{gameObject.name}의 공격 애니메이션.");

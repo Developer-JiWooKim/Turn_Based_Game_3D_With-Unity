@@ -59,6 +59,20 @@ public abstract class UnitView : MonoBehaviour
         Debug.Log($"전투 결과 : {result} / HandleBattleEnd 호출:전투 종료 시 처리 (애니메이션 등)");
     }
 
+    public void OnAttack(int weaponIndex)
+    {
+        PlayerBattleUnit player = _linkedUnit as PlayerBattleUnit;
+        if (player == null)
+        {
+            Debug.Log("연결된 플레이어 유닛이 없어 공격을 실행할 수 없음");
+            return;
+        }
+
+        WeaponType weaponType = player.Weapons[weaponIndex].weaponType;
+
+        PlayAttackAnim(weaponType);
+    }
+
     public void OnDamaged(int damage)
     {
         _unitAnimator?.PlayHitAnim();

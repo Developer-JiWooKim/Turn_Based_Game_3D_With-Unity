@@ -42,7 +42,11 @@ public class BattleUnitLinker : MonoBehaviour
     public void SubscribeViews(BattleController battleController)
     {
         foreach (var view in _playerViews)
+        {
             view.Subscribe(battleController);
+            battleController.OnPlayerAttack += view.OnAttack;
+        }
+
 
         foreach (var view in _enemyViews)
             view.Subscribe(battleController);

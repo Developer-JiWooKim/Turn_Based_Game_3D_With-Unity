@@ -81,7 +81,7 @@
     <Compile Include="Assets\Scripts\BattleScene\PlayerAnimator.cs" />
     <Compile Include="Assets\Scripts\Scriptable\SkillData.cs" />
     <Compile Include="Assets\Scripts\Test\WeaponCloakTest.cs" />
-    <Compile Include="Assets\InputSystem_Actions.cs" />
+    <Compile Include="Assets\Scripts\InputSystem_Actions.cs" />
     <Compile Include="Assets\Scripts\BattleScene\UnitView.cs" />
     <Compile Include="Assets\External Assets\DoubleL\Demo\DemoCameraController.cs" />
     <Compile Include="Assets\Scripts\Manager\PlayerDataManager.cs" />

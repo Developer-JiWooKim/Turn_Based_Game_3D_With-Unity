@@ -26,8 +26,9 @@ public class BattleController : MonoBehaviour
     public event Action<IDamageable, int>   OnUnitDamaged;          // 유닛이 피해를 입었을 때 호출되는 이벤트, 피해를 입은 유닛과 입은 피해량을 인자로 전달
     public event Action<bool>               OnBattleEnd;            // 전투가 종료될 때 호출되는 이벤트, 플레이어가 승리했는지 여부를 인자로 전달
     public event Action<PlayerBattleUnit>   OnPlayerActionComplete; // 플레이어의 행동이 종료되고 처리할 이벤트(MP갱신 등등)
-    public event Action<int>                OnTurnChanged;
-    public event Action<BattleUnit>         OnEnemyDied;
+    public event Action<int>                OnTurnChanged;          // 턴이 변경될 때 처리할 이벤트(턴 UI 업데이트, 유닛 행동 순서 갱신)
+    public event Action<BattleUnit>         OnEnemyDied;            // 적이 죽었을 때 처리할 이벤트
+    public event Action<int>                OnPlayerAttack;         // 플레이어가 공격할 때 처리할 이벤트? TODO#: 이벤트로 처리해야될만큼 해야될 일이 많은가?
 
     private void Awake() => Initialize();
     private void Start() => SetUp();
@@ -188,6 +189,8 @@ public class BattleController : MonoBehaviour
         //        현재 행동하는 플레이어를 찾아 얻어오는 식으로 새로 짜야됨
         WeaponData weapon = player.Weapons[weaponIndex];
         int damage = _playerUnits[0].Atk + weapon.Damage;
+
+        OnPlayerAttack?.Invoke(weaponIndex);
 
         player.UseWeapon(weaponIndex);          // 무기 사용
         target.TakeDamage(damage);              // 타겟 유닛에게 데미지를 입힘

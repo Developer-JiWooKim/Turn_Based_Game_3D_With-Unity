@@ -8,6 +8,7 @@ namespace ToonShadersPro.URP
     [System.Serializable, VolumeComponentMenu("Toon Shaders Pro/Outlines")]
     public sealed class OutlineSettings : VolumeComponent, IPostProcessComponent
     {
+        [System.Obsolete]
         public OutlineSettings()
         {
             displayName = "Outlines";
