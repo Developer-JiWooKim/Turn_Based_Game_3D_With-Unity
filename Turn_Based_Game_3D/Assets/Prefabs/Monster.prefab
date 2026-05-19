@@ -31,50 +31,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4773527638552269150}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2990915772903815701
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 616344610584357203}
-  - component: {fileID: 4813690777656409052}
-  m_Layer: 7
-  m_Name: UnitAnimator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &616344610584357203
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2990915772903815701}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4773527638552269150}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4813690777656409052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2990915772903815701}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13b31c329d436684e9c2242716860b77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UnitAnimator
 --- !u!1 &5994439466667278951
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,6 +45,7 @@ GameObject:
   - component: {fileID: 3562367677755782995}
   - component: {fileID: 6536305074193506876}
   - component: {fileID: 4266876755359778839}
+  - component: {fileID: 3717080034991192344}
   m_Layer: 7
   m_Name: Monster
   m_TagString: Untagged
@@ -110,7 +67,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4876805822936691632}
-  - {fileID: 616344610584357203}
   - {fileID: 2548844484633505389}
   - {fileID: 6037890551803519355}
   m_Father: {fileID: 0}
@@ -204,8 +160,8 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5994439466667278951}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: c3c8cc67ba8107f4eac3943dd1924b70, type: 3}
+  m_Controller: {fileID: 9100000, guid: 557c74c157d277744bbf66cbf5fe15f0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -229,6 +185,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 830ea98e951f0be4bbe7318608af1fe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyUnitView
+--- !u!114 &3717080034991192344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5994439466667278951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b31c329d436684e9c2242716860b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitAnimator
 --- !u!1001 &6726998549633165635
 PrefabInstance:
   m_ObjectHideFlags: 0

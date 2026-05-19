@@ -15,12 +15,6 @@ public class UnitAnimator : MonoBehaviour
         }
     }
 
-    public virtual async Awaitable PlayAttackAnimAsync(WeaponType weaponType)
-    {
-        Debug.Log($"{gameObject.name}의 공격 애니메이션.");
-        await Awaitable.NextFrameAsync();
-    }
-
     public virtual void PlayHitAnim()
     {
         Debug.Log($"{gameObject.name}의 히트 애니메이션.");

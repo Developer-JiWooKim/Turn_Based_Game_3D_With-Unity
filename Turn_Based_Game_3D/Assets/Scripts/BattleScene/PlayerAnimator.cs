@@ -12,7 +12,7 @@ public class PlayerAnimator : UnitAnimator
         _weaponController = GetComponent<PlayerWeaponController>();
     }
 
-    public override async Awaitable PlayAttackAnimAsync(WeaponType weaponType)
+    public async Awaitable PlayAttackAnimAsync(WeaponType weaponType)
     {
         if (_animator == null) return; // null 체크 추가
 
