@@ -1,9 +1,11 @@
+using UnityEngine;
+
 public class PlayerUnitView : UnitView
 {
     protected override void OnAwake()
     {
-        _unitAnimator   = GetComponentInChildren<UnitAnimator>();
-        _unitHUD        = GetComponentInChildren<UnitHUD>();
+        _unitAnimator       = GetComponent<UnitAnimator>();
+        _unitHUD            = GetComponentInChildren<UnitHUD>();
     }
 
     protected override void PlayDeathAnim()
@@ -16,8 +18,12 @@ public class PlayerUnitView : UnitView
         _unitAnimator?.PlayHitAnim();
     }
 
-    protected override void PlayAttackAnim(WeaponType weaponType)
+    public async Awaitable PlayAttackAnimAsync(int weaponIndex)
     {
-        _unitAnimator?.PlayAttackAnim(weaponType);
+        PlayerBattleUnit player = _linkedUnit as PlayerBattleUnit;
+        if (player == null) return;
+
+        WeaponType weaponType = player.Weapons[weaponIndex].weaponType;
+        await (_unitAnimator as PlayerAnimator)?.PlayAttackAnimAsync(weaponType);
     }
 }

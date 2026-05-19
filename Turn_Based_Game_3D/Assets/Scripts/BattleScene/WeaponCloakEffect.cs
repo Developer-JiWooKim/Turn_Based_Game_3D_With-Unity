@@ -15,7 +15,8 @@ public class WeaponCloakEffect : MonoBehaviour
     private static readonly int FlashIntensity  = Shader.PropertyToID("_FlashIntensity");
 
 
-    private void Awake()
+    private void Awake() => Initialize();
+    private void Initialize()
     {
         _renderers = GetComponentsInChildren<Renderer>();
 
@@ -23,7 +24,6 @@ public class WeaponCloakEffect : MonoBehaviour
         _originalMaterials = new Material[_renderers.Length][];
         for (int i = 0; i < _renderers.Length; i++)
             _originalMaterials[i] = _renderers[i].materials;
-
     }
 
     private async Awaitable FlashAsync()
@@ -49,13 +49,12 @@ public class WeaponCloakEffect : MonoBehaviour
 
     public async Awaitable UncloakAsync()
     {
-        gameObject.SetActive(true);
-
         // 클로킹 머테리얼로 교체
         SetCloakMaterials();
         SetCloakAmount(0f);
 
         _ = FlashAsync(); // 번쩍 효과 동시 실행
+
         await AnimateCloakAsync(0f, 1f, _uncloakDuration);
 
         // 원본 머테리얼로 교체
@@ -70,8 +69,6 @@ public class WeaponCloakEffect : MonoBehaviour
 
         _ = FlashAsync(); // 번쩍 효과 동시 실행
         await AnimateCloakAsync(1f, 0f, _cloakDuration);
-
-        gameObject.SetActive(false);
     }
 
     private void SetCloakMaterials()
@@ -116,5 +113,11 @@ public class WeaponCloakEffect : MonoBehaviour
         foreach (var renderer in _renderers)
             foreach (var mat in renderer.materials)
                 mat.SetFloat(CloakAmount, value);
+    }
+
+    public void CloakInstant()
+    {
+        foreach (var renderer in _renderers)
+            renderer.enabled = false;
     }
 }

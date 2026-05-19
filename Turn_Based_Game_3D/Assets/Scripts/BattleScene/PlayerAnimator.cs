@@ -2,24 +2,42 @@ using UnityEngine;
 
 public class PlayerAnimator : UnitAnimator
 {
-    private int GetWeaponLayerIndex(WeaponType weaponType)
+    private PlayerWeaponController _weaponController;
+
+    protected override void Initialize()
     {
-        return _animator.GetLayerIndex($"{weaponType} Layer");
+        base.Initialize();
+        _weaponController = GetComponent<PlayerWeaponController>();
     }
 
-    public override async void PlayAttackAnim(WeaponType weaponType)
+    public override async Awaitable PlayAttackAnimAsync(WeaponType weaponType)
     {
-        int layerIndex = GetWeaponLayerIndex(weaponType);
+        if (_animator == null) return; // null 체크 추가
 
-        // 서서히 Sword Layer 활성화
-        await FadeLayerWeight(layerIndex, 0f, 1f, 0.1f);
+        try
+        {
+            int layerIndex = GetWeaponLayerIndex(weaponType);
 
-        _animator.SetTrigger($"{weaponType}Attack");
+            // 무기 언클로킹 완료까지 대기
+            await _weaponController?.UncloakWeapon(weaponType);
 
-        await Awaitable.WaitForSecondsAsync(GetAnimationLength($"{weaponType}Attack"));
+            // 무기 언클로킹 효과 끝나고 공격 애니메이션 시작
+            await FadeLayerWeight(layerIndex, 0f, 1f, 0.1f); // 서서히 해당 무기 Layer 활성화
 
-        // 서서히 Sword Layer 비활성화
-        await FadeLayerWeight(layerIndex, 1f, 0f, 0.3f);
+            _animator.SetTrigger($"{weaponType}Attack");
+
+            // 공격애니메이션 끝날때까지 대기, 비동기 작업중 오브젝트가 파괴되면 실행중인 비동기 작업 취소
+            await Awaitable.WaitForSecondsAsync(GetAnimationLength($"{weaponType}Attack"), destroyCancellationToken);
+
+            await FadeLayerWeight(layerIndex, 1f, 0f, 0.3f); // 서서히 해당 무기 Layer 비활성화
+
+            // 무기 클로킹 완료까지 대기
+            await _weaponController?.CloakWeapon(weaponType);
+
+        } catch (System.OperationCanceledException)
+        {
+            Debug.Log("PlayAttackAnim 중 문제 발생");
+        }
     }
 
     private async Awaitable FadeLayerWeight(int layerIndex, float from, float to, float duration)
@@ -31,10 +49,17 @@ public class PlayerAnimator : UnitAnimator
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / duration);
             _animator.SetLayerWeight(layerIndex, Mathf.Lerp(from, to, t));
-            await Awaitable.NextFrameAsync();
+
+            // 비동기 작업중 오브젝트가 파괴되면 실행중인 await 중인 작업 취소
+            await Awaitable.NextFrameAsync(destroyCancellationToken);
         }
 
         _animator.SetLayerWeight(layerIndex, to);
+    }
+
+    private int GetWeaponLayerIndex(WeaponType weaponType)
+    {
+        return _animator.GetLayerIndex($"{weaponType} Layer");
     }
 
     private float GetAnimationLength(string animName)

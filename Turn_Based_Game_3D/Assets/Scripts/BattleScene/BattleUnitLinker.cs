@@ -44,11 +44,29 @@ public class BattleUnitLinker : MonoBehaviour
         foreach (var view in _playerViews)
         {
             view.Subscribe(battleController);
-            battleController.OnPlayerAttack += view.OnAttack;
         }
-
 
         foreach (var view in _enemyViews)
             view.Subscribe(battleController);
+    }
+
+    public PlayerUnitView GetPlayerUnitView(PlayerBattleUnit player)
+    {
+        foreach (var view in _playerViews)
+        {
+            if (view.LinkedUnit == player)
+                return view;
+        }
+        return null;
+    }
+
+    public EnemyUnitView GetEnemyUnitView(EnemyBattleUnit enemy)
+    {
+        foreach (var view in _enemyViews)
+        {
+            if (view.LinkedUnit == enemy)
+                return view;
+        }
+        return null;
     }
 }

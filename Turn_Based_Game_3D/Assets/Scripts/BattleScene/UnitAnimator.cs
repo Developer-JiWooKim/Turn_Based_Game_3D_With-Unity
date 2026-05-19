@@ -6,7 +6,7 @@ public class UnitAnimator : MonoBehaviour
 
     private void Awake() => Initialize();
 
-    private void Initialize()
+    protected virtual void Initialize()
     {
         _animator = GetComponentInParent<Animator>();
         if (_animator == null)
@@ -15,9 +15,10 @@ public class UnitAnimator : MonoBehaviour
         }
     }
 
-    public virtual void PlayAttackAnim(WeaponType weaponType)
+    public virtual async Awaitable PlayAttackAnimAsync(WeaponType weaponType)
     {
         Debug.Log($"{gameObject.name}의 공격 애니메이션.");
+        await Awaitable.NextFrameAsync();
     }
 
     public virtual void PlayHitAnim()

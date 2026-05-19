@@ -594,6 +594,7 @@ MonoBehaviour:
   _playerInputHandler: {fileID: 1451838664}
   _battleUIController: {fileID: 503612912}
   _targetSelector: {fileID: 1310833032}
+  _battleUnitLinker: {fileID: 1992171824}
 --- !u!1 &133958974
 GameObject:
   m_ObjectHideFlags: 0

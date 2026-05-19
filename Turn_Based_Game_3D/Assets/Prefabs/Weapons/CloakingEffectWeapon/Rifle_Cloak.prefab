@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2004108941326879579}
   - component: {fileID: 1117946502981194165}
   m_Layer: 9
-  m_Name: Rifle
+  m_Name: Rifle_Cloak
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

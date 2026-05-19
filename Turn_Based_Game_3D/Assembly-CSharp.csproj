@@ -77,6 +77,7 @@
     <Compile Include="Assets\External Assets\Toon Shaders Pro\Demo\Scripts\Worm.cs" />
     <Compile Include="Assets\Scripts\BattleScene\EnemyBattleUnit.cs" />
     <Compile Include="Assets\Scripts\BattleScene\EnemyAnimator.cs" />
+    <Compile Include="Assets\Scripts\BattleScene\PlayerWeaponController.cs" />
     <Compile Include="Assets\Scripts\BattleScene\WeaponCloakEffect.cs" />
     <Compile Include="Assets\Scripts\BattleScene\PlayerAnimator.cs" />
     <Compile Include="Assets\Scripts\Scriptable\SkillData.cs" />

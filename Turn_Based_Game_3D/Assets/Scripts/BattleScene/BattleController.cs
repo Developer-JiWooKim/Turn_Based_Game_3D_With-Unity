@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +7,7 @@ public class BattleController : MonoBehaviour
     [SerializeField] private PlayerInputHandler _playerInputHandler;    // 플레이어 입력 핸들러
     [SerializeField] private BattleUIController _battleUIController;    // 전투 UI 컨트롤러
     [SerializeField] private TargetSelector     _targetSelector;        // 플레이어가 현재 선택한 타겟을 알려주는 Selector
+    [SerializeField] private BattleUnitLinker   _battleUnitLinker;      // 전투 유닛들의 뷰와 해당 이벤트를 구독시켜주는 링커
 
     private UnitOrderBySpeedSystem  _unitOrderBySpeedSystem;    // 턴마다 유닛들의 행동 순서를 결정하는 시스템
     
@@ -28,10 +28,8 @@ public class BattleController : MonoBehaviour
     public event Action<PlayerBattleUnit>   OnPlayerActionComplete; // 플레이어의 행동이 종료되고 처리할 이벤트(MP갱신 등등)
     public event Action<int>                OnTurnChanged;          // 턴이 변경될 때 처리할 이벤트(턴 UI 업데이트, 유닛 행동 순서 갱신)
     public event Action<BattleUnit>         OnEnemyDied;            // 적이 죽었을 때 처리할 이벤트
-    public event Action<int>                OnPlayerAttack;         // 플레이어가 공격할 때 처리할 이벤트? TODO#: 이벤트로 처리해야될만큼 해야될 일이 많은가?
 
     private void Awake() => Initialize();
-    private void Start() => SetUp();
     private void Initialize()
     {
         _unitOrderBySpeedSystem = new UnitOrderBySpeedSystem();
@@ -43,6 +41,7 @@ public class BattleController : MonoBehaviour
         _turnCount = 1;
     }
 
+    private void Start() => SetUp();
     private void SetUp()
     {
         _playerInputHandler.Subscribe(this, _targetSelector);
@@ -64,10 +63,10 @@ public class BattleController : MonoBehaviour
 
         OnTurnChanged?.Invoke(_turnCount);
 
-        StartCoroutine(BattleLoop(_battleUnits));
+        _ = BattleLoop(_battleUnits);
     }
 
-    private IEnumerator BattleLoop(List<BattleUnit> battleUnits)
+    private async Awaitable BattleLoop(List<BattleUnit> battleUnits)
     {
         BattleUnit currentUnit;
         
@@ -79,17 +78,19 @@ public class BattleController : MonoBehaviour
 
             if (currentUnit.IsPlayer)
             {
-                yield return StartCoroutine(PlayerTurn());           // 플레이어의 행동을 처리하는 코루틴 시작
+                await PlayerTurn();
             }
             else
             {
-                yield return StartCoroutine(EnemyTurn(currentUnit)); // 적의 행동을 처리하는 코루틴 시작
+                await EnemyTurn(currentUnit);
             }
 
             if (!_unitOrderBySpeedSystem.NextUnit())
             {
                 _turnCount++;
+
                 _unitOrderBySpeedSystem.OrderBySpeed(battleUnits);   // 다음 턴을 위해 유닛의 속도에 따라 재정렬
+
                 OnTurnChanged?.Invoke(TurnCount);
             }
         }
@@ -98,7 +99,7 @@ public class BattleController : MonoBehaviour
     private bool CheckBattleEnd()
     {
         bool playerAllDead = _playerUnits.TrueForAll(u => u.IsDead);
-        bool enemyAllDead = _enemyUnits.TrueForAll(u => u.IsDead);
+        bool enemyAllDead  = _enemyUnits.TrueForAll(u => u.IsDead);
 
         if (playerAllDead || enemyAllDead)
         {
@@ -109,13 +110,13 @@ public class BattleController : MonoBehaviour
         return false;
     }
 
-    private IEnumerator EnemyTurn(BattleUnit currentUnit)
+    private async Awaitable EnemyTurn(BattleUnit currentUnit)
     { 
         EnemyBattleUnit currentEnemy = currentUnit as EnemyBattleUnit;
         if (currentEnemy == null)
         {
-            Debug.LogError("currentUnit is not EnemyBattleUnit");
-            yield break;
+            Debug.LogError("현재 유닛이 EnemyBattleUnit이 아님");
+            return;
         }
 
         currentEnemy.ReduceCooldowns();
@@ -125,11 +126,10 @@ public class BattleController : MonoBehaviour
         // TODO#: 적의 행동을 결정하는 AI로직 필요 -> 어떤 스킬을 사용할지 결정
         if (skill != null)
         {
-            // TODO#: 스킬 사용 시 고유의 애니메이션, 이펙트, 카메라 무빙 등 작동하는 이벤트
+            // TODO#: 스킬 사용 시 고유의 애니메이션, 이펙트, 카메라 무빙 등 작동하는 이벤트 구현 예정
             OnUnitDamaged?.Invoke(_playerUnits[0], (int)skill.Power); // 이 이벤트에서 작동 시키면 될듯
 
-            yield return new WaitForSeconds(2f);                      // 적이 플레이어를 타격하는 애니메이션 작동, 현재는 임시로 2초 대기
-
+            await Awaitable.WaitForSecondsAsync(2f);                  // 적이 플레이어를 타격하는 애니메이션 작동, 현재는 임시로 2초 대기
 
             // TODO#: 현재는 적 입장에서는 타겟이 플레이어 밖에 없으므로 _playerUnit의 TakeDamage를 쓰지만, 나중에 플레이어 측 유닛이 더 생기면 타겟을 정하는 로직 작성 필요            
             _playerUnits[0].TakeDamage((int)skill.Power);             // 스킬 사용 시 플레이어에게 스킬 데미지 만큼의 데미지를 입힘
@@ -142,30 +142,39 @@ public class BattleController : MonoBehaviour
         }
     }
 
-    private IEnumerator PlayerTurn()
+    private async Awaitable PlayerTurn()
     {
         PlayerBattleUnit player = _playerUnits[0];
 
         // 턴 시작 시 스태미나 회복
         player.RecoverStaminaPerTurn(player.PlayerData.playerStat.StaminaRecovery);
 
-        OnPlayerActionComplete?.Invoke(player); // UI 업데이트
-        OnTurnStart?.Invoke(player); // 버튼 다시 빌드
+        OnPlayerActionComplete?.Invoke(player); // UI 업데이트 #TODO: 이름 조정필요해 보임 ActionComplete말고 UI업데이트? 하면 될듯?
+        OnTurnStart?.Invoke(player);            // 버튼 다시 빌드
 
-        // 사용 가능한 무기가 없으면 턴 스킵
         if (!player.HasAnyUsableWeapon())
         {
             Debug.Log("사용 가능한 무기 없음 - 턴 스킵");
-            yield break;
+            return;
         }
 
         _playerActed = false;
 
-        yield return new WaitUntil(() => _playerActed);
+        while (!_playerActed)
+        {
+            await Awaitable.NextFrameAsync();
+        }
     }
 
-    public void OnPlayerAction(IDamageable target, int weaponIndex)
+    public void SetPlayerActed()
     {
+        _playerActed = true;
+        OnPlayerActionComplete?.Invoke(_playerUnits[0]);
+    }
+
+    public async void OnPlayerAction(IDamageable target, int weaponIndex)
+    {
+        // 전달받은 타겟이 비어있으면 자동으로 살아있는 적 찾아서 타겟으로 설정
         if (target == null)
             target = _enemyUnits.Find(u => !u.IsDead);
 
@@ -175,7 +184,6 @@ public class BattleController : MonoBehaviour
             Debug.LogError("타겟이 없습니다!");
             return;
         }
-
 
         PlayerBattleUnit player = _playerUnits[0];
         if (!player.CanUseWeapon(weaponIndex))
@@ -190,7 +198,12 @@ public class BattleController : MonoBehaviour
         WeaponData weapon = player.Weapons[weaponIndex];
         int damage = _playerUnits[0].Atk + weapon.Damage;
 
-        OnPlayerAttack?.Invoke(weaponIndex);
+        PlayerUnitView playerView = _battleUnitLinker.GetPlayerUnitView(player);
+        if (playerView != null)
+        {
+            // 공격 애니메이션 동작이 끝날때까지 대기
+            await playerView.PlayAttackAnimAsync(weaponIndex);
+        }
 
         player.UseWeapon(weaponIndex);          // 무기 사용
         target.TakeDamage(damage);              // 타겟 유닛에게 데미지를 입힘
@@ -203,13 +216,12 @@ public class BattleController : MonoBehaviour
             _enemyUnits.Remove(deadUnit);
             _battleUnits.Remove(deadUnit);
 
-            _unitOrderBySpeedSystem.RemoveUnit(deadUnit); // 유닛이 죽었을 때 턴 시스템에서 해당 유닛 제거
+            _unitOrderBySpeedSystem.RemoveUnit(deadUnit); // 유닛이 죽었을 때 순서 정렬 대상에서 해당 유닛 제거
 
             OnEnemyDied?.Invoke(deadUnit);
         }
 
-        _playerActed = true; // 플레이어가 행동을 완료했음을 표시
-
-        OnPlayerActionComplete?.Invoke(_playerUnits[0]);
+        _playerActed = true;
+        OnPlayerActionComplete?.Invoke(player);
     }
 }

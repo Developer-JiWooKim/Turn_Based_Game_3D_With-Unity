@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class UnitView : MonoBehaviour
 {
-    private BattleController _battleController;
+    protected BattleController _battleController;
 
     protected BattleUnit     _linkedUnit;
     protected UnitAnimator   _unitAnimator;
@@ -13,8 +13,6 @@ public abstract class UnitView : MonoBehaviour
     protected abstract void OnAwake();
     protected abstract void PlayHitAnim();
     protected abstract void PlayDeathAnim();
-
-    protected abstract void PlayAttackAnim(WeaponType weaponType);
 
 
     private void Awake() => OnAwake();
@@ -35,7 +33,7 @@ public abstract class UnitView : MonoBehaviour
         _battleController.OnBattleEnd   += HandleBattleEnd;
     }
 
-    
+    private void OnDestroy() => Unsubscribe();
     private void Unsubscribe()
     {
         if (_battleController == null) return;
@@ -43,9 +41,6 @@ public abstract class UnitView : MonoBehaviour
         _battleController.OnUnitDamaged -= HandleUnitDamaged;
         _battleController.OnBattleEnd   -= HandleBattleEnd;
     }
-
-    private void OnDestroy() => Unsubscribe();
-
 
     private void HandleUnitDamaged(IDamageable unit, int damage)
     {
@@ -57,20 +52,6 @@ public abstract class UnitView : MonoBehaviour
     {
         // TODO#: 전투 종료 시 처리 (애니메이션 등)
         Debug.Log($"전투 결과 : {result} / HandleBattleEnd 호출:전투 종료 시 처리 (애니메이션 등)");
-    }
-
-    public void OnAttack(int weaponIndex)
-    {
-        PlayerBattleUnit player = _linkedUnit as PlayerBattleUnit;
-        if (player == null)
-        {
-            Debug.Log("연결된 플레이어 유닛이 없어 공격을 실행할 수 없음");
-            return;
-        }
-
-        WeaponType weaponType = player.Weapons[weaponIndex].weaponType;
-
-        PlayAttackAnim(weaponType);
     }
 
     public void OnDamaged(int damage)

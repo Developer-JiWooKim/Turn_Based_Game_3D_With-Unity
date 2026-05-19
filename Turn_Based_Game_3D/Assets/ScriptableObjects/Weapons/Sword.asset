@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponType: 1
   Description: Sword Weapon
   WeaponIcon: {fileID: 21300000, guid: 4e72fe97fc23bac489075612b90c85d3, type: 3}
-  WeaponPrefab: {fileID: 7283376583338269279, guid: dad57a9c1d0d34f418a355bf8b0a55e7, type: 3}
+  WeaponPrefab: {fileID: 7283376583338269279, guid: 78b43908649f0e64997b443275735d0d, type: 3}
   Damage: 70
   MaxAmmo: 0
   StaminaCost: 20
