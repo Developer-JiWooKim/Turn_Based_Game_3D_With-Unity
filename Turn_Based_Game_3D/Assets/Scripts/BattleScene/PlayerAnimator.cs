@@ -8,7 +8,8 @@ public class PlayerAnimator : UnitAnimator
     [SerializeField] private float _weaponIdleTransitionDuration = 0.5f; // Idle 모션으로 전환 속도
 
     [SerializeField] private float _moveSpeed                    = 5f;   // 이동 속도
-    [SerializeField] private float _attackOffset                 = 5f; // 타겟으로부터의 거리
+    [SerializeField] private float _attackOffset                 = 5f;   // 타겟으로부터의 거리
+    [SerializeField] private float _jumpDuration                 = 0.2f; // 착지 시점
 
     private System.Func<Awaitable> _onAttackHit;
 
@@ -31,7 +32,6 @@ public class PlayerAnimator : UnitAnimator
             Vector3    originPosition = transform.position;
             Quaternion originRotation = transform.rotation;
             
-
             int layerIndex = GetWeaponLayerIndex(weaponType);
 
             // 무기 언클로킹 그 무기에 맞는 애니메이션 레이어로 전환을 동시에
@@ -59,33 +59,36 @@ public class PlayerAnimator : UnitAnimator
                 float distance = Vector3.Distance(transform.position, attackPosition);
                 float moveDuration = distance / _moveSpeed;
 
+                _animator.SetTrigger("Sprint");
+
                 await transform.DOMove(attackPosition, moveDuration)
                     .SetEase(Ease.InQuad)
                     .AsyncWaitForCompletion();
             }
 
-            _animator.SetTrigger($"{weaponType}Attack");
-
             // 공격애니메이션 끝날때까지 대기, 비동기 작업중 오브젝트가 파괴되면 실행중인 비동기 작업 취소
             await Awaitable.WaitForSecondsAsync(GetAnimationLength($"{weaponType}Attack"), destroyCancellationToken);
-
-            // SwordIdle 전환 대기
-            await Awaitable.WaitForSecondsAsync(GetAnimationLength($"{weaponType}Idle"), destroyCancellationToken);
 
             // 원래 위치로 복귀
             if (weaponType == WeaponType.Sword && target != null)
             {
                 float distance = Vector3.Distance(transform.position, originPosition);
-                float moveDuration = distance / _moveSpeed;
 
-                await transform.DOMove(originPosition, moveDuration)
-                    .SetEase(Ease.OutQuad)
-                    .AsyncWaitForCompletion();
+                Awaitable jumpAnimTask = Awaitable.WaitForSecondsAsync(GetAnimationLength("Jump"), destroyCancellationToken);
+
+                transform.DOJump(originPosition, 1f, 1, _jumpDuration)
+                    .SetEase(Ease.OutQuad);
+
+                // Jump 애니메이션 길이만큼 대기
+                await jumpAnimTask;
 
                 await transform.DORotateQuaternion(originRotation, 0.2f)
                     .SetEase(Ease.OutQuad)
                     .AsyncWaitForCompletion();
             }
+
+            // SwordIdle 전환 대기
+            await Awaitable.WaitForSecondsAsync(GetAnimationLength($"{weaponType}Idle"), destroyCancellationToken);
 
             // 무기 클로킹 완료까지 대기
             Awaitable cloakTask = _weaponController?.CloakWeapon(weaponType);

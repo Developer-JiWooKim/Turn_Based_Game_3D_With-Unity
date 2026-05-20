@@ -159,15 +159,27 @@ public class BattleController : MonoBehaviour
         // TODO#: 적의 행동을 결정하는 AI로직 필요 -> 어떤 스킬을 사용할지 결정
         if (skill != null)
         {
-            // TODO#: 스킬 사용 시 고유의 애니메이션, 이펙트, 카메라 무빙 등 작동하는 이벤트 구현 예정
-            OnUnitDamaged?.Invoke(_playerUnits[0], (int)skill.Power); // 이 이벤트에서 작동 시키면 될듯
+            EnemyUnitView enemyView = _enemyUnitViews.Find(v => v.LinkedUnit == currentEnemy);
+            // TODO#: 현재는 적 입장에서는 타겟이 플레이어 한명 밖에 없으므로 _playerUnitViews[0]에서 찾지만, 나중에 플레이어 측이 늘어나면 위 방법처럼 찾는 로직 필요
+            PlayerUnitView playerView = _playerUnitViews[0];
 
-            await Awaitable.WaitForSecondsAsync(2f);                  // 적이 플레이어를 타격하는 애니메이션 작동, 현재는 임시로 2초 대기
+            if (enemyView != null)
+            {
+                await enemyView.PlayAttackAnimAsync(playerView.transform, async () =>
+                {
+                    
+                    _playerUnits[0].TakeDamage((int)skill.Power); // 스킬 사용 시 타겟에게 스킬 데미지 만큼의 데미지를 입힘
 
-            // TODO#: 현재는 적 입장에서는 타겟이 플레이어 밖에 없으므로 _playerUnit의 TakeDamage를 쓰지만, 나중에 플레이어 측 유닛이 더 생기면 타겟을 정하는 로직 작성 필요            
-            _playerUnits[0].TakeDamage((int)skill.Power);             // 스킬 사용 시 플레이어에게 스킬 데미지 만큼의 데미지를 입힘
+                    OnUnitDamaged?.Invoke(_playerUnits[0], (int)skill.Power); // 유닛이 데미지를 입으면 관련 행동 실행(UI업데이트)
 
-            currentEnemy.SetCooldown(skill);                          // 스킬 사용 후 쿨 타임 적용
+                    if (playerView != null)
+                    {
+                        await playerView.OnDamagedAsync((int)skill.Power);
+                    }
+                });
+
+                currentEnemy.SetCooldown(skill); // 스킬 사용 후 쿨 타임 적용
+            }           
         }
         else
         {

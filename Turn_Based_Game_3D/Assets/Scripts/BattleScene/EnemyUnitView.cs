@@ -29,6 +29,19 @@ public class EnemyUnitView : UnitView
         }
     }
 
+    public async Awaitable PlayAttackAnimAsync(Transform target, System.Func<Awaitable> onHitCallback)
+    {
+        EnemyAnimator enemyAnimator = _unitAnimator as EnemyAnimator;
+        if (enemyAnimator != null)
+        {
+            enemyAnimator.SetAttackHitCallback(onHitCallback);
+
+            await enemyAnimator.PlayAttackAnimAsync(target);
+
+            enemyAnimator.SetAttackHitCallback(null);
+        }
+    }
+
     public override void Reset()
     {
         base.Reset();
