@@ -11,9 +11,6 @@ public abstract class UnitView : MonoBehaviour
     public BattleUnit LinkedUnit => _linkedUnit;
 
     protected abstract void OnAwake();
-    protected abstract void PlayHitAnim();
-    protected abstract void PlayDeathAnim();
-
 
     private void Awake() => OnAwake();
 
@@ -42,10 +39,11 @@ public abstract class UnitView : MonoBehaviour
         _battleController.OnBattleEnd   -= HandleBattleEnd;
     }
 
-    private void HandleUnitDamaged(IDamageable unit, int damage)
+    private async void HandleUnitDamaged(IDamageable unit, int damage)
     {
         if (unit != _linkedUnit) return;
-        OnDamaged(damage);
+
+        await OnDamagedAsync(damage);
     }
 
     private void HandleBattleEnd(bool result)
@@ -54,17 +52,19 @@ public abstract class UnitView : MonoBehaviour
         Debug.Log($"전투 결과 : {result} / HandleBattleEnd 호출:전투 종료 시 처리 (애니메이션 등)");
     }
 
-    public void OnDamaged(int damage)
+    public async Awaitable OnDamagedAsync(int damage)
     {
-        _unitAnimator?.PlayHitAnim();
+        if (_unitAnimator != null)
+            await _unitAnimator.PlayHitAnimAsync();
 
         _unitHUD?.UpdateHp(_linkedUnit.CurrentHp, _linkedUnit.MaxHp);
         _unitHUD?.ShowDamagePopup(damage);
     }
 
-    public void OnDeath()
+    public async Awaitable OnDeathAsync()
     {
-        _unitAnimator?.PlayDeathAnim();
+        if (_unitAnimator != null)
+            await _unitAnimator.PlayDeathAnimAsync();
     }
 
     public virtual void Reset()

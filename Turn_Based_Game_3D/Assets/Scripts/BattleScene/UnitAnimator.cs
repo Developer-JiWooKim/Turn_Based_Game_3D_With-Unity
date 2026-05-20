@@ -8,22 +8,33 @@ public class UnitAnimator : MonoBehaviour
 
     protected virtual void Initialize()
     {
-        _animator = GetComponentInParent<Animator>();
+        _animator = GetComponent<Animator>();
         if (_animator == null)
         {
             Debug.Log($"{gameObject.name} 에 Animator 가 없습니다.");
         }
     }
 
-    public virtual void PlayHitAnim()
+    public virtual async Awaitable PlayDeathAnimAsync()
     {
-        Debug.Log($"{gameObject.name}의 히트 애니메이션.");
-        _animator?.SetTrigger("Hit");
+        _animator?.SetTrigger("Death");
+        await Awaitable.WaitForSecondsAsync(GetAnimationLength("Death"), destroyCancellationToken);
     }
 
-    public virtual void PlayDeathAnim()
+    public virtual async Awaitable PlayHitAnimAsync()
     {
-        Debug.Log($"{gameObject.name} 이 죽는 애니메이션 재생.");
-        _animator?.SetTrigger("Death");
+        _animator?.SetTrigger("Hit");
+        await Awaitable.WaitForSecondsAsync(GetAnimationLength("Hit"), destroyCancellationToken);
+    }
+
+    protected float GetAnimationLength(string animName)
+    {
+        if (_animator == null) return 1f;
+        foreach (var clip in _animator.runtimeAnimatorController.animationClips)
+        {
+            if (clip.name == animName)
+                return clip.length;
+        }
+        return 1f;
     }
 }

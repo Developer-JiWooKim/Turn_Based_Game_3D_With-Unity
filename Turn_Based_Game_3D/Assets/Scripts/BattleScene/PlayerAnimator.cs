@@ -4,7 +4,7 @@ public class PlayerAnimator : UnitAnimator
 {
     private PlayerWeaponController _weaponController;
 
-    private float _weaponIdleTransitionDuration = 0.5f;
+    [SerializeField] private float _weaponIdleTransitionDuration = 0.5f;
 
     protected override void Initialize()
     {
@@ -14,7 +14,7 @@ public class PlayerAnimator : UnitAnimator
 
     public async Awaitable PlayAttackAnimAsync(WeaponType weaponType)
     {
-        if (_animator == null) return; // null 체크 추가
+        if (_animator == null) return;
 
         try
         {
@@ -67,17 +67,5 @@ public class PlayerAnimator : UnitAnimator
     private int GetWeaponLayerIndex(WeaponType weaponType)
     {
         return _animator.GetLayerIndex($"{weaponType} Layer");
-    }
-
-    private float GetAnimationLength(string animName)
-    {
-        foreach (var clip in _animator.runtimeAnimatorController.animationClips)
-        {
-            if (clip.name == animName)
-            {
-                return clip.length;
-            }
-        }
-        return 1f;
     }
 }

@@ -207,16 +207,31 @@ public class BattleController : MonoBehaviour
 
         player.UseWeapon(weaponIndex);          // 무기 사용
         target.TakeDamage(damage);              // 타겟 유닛에게 데미지를 입힘
-        OnUnitDamaged?.Invoke(target, damage);  // 유닛이 피해를 입었을 때 이벤트 호출
+
+        // Enemy Hit 애니메이션 + uGUI(적 체력바) 업데이트
+        EnemyUnitView enemyView = _battleUnitLinker.GetEnemyUnitView(target as EnemyBattleUnit);
+        if (enemyView != null)
+        {
+            await enemyView.OnDamagedAsync(damage);
+        }
 
         if (target.IsDead)
         {
             EnemyBattleUnit deadUnit = target as EnemyBattleUnit;
 
+            // Death 애니메이션 완료까지 대기
+            EnemyUnitView deadView = _battleUnitLinker.GetEnemyUnitView(deadUnit);
+            if (deadView != null)
+            {
+                await deadView.OnDeathAsync();
+            }
+
+            // Enemy, Battle 유닛 리스트에서 제거
             _enemyUnits.Remove(deadUnit);
             _battleUnits.Remove(deadUnit);
 
-            _unitOrderBySpeedSystem.RemoveUnit(deadUnit); // 유닛이 죽었을 때 순서 정렬 대상에서 해당 유닛 제거
+            // 유닛이 죽었을 때 현재 순서 리스트에서 해당 유닛 제거
+            _unitOrderBySpeedSystem.RemoveUnit(deadUnit);
 
             OnEnemyDied?.Invoke(deadUnit);
         }

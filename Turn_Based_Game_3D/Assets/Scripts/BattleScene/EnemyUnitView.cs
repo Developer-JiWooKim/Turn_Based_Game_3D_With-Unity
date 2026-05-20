@@ -8,21 +8,11 @@ public class EnemyUnitView : UnitView
 
     protected override void OnAwake()
     {
-        _unitAnimator = GetComponentInChildren<UnitAnimator>();
-        _unitHUD      = GetComponentInChildren<UnitHUD>();
+        _unitAnimator = GetComponent<UnitAnimator>();
+        _unitHUD = GetComponentInChildren<UnitHUD>();
 
         _enemyLayer       = LayerMask.NameToLayer("Enemy");
         _targetEnemyLayer = LayerMask.NameToLayer("TargetEnemy");
-    }
-
-    protected override void PlayDeathAnim()
-    {
-        _unitAnimator?.PlayDeathAnim();
-    }
-
-    protected override void PlayHitAnim()
-    {
-        _unitAnimator?.PlayHitAnim();
     }
 
     public void SetAsTarget(bool isTarget)

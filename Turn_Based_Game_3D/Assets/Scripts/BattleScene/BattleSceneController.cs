@@ -45,29 +45,29 @@ public class BattleSceneController : MonoBehaviour
         }
 
         _battleUnitLinker.RegisterPlayerView(playerUnitView);
-
         _battleUnitLinker.LinkUnits(players, enemies);
-
         _battleUnitLinker.SubscribeViews(_battleController);
 
-        _battleController.OnBattleEnd += HandleBattleEnd;
-        _battleController.OnEnemyDied += HandleEnemyDied;
+        Subscribe();
 
         _targetSelector.OnTargetChanged += HandleTargetChanged;
         _targetSelector.Initialize(enemyViews);
 
         _battleController.StartBattle(players, enemies);
     }
+    private void Subscribe()
+    {
+        _battleController.OnBattleEnd += HandleBattleEnd;
+        _battleController.OnEnemyDied += HandleEnemyDied;
+    }
 
-    private void HandleEnemyDied(BattleUnit target)
+    private async void HandleEnemyDied(BattleUnit target)
     {
         EnemyUnitView deadView = _targetSelector.EnemyViews.Find(v => v.LinkedUnit == target);
-
+        
         if (deadView != null)
         {
             deadView.SetAsTarget(false);
-
-            deadView.OnDeath();
 
             _targetSelector.RemoveDeadTarget(deadView);
 
@@ -97,7 +97,8 @@ public class BattleSceneController : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    private void OnDestroy() => UnSubscribe();
+    private void UnSubscribe()
     {
         _battleController.OnBattleEnd -= HandleBattleEnd;
         _battleController.OnEnemyDied -= HandleEnemyDied;
