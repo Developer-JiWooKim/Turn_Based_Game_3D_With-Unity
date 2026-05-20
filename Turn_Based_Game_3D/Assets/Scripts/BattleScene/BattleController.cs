@@ -233,17 +233,19 @@ public class BattleController : MonoBehaviour
         int damage = _playerUnits[0].Atk + weapon.Damage;
 
         PlayerUnitView playerView = _playerUnitViews.Find(v => v.LinkedUnit == player);
+        EnemyUnitView enemyView = _enemyUnitViews.Find(v => v.LinkedUnit == target);
+
         if (playerView != null)
         {
             // 공격 애니메이션 동작이 끝날때까지 대기
-            await playerView.PlayAttackAnimAsync(weaponIndex);
+            await playerView.PlayAttackAnimAsync(weaponIndex, enemyView?.transform);
         }
 
         player.UseWeapon(weaponIndex);          // 무기 사용
         target.TakeDamage(damage);              // 타겟 유닛에게 데미지를 입힘
 
         // Enemy Hit 애니메이션 + uGUI(적 체력바) 업데이트
-        EnemyUnitView enemyView = _enemyUnitViews.Find(v => v.LinkedUnit == target);
+        
         if (enemyView != null)
         {
             await enemyView.OnDamagedAsync(damage);

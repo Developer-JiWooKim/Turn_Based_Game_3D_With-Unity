@@ -61,7 +61,7 @@ public class BattleSceneController : MonoBehaviour
         _battleController.OnEnemyDied += HandleEnemyDied;
     }
 
-    private async void HandleEnemyDied(BattleUnit target)
+    private void HandleEnemyDied(BattleUnit target)
     {
         EnemyUnitView deadView = _targetSelector.EnemyViews.Find(v => v.LinkedUnit == target);
         
