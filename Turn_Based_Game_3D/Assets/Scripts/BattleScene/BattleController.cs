@@ -15,6 +15,9 @@ public class BattleController : MonoBehaviour
     private List<EnemyBattleUnit>   _enemyUnits;                // 적 캐릭터들의 유닛 리스트
     private List<BattleUnit>        _battleUnits;               // 현재 전투에 참여하는 모든 유닛을 저장하는 리스트
 
+    private List<PlayerUnitView>    _playerUnitViews;           // 플레이어 캐릭터 유닛 뷰 리스트
+    private List<EnemyUnitView>     _enemyUnitViews;            // 적 캐릭터 유닛 뷰 리스트
+
     private int   _turnCount;             // 현재 턴의 번호를 저장하는 변수
     private bool  _playerActed;           // 플레이어가 현재 턴에서 행동을 완료했는지 여부, true이면 플레이어가 행동을 마쳤음을 나타냄
 
@@ -38,6 +41,9 @@ public class BattleController : MonoBehaviour
         _playerUnits = new List<PlayerBattleUnit>();
         _enemyUnits  = new List<EnemyBattleUnit>();
 
+        _playerUnitViews = new List<PlayerUnitView>();
+        _enemyUnitViews  = new List<EnemyUnitView>();
+
         _turnCount = 1;
     }
 
@@ -59,6 +65,24 @@ public class BattleController : MonoBehaviour
         _battleUnits.AddRange(_playerUnits);
         _battleUnits.AddRange(_enemyUnits);
 
+        foreach (var player in players)
+        {
+            PlayerUnitView view = _battleUnitLinker.GetPlayerUnitView(player);
+            if (view != null)
+            {
+                _playerUnitViews.Add(view);
+            }
+        }
+
+        foreach (var enemy in enemies)
+        {
+            EnemyUnitView view = _battleUnitLinker.GetEnemyUnitView(enemy);
+            if (view != null)
+            {
+                _enemyUnitViews.Add(view);
+            }
+        }
+
         _unitOrderBySpeedSystem.OrderBySpeed(_battleUnits);
 
         OnTurnChanged?.Invoke(_turnCount);
@@ -70,7 +94,7 @@ public class BattleController : MonoBehaviour
     {
         BattleUnit currentUnit;
         
-        while (!CheckBattleEnd())
+        while (!await CheckBattleEndAsync())
         {
             currentUnit = _unitOrderBySpeedSystem.GetCurrentUnit();  // 현재 턴에서 행동할 유닛을 가져옴
 
@@ -96,14 +120,23 @@ public class BattleController : MonoBehaviour
         }
     }
 
-    private bool CheckBattleEnd()
+    private async Awaitable<bool> CheckBattleEndAsync()
     {
         bool playerAllDead = _playerUnits.TrueForAll(u => u.IsDead);
-        bool enemyAllDead  = _enemyUnits.TrueForAll(u => u.IsDead);
+        bool enemyAllDead = _enemyUnits.TrueForAll(u => u.IsDead);
 
-        if (playerAllDead || enemyAllDead)
+        if (playerAllDead)
         {
-            OnBattleEnd?.Invoke(!playerAllDead);
+            foreach (var playerView in _playerUnitViews)
+                await playerView.OnDeathAsync();
+
+            OnBattleEnd?.Invoke(false);
+            return true;
+        }
+
+        if (enemyAllDead)
+        {
+            OnBattleEnd?.Invoke(true);
             return true;
         }
 
@@ -196,9 +229,10 @@ public class BattleController : MonoBehaviour
         // TODO#: 현재는 플레이어가 한명이므로 무조건 리스트 0번 자리에 있지만 늘어나면
         //        현재 행동하는 플레이어를 찾아 얻어오는 식으로 새로 짜야됨
         WeaponData weapon = player.Weapons[weaponIndex];
+
         int damage = _playerUnits[0].Atk + weapon.Damage;
 
-        PlayerUnitView playerView = _battleUnitLinker.GetPlayerUnitView(player);
+        PlayerUnitView playerView = _playerUnitViews.Find(v => v.LinkedUnit == player);
         if (playerView != null)
         {
             // 공격 애니메이션 동작이 끝날때까지 대기
@@ -209,7 +243,7 @@ public class BattleController : MonoBehaviour
         target.TakeDamage(damage);              // 타겟 유닛에게 데미지를 입힘
 
         // Enemy Hit 애니메이션 + uGUI(적 체력바) 업데이트
-        EnemyUnitView enemyView = _battleUnitLinker.GetEnemyUnitView(target as EnemyBattleUnit);
+        EnemyUnitView enemyView = _enemyUnitViews.Find(v => v.LinkedUnit == target);
         if (enemyView != null)
         {
             await enemyView.OnDamagedAsync(damage);
@@ -220,7 +254,7 @@ public class BattleController : MonoBehaviour
             EnemyBattleUnit deadUnit = target as EnemyBattleUnit;
 
             // Death 애니메이션 완료까지 대기
-            EnemyUnitView deadView = _battleUnitLinker.GetEnemyUnitView(deadUnit);
+            EnemyUnitView deadView = _enemyUnitViews.Find(v => v.LinkedUnit == deadUnit);
             if (deadView != null)
             {
                 await deadView.OnDeathAsync();

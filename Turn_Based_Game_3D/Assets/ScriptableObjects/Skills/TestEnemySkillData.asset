@@ -15,5 +15,5 @@ MonoBehaviour:
   skillType: 0
   SkillName: attack
   Description: attack
-  Power: 10
+  Power: 50
   CoolTime: 0

@@ -15,10 +15,10 @@ MonoBehaviour:
   EnemyName: MegaSpikan(Larva)
   enemyType: 0
   enemyStat:
-    Hp: 80
+    Hp: 100
     Stamina: 0
     StaminaRecovery: 0
-    AttackPower: 15
+    AttackPower: 50
     DefenseValue: 5
     Speed: 8
   ActiveSkills:

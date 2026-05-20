@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c61ae63ef68f6d49bf676c796d980f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimator
+  _weaponIdleTransitionDuration: 0.5
 --- !u!1 &3999363250560191975
 GameObject:
   m_ObjectHideFlags: 0
