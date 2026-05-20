@@ -235,44 +235,53 @@ public class BattleController : MonoBehaviour
         PlayerUnitView playerView = _playerUnitViews.Find(v => v.LinkedUnit == player);
         EnemyUnitView enemyView = _enemyUnitViews.Find(v => v.LinkedUnit == target);
 
+        PlayerAnimator playerAnimator = playerView?.GetComponent<PlayerAnimator>();
+
+        if (playerAnimator != null)
+        {
+            playerAnimator.SetAttackHitCallback(async () =>
+            {
+                player.UseWeapon(weaponIndex);
+                target.TakeDamage(damage);
+
+                // Enemy Hit 애니메이션 + uGUI(적 체력바) 업데이트
+                if (enemyView != null)
+                {
+                    await enemyView.OnDamagedAsync(damage);
+                }
+
+                if (target.IsDead)
+                {
+                    EnemyBattleUnit deadUnit = target as EnemyBattleUnit;
+
+                    EnemyUnitView deadView = _enemyUnitViews.Find(v => v.LinkedUnit == deadUnit);
+                    if (deadView != null)
+                    {
+                        await deadView.OnDeathAsync();
+                    }
+
+                    // Enemy, Battle 유닛 리스트에서 제거
+                    _enemyUnits.Remove(deadUnit);
+                    _battleUnits.Remove(deadUnit);
+
+                    // 유닛이 죽었을 때 현재 순서 리스트에서 해당 유닛 제거
+                    _unitOrderBySpeedSystem.RemoveUnit(deadUnit);
+
+                    OnEnemyDied?.Invoke(deadUnit);
+                }
+            });
+        }
+
         if (playerView != null)
         {
             // 공격 애니메이션 동작이 끝날때까지 대기
             await playerView.PlayAttackAnimAsync(weaponIndex, enemyView?.transform);
         }
 
-        player.UseWeapon(weaponIndex);          // 무기 사용
-        target.TakeDamage(damage);              // 타겟 유닛에게 데미지를 입힘
-
-        // Enemy Hit 애니메이션 + uGUI(적 체력바) 업데이트
-        
-        if (enemyView != null)
-        {
-            await enemyView.OnDamagedAsync(damage);
-        }
-
-        if (target.IsDead)
-        {
-            EnemyBattleUnit deadUnit = target as EnemyBattleUnit;
-
-            // Death 애니메이션 완료까지 대기
-            EnemyUnitView deadView = _enemyUnitViews.Find(v => v.LinkedUnit == deadUnit);
-            if (deadView != null)
-            {
-                await deadView.OnDeathAsync();
-            }
-
-            // Enemy, Battle 유닛 리스트에서 제거
-            _enemyUnits.Remove(deadUnit);
-            _battleUnits.Remove(deadUnit);
-
-            // 유닛이 죽었을 때 현재 순서 리스트에서 해당 유닛 제거
-            _unitOrderBySpeedSystem.RemoveUnit(deadUnit);
-
-            OnEnemyDied?.Invoke(deadUnit);
-        }
+        playerAnimator?.SetAttackHitCallback(null);    
 
         _playerActed = true;
+
         OnPlayerActionComplete?.Invoke(player);
     }
 }

@@ -10,6 +10,7 @@ public class PlayerAnimator : UnitAnimator
     [SerializeField] private float _moveSpeed                    = 5f;   // 이동 속도
     [SerializeField] private float _attackOffset                 = 5f; // 타겟으로부터의 거리
 
+    private System.Func<Awaitable> _onAttackHit;
 
     protected override void Initialize()
     {
@@ -119,5 +120,18 @@ public class PlayerAnimator : UnitAnimator
     private int GetWeaponLayerIndex(WeaponType weaponType)
     {
         return _animator.GetLayerIndex($"{weaponType} Layer");
+    }
+
+    public async void OnAttackHit()
+    {
+        if(_onAttackHit != null)
+        {
+            await _onAttackHit();
+        }
+    }
+
+    public void SetAttackHitCallback(System.Func<Awaitable> callback)
+    {
+        _onAttackHit = callback;
     }
 }
