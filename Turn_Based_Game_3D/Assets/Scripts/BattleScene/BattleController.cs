@@ -91,11 +91,13 @@ public class BattleController : MonoBehaviour
             }
         }
 
-        _targetSelector.Initialize(_enemyUnitViews);
+        
 
         _unitOrderBySpeedSystem.OrderBySpeed(_battleUnits);
-
+        
         OnTurnChanged?.Invoke(_turnCount);
+
+        _targetSelector.Initialize(_enemyUnitViews);
 
         _ = BattleLoop(_battleUnits);
     }
