@@ -9,7 +9,9 @@ public class PlayerAnimator : UnitAnimator
 
     [SerializeField] private float _moveSpeed                    = 5f;   // 이동 속도
     [SerializeField] private float _attackOffset                 = 5f;   // 타겟으로부터의 거리
-    [SerializeField] private float _jumpDuration                 = 0.2f; // 착지 시점
+
+
+    private float _jumpDuration = 0.5f;
 
     private System.Func<Awaitable> _onAttackHit;
 
@@ -69,25 +71,25 @@ public class PlayerAnimator : UnitAnimator
             // 공격애니메이션 끝날때까지 대기, 비동기 작업중 오브젝트가 파괴되면 실행중인 비동기 작업 취소
             await Awaitable.WaitForSecondsAsync(GetAnimationLength($"{weaponType}Attack"), destroyCancellationToken);
 
+
             // 원래 위치로 복귀
             if (weaponType == WeaponType.Sword && target != null)
             {
-                float distance = Vector3.Distance(transform.position, originPosition);
+                _animator.SetTrigger("Jump");
 
-                Awaitable jumpAnimTask = Awaitable.WaitForSecondsAsync(GetAnimationLength("Jump"), destroyCancellationToken);
+                await Awaitable.WaitForSecondsAsync(0.5f, destroyCancellationToken);
 
                 transform.DOJump(originPosition, 1f, 1, _jumpDuration)
                     .SetEase(Ease.OutQuad);
 
-                // Jump 애니메이션 길이만큼 대기
-                await jumpAnimTask;
+                transform.DORotateQuaternion(originRotation, 0.2f)
+                    .SetEase(Ease.OutQuad);
 
-                await transform.DORotateQuaternion(originRotation, 0.2f)
-                    .SetEase(Ease.OutQuad)
-                    .AsyncWaitForCompletion();
+                // DOJump 착지 시점까지 대기 (Jump 애니메이션 전체 길이 대신)
+                await Awaitable.WaitForSecondsAsync(_jumpDuration, destroyCancellationToken);
             }
-
-            // SwordIdle 전환 대기
+            // 공격 종료 후 바로 현재 무기 Idle로 전환
+            _animator.SetTrigger($"{weaponType}Idle");
             await Awaitable.WaitForSecondsAsync(GetAnimationLength($"{weaponType}Idle"), destroyCancellationToken);
 
             // 무기 클로킹 완료까지 대기
