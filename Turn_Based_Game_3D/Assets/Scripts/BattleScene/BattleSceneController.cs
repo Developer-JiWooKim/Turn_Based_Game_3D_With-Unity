@@ -6,21 +6,21 @@ public class BattleSceneController : MonoBehaviour
     [SerializeField] private BattleController _battleController;
     [SerializeField] private UnitSpawner      _unitSpawner; 
     [SerializeField] private BattleUnitLinker _battleUnitLinker;
-    [SerializeField] private TargetSelector   _targetSelector;
 
     private void Start() => SetupBattle();
-    private void SetupBattle()
+    private async void SetupBattle()
     {
         StageData  currentStageData  = StageManager.Instance.CurrentStageData;
         PlayerData playerData        = PlayerDataManager.Instance.PlayerData;
 
         // 플레이어 스폰
-        GameObject playerObject = _unitSpawner.SpawnPlayer();
+        GameObject playerObject = _unitSpawner.SpawnPlayer(); // TODO#: 플레이어가 늘어나면 SpawnPlayer()도 게임 오브젝트 리스트로 받아야됨
+
         PlayerUnitView playerUnitView = playerObject.GetComponent<PlayerUnitView>();
 
-        List<PlayerBattleUnit> players = new List<PlayerBattleUnit>();
-
         WeaponData[] selectedWeapons = PlayerDataManager.Instance.SelectedWeapons;
+
+        List<PlayerBattleUnit> players = new List<PlayerBattleUnit>();
 
         players.Add(new PlayerBattleUnit(playerData, selectedWeapons));
 
@@ -48,37 +48,30 @@ public class BattleSceneController : MonoBehaviour
         _battleUnitLinker.LinkUnits(players, enemies);
         _battleUnitLinker.SubscribeViews(_battleController);
 
-        Subscribe();
-
-        _targetSelector.OnTargetChanged += HandleTargetChanged;
-        _targetSelector.Initialize(enemyViews);
-
-        _battleController.StartBattle(players, enemies);
-    }
-    private void Subscribe()
-    {
         _battleController.OnBattleEnd += HandleBattleEnd;
         _battleController.OnEnemyDied += HandleEnemyDied;
+
+        // 모든 몬스터 소환 애니메이션 완료까지 대기
+        List<Awaitable> spawnTasks = new List<Awaitable>();
+        foreach (var enemyView in enemyViews)
+        {
+            spawnTasks.Add(enemyView.PlaySpawnAnimAsync());
+        }
+        foreach (var task in spawnTasks)
+        {
+            await task;
+        }
+
+        _battleController.StartBattle(players, enemies);
     }
 
     private void HandleEnemyDied(BattleUnit target)
     {
-        EnemyUnitView deadView = _targetSelector.EnemyViews.Find(v => v.LinkedUnit == target);
-        
+        EnemyUnitView deadView = _battleController.GetEnemyUnitView(target);
         if (deadView != null)
         {
-            deadView.SetAsTarget(false);
-
-            _targetSelector.RemoveDeadTarget(deadView);
-
-            _unitSpawner.ReturnToPool(deadView.gameObject); // 풀 반납
+            _unitSpawner.ReturnToPool(deadView.gameObject);
         }
-    }
-
-    private void HandleTargetChanged(EnemyUnitView prevTarget, EnemyUnitView nextTarget)
-    {
-        prevTarget?.SetAsTarget(false);
-        nextTarget?.SetAsTarget(true);
     }
 
     private void HandleBattleEnd(bool isWin)
@@ -97,8 +90,7 @@ public class BattleSceneController : MonoBehaviour
         }
     }
 
-    private void OnDestroy() => UnSubscribe();
-    private void UnSubscribe()
+    private void OnDestroy()
     {
         _battleController.OnBattleEnd -= HandleBattleEnd;
         _battleController.OnEnemyDied -= HandleEnemyDied;

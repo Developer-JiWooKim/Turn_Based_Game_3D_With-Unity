@@ -49,4 +49,11 @@ public class EnemyUnitView : UnitView
         // 아웃라인 초기화 (Enemy 레이어로 복구)
         SetLayerRecursively(gameObject, _enemyLayer);
     }
+
+    public async Awaitable PlaySpawnAnimAsync()
+    {
+        EnemyAnimator enemyAnimator = _unitAnimator as EnemyAnimator;
+        if (enemyAnimator != null)
+            await enemyAnimator.PlaySpawnAnimAsync();
+    }
 }

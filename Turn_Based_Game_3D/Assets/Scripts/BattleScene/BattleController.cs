@@ -8,6 +8,7 @@ public class BattleController : MonoBehaviour
     [SerializeField] private BattleUIController _battleUIController;    // 전투 UI 컨트롤러
     [SerializeField] private TargetSelector     _targetSelector;        // 플레이어가 현재 선택한 타겟을 알려주는 Selector
     [SerializeField] private BattleUnitLinker   _battleUnitLinker;      // 전투 유닛들의 뷰와 해당 이벤트를 구독시켜주는 링커
+    [SerializeField] private UnitSpawner        _unitSpawner;           // 죽은 유닛 풀에 반납하기 위해 스포너 참조
 
     private UnitOrderBySpeedSystem  _unitOrderBySpeedSystem;    // 턴마다 유닛들의 행동 순서를 결정하는 시스템
     
@@ -52,6 +53,13 @@ public class BattleController : MonoBehaviour
     {
         _playerInputHandler.Subscribe(this, _targetSelector);
         _battleUIController.Subscribe(this, _playerInputHandler);
+
+        _targetSelector.OnTargetChanged += HandleTargetChanged;
+    }
+
+    private void OnDestroy()
+    {
+        _targetSelector.OnTargetChanged -= HandleTargetChanged;
     }
 
     /// <summary>
@@ -82,6 +90,8 @@ public class BattleController : MonoBehaviour
                 _enemyUnitViews.Add(view);
             }
         }
+
+        _targetSelector.Initialize(_enemyUnitViews);
 
         _unitOrderBySpeedSystem.OrderBySpeed(_battleUnits);
 
@@ -215,6 +225,17 @@ public class BattleController : MonoBehaviour
         }
     }
 
+    private void HandleTargetChanged(EnemyUnitView prevTarget, EnemyUnitView nextTarget)
+    {
+        prevTarget?.SetAsTarget(false);
+        nextTarget?.SetAsTarget(true);
+    }
+
+    public EnemyUnitView GetEnemyUnitView(BattleUnit target)
+    {
+        return _enemyUnitViews.Find(v => v.LinkedUnit == target);
+    }
+
     private void StartEnemyRoarLoop()
     {
         float startTime = Time.time; // 모든 몬스터 동일한 시작 시간
@@ -275,48 +296,55 @@ public class BattleController : MonoBehaviour
 
         PlayerAnimator playerAnimator = playerView?.GetComponent<PlayerAnimator>();
 
+        var hitCallbackCompleted = new System.Threading.Tasks.TaskCompletionSource<bool>();
+
         if (playerAnimator != null)
         {
             playerAnimator.SetAttackHitCallback(async () =>
             {
-                player.UseWeapon(weaponIndex);
-                target.TakeDamage(damage);
-
-                // Enemy Hit 애니메이션 + uGUI(적 체력바) 업데이트
-                if (enemyView != null)
+                try
                 {
-                    await enemyView.OnDamagedAsync(damage);
-                }
+                    player.UseWeapon(weaponIndex);
+                    target.TakeDamage(damage);
 
-                if (target.IsDead)
-                {
-                    EnemyBattleUnit deadUnit = target as EnemyBattleUnit;
-
-                    EnemyUnitView deadView = _enemyUnitViews.Find(v => v.LinkedUnit == deadUnit);
-                    if (deadView != null)
+                    // Enemy Hit 애니메이션 + uGUI(적 체력바) 업데이트
+                    if (enemyView != null)
                     {
-                        await deadView.OnDeathAsync();
+                        await enemyView.OnDamagedAsync(damage);
                     }
 
-                    // Enemy, Battle 유닛 리스트에서 제거
-                    _enemyUnits.Remove(deadUnit);
-                    _battleUnits.Remove(deadUnit);
-
-                    // 유닛이 죽었을 때 현재 순서 리스트에서 해당 유닛 제거
-                    _unitOrderBySpeedSystem.RemoveUnit(deadUnit);
-
-                    OnEnemyDied?.Invoke(deadUnit);
+                    if (target.IsDead)
+                    {
+                        if (enemyView != null)
+                        {
+                            enemyView.SetAsTarget(false);
+                            _targetSelector.RemoveDeadTarget(enemyView);
+                            await enemyView.OnDeathAsync();
+                        }
+                    }
+                }
+                finally
+                {
+                    hitCallbackCompleted.SetResult(true); // 콜백 완료 신호
                 }
             });
         }
 
-        if (playerView != null)
-        {
-            // 공격 애니메이션 동작이 끝날때까지 대기
-            await playerView.PlayAttackAnimAsync(weaponIndex, enemyView?.transform);
-        }
+        // 공격 애니메이션 동작이 끝날때까지 대기
+        await playerView.PlayAttackAnimAsync(weaponIndex, enemyView?.transform);
 
-        playerAnimator?.SetAttackHitCallback(null);    
+        playerAnimator?.SetAttackHitCallback(null);
+
+        await hitCallbackCompleted.Task;
+
+        if (target.IsDead)
+        {
+            EnemyBattleUnit deadUnit = target as EnemyBattleUnit;
+            _enemyUnits.Remove(deadUnit);
+            _battleUnits.Remove(deadUnit);
+            _unitOrderBySpeedSystem.RemoveUnit(deadUnit);
+            OnEnemyDied?.Invoke(deadUnit);
+        }
 
         _playerActed = true;
 

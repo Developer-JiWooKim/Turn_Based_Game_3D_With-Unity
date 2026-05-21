@@ -7,10 +7,7 @@ public class EnemyAnimator : UnitAnimator
     [SerializeField] private float _moveSpeed    = 5f;
     [SerializeField] private float _attackOffset = 2.5f;
 
-    private CancellationTokenSource _roarLoopCts;
     private System.Func<Awaitable>  _onAttackHit;
-
-    bool _isRoaring = false;
 
     public async Awaitable PlayAttackAnimAsync(Transform target)
     {
@@ -67,29 +64,21 @@ public class EnemyAnimator : UnitAnimator
             await _onAttackHit();
     }
 
-    public async void StartIdleRoarLoop()
+    public void StartIdleRoarLoop()
     {
-        _isRoaring = true;
-
-        // 부드럽게 Idle 처음부터 시작
-        _animator?.CrossFade("Idle", 0.1f, 0, 0f);
-
-        if (!_isRoaring) return;
-
-        while (_isRoaring)
-        {
-            await Awaitable.WaitForSecondsAsync(GetAnimationLength("Idle"), destroyCancellationToken);
-            if (!_isRoaring) break;
-
-            _animator.SetTrigger("Roar");
-            await Awaitable.WaitForSecondsAsync(GetAnimationLength("Roar"), destroyCancellationToken);
-            if (!_isRoaring) break;
-        }
+        _animator?.SetBool("IsPlayerTurn", true);
     }
 
     public void StopIdleRoarLoop()
     {
-        _isRoaring = false;
-        _animator?.CrossFade("Idle", 0.1f); // 0.2초 동안 부드럽게 Idle로 전환
+        _animator?.SetBool("IsPlayerTurn", false);
     }
+
+    public async Awaitable PlaySpawnAnimAsync()
+    {
+        if (_animator == null) return;
+
+        await Awaitable.WaitForSecondsAsync(GetAnimationLength("Spawned"), destroyCancellationToken);
+    }
+
 }
