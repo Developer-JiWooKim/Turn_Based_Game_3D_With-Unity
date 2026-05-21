@@ -31,6 +31,8 @@ public class EnemyAnimator : UnitAnimator
         float distance = Vector3.Distance(transform.position, attackPosition);
         float moveDuration = distance / _moveSpeed;
 
+        _animator.SetTrigger("Walk");
+
         // 타겟 앞으로 이동
         await transform.DOMove(attackPosition, moveDuration)
             .SetEase(Ease.InQuad)
@@ -39,18 +41,19 @@ public class EnemyAnimator : UnitAnimator
         _animator.SetTrigger("Attack");
         await Awaitable.WaitForSecondsAsync(GetAnimationLength("Attack"), destroyCancellationToken);
 
-        distance = Vector3.Distance(transform.position, originPosition);
-        moveDuration = distance / _moveSpeed;
+        // Jump 애니메이션 + DOJump 동시에
+        float jumpDistance = Vector3.Distance(transform.position, originPosition);
+        float jumpDuration = 0.2f;
 
-        //원래 위치로 복귀
-        await transform.DOMove(originPosition, moveDuration)
-            .SetEase(Ease.OutQuad)
-            .AsyncWaitForCompletion();
+        _animator.SetTrigger("Jump");
 
-        // 원래 회전값으로 복귀
-        await transform.DORotateQuaternion(originRotation, 0.2f)
-            .SetEase(Ease.OutQuad)
-            .AsyncWaitForCompletion();
+        transform.DOJump(originPosition, 1f, 1, jumpDuration)
+            .SetEase(Ease.OutQuad);
+
+        transform.DORotateQuaternion(originRotation, jumpDuration)
+            .SetEase(Ease.OutQuad);
+
+        await Awaitable.WaitForSecondsAsync(GetAnimationLength("Landing"), destroyCancellationToken);
     }
 
     public void SetAttackHitCallback(System.Func<Awaitable> callback)
