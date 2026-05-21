@@ -189,13 +189,14 @@ public class BattleController : MonoBehaviour
 
     private async Awaitable PlayerTurn()
     {
+        // #TODO: 플레이어 유닛 늘어나면 현재 턴에 해당하는 유닛을 찾는 로직 넣어야됨
         PlayerBattleUnit player = _playerUnits[0];
 
         // 턴 시작 시 스태미나 회복
         player.RecoverStaminaPerTurn(player.PlayerData.playerStat.StaminaRecovery);
 
         OnPlayerActionComplete?.Invoke(player); // UI 업데이트 #TODO: 이름 조정필요해 보임 ActionComplete말고 UI업데이트? 하면 될듯?
-        OnTurnStart?.Invoke(player);            // 버튼 다시 빌드
+        OnTurnStart?.Invoke(player);            // 스킬 버튼 다시 빌드
 
         if (!player.HasAnyUsableWeapon())
         {
@@ -203,11 +204,33 @@ public class BattleController : MonoBehaviour
             return;
         }
 
+        // 모든 몬스터 Idle ↔ Roar 시작
+        StartEnemyRoarLoop();
+
         _playerActed = false;
 
         while (!_playerActed)
         {
             await Awaitable.NextFrameAsync();
+        }
+    }
+
+    private void StartEnemyRoarLoop()
+    {
+        float startTime = Time.time; // 모든 몬스터 동일한 시작 시간
+        foreach (var enemyView in _enemyUnitViews)
+        {
+            EnemyAnimator enemyAnimator = enemyView.GetComponent<EnemyAnimator>();
+            enemyAnimator?.StartIdleRoarLoop();
+        }
+    }
+
+    private void StopEnemyRoarLoop()
+    {
+        foreach (var enemyView in _enemyUnitViews)
+        {
+            EnemyAnimator enemyAnimator = enemyView.GetComponent<EnemyAnimator>();
+            enemyAnimator?.StopIdleRoarLoop();
         }
     }
 
@@ -219,6 +242,9 @@ public class BattleController : MonoBehaviour
 
     public async void OnPlayerAction(IDamageable target, int weaponIndex)
     {
+        // 플레이어가 행동을 시작하면 몬스터들의 Idle - Roar 루프를 멈춤
+        StopEnemyRoarLoop();
+
         // 전달받은 타겟이 비어있으면 자동으로 살아있는 적 찾아서 타겟으로 설정
         if (target == null)
             target = _enemyUnits.Find(u => !u.IsDead);
