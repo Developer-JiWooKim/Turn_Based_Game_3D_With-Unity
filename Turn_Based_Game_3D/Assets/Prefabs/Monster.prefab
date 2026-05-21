@@ -88,8 +88,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 1
+  m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &6536305074193506876
@@ -138,6 +138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36f7f3f2786f23a419631cde181e9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimator
+  _moveSpeed: 5.5
+  _attackOffset: 3.2
 --- !u!1001 &6726998549633165635
 PrefabInstance:
   m_ObjectHideFlags: 0

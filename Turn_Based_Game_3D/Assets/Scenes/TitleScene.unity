@@ -301,63 +301,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDataManager
   _playerData: {fileID: 11400000, guid: e97178e32eaf8694fbed73976b64d389, type: 2}
---- !u!1001 &911633031
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 663002579499853369, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 663002579499853369, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 663002579499853369, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -8.55
-      objectReference: {fileID: 0}
-    - target: {fileID: 663002579499853369, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7518877
-      objectReference: {fileID: 0}
-    - target: {fileID: 663002579499853369, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 663002579499853369, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.6592912
-      objectReference: {fileID: 0}
-    - target: {fileID: 663002579499853369, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 663002579499853369, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 663002579499853369, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 82.492
-      objectReference: {fileID: 0}
-    - target: {fileID: 663002579499853369, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1945694829724387042, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
-      propertyPath: m_Name
-      value: Rifle
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
 --- !u!1 &916330658
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,7 +330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2260215bdec33944eadedd700fc659d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponCloakTest
-  _cloakEffect: {fileID: 2086633670}
+  _cloakEffect: {fileID: 0}
 --- !u!4 &916330660
 Transform:
   m_ObjectHideFlags: 0
@@ -504,63 +447,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ad2aa669f491c94b8308253cd490c17, type: 3}
---- !u!1001 &1008138479
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4773527638552269150, guid: d7fc4c406b7289d42b5dbbed90772f53, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 15.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 4773527638552269150, guid: d7fc4c406b7289d42b5dbbed90772f53, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -13.17
-      objectReference: {fileID: 0}
-    - target: {fileID: 4773527638552269150, guid: d7fc4c406b7289d42b5dbbed90772f53, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 6.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4773527638552269150, guid: d7fc4c406b7289d42b5dbbed90772f53, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4773527638552269150, guid: d7fc4c406b7289d42b5dbbed90772f53, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4773527638552269150, guid: d7fc4c406b7289d42b5dbbed90772f53, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4773527638552269150, guid: d7fc4c406b7289d42b5dbbed90772f53, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4773527638552269150, guid: d7fc4c406b7289d42b5dbbed90772f53, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4773527638552269150, guid: d7fc4c406b7289d42b5dbbed90772f53, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4773527638552269150, guid: d7fc4c406b7289d42b5dbbed90772f53, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5994439466667278951, guid: d7fc4c406b7289d42b5dbbed90772f53, type: 3}
-      propertyPath: m_Name
-      value: Monster
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d7fc4c406b7289d42b5dbbed90772f53, type: 3}
 --- !u!224 &1148389012 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7743569699985683947, guid: 7ad2aa669f491c94b8308253cd490c17, type: 3}
@@ -808,17 +694,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!114 &2086633670 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1117946502981194165, guid: fd2571bf2dbe93548853169da8b5d1c9, type: 3}
-  m_PrefabInstance: {fileID: 911633031}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 958f651a54a601749b02ab990ec5e672, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WeaponCloakEffect
 --- !u!1 &2138211473
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,5 +836,3 @@ SceneRoots:
   - {fileID: 1502362188}
   - {fileID: 1629207652}
   - {fileID: 916330660}
-  - {fileID: 911633031}
-  - {fileID: 1008138479}

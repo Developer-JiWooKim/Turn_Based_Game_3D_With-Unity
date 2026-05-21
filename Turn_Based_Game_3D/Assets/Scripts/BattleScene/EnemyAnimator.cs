@@ -1,11 +1,10 @@
-using System.Threading;
 using DG.Tweening;
 using UnityEngine;
 
 public class EnemyAnimator : UnitAnimator
 {
-    [SerializeField] private float _moveSpeed    = 5f;
-    [SerializeField] private float _attackOffset = 2.5f;
+    [SerializeField] private float _moveSpeed    = 5.5f;
+    [SerializeField] private float _attackOffset = 3.2f;
 
     private System.Func<Awaitable>  _onAttackHit;
 
