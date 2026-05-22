@@ -108,8 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2c86843b11e18428977e665c944ccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerWeaponController
-  _attackEffectPrefab: {fileID: 2708598583397607911, guid: 6398d43fe79ea0140913dc5530c646af, type: 3}
-  _effectPoolSize: 5
+  _hitEffectPrefab: {fileID: 2708598583397607911, guid: 6398d43fe79ea0140913dc5530c646af, type: 3}
   _toCameraPos: 2
 --- !u!114 &7849581132551134668
 MonoBehaviour:

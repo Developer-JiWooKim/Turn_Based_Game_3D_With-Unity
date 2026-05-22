@@ -1,43 +1,40 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class PlayerWeaponController : MonoBehaviour
 {
-    [SerializeField] private GameObject _attackEffectPrefab;
-    [SerializeField] private int        _effectPoolSize = 2;
-
-
-    [SerializeField] private float        _toCameraPos = 0.5f;
-
-    private Queue<GameObject> _effectPool = new Queue<GameObject>();
+    [SerializeField] private GameObject _hitEffectPrefab;
+    [SerializeField] private float      _toCameraPos = 2f;
 
     private Dictionary<WeaponType, WeaponCloakEffect> _weaponCloakEffects = new Dictionary<WeaponType, WeaponCloakEffect>();
 
+    private ObjectPool<GameObject> _hitEffectPool;
 
     private void Awake() => InitHitEffectPool();
     private void InitHitEffectPool()
     {
-        if (_attackEffectPrefab == null) return;
+        if (_hitEffectPrefab == null) return;
 
-        for (int i = 0; i < _effectPoolSize; i++)
-        {
-            GameObject obj = Instantiate(_attackEffectPrefab);
-            obj.SetActive(false);
-            _effectPool.Enqueue(obj);
-        }
+        _hitEffectPool = new ObjectPool<GameObject>(
+            createFunc: () => Instantiate(_hitEffectPrefab),
+            actionOnGet: obj => obj.SetActive(true),
+            actionOnRelease: obj => obj.SetActive(false),
+            actionOnDestroy: obj => Destroy(obj),
+            defaultCapacity: 3
+        );
     }
 
-    public void SpawnAttackEffect(Vector3 position)
+    public void SpawnHitEffect(Vector3 position)
     {
-        if (_effectPool.Count == 0) return;
+        if (_hitEffectPool == null) return;
 
         // 카메라 방향으로 약간 앞으로
         Vector3 dirToCamera = (Camera.main.transform.position - position).normalized;
         position += dirToCamera * _toCameraPos;
 
-        GameObject effect = _effectPool.Dequeue();
+        GameObject effect = _hitEffectPool.Get();
         effect.transform.position = position;
-        effect.SetActive(true);
 
         _ = ReturnEffectToPool(effect);
     }
@@ -49,7 +46,7 @@ public class PlayerWeaponController : MonoBehaviour
             await Awaitable.NextFrameAsync(destroyCancellationToken);
         }
 
-        _effectPool.Enqueue(effect);
+        _hitEffectPool.Release(effect);
     }
 
     public void InitWeapons()
