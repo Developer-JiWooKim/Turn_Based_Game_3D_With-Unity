@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class UnitSpawner : MonoBehaviour
@@ -26,10 +27,14 @@ public class UnitSpawner : MonoBehaviour
     {
         foreach(var spawnData in stageData.enemySpawnDatas)
         {
-            if(!_pool.ContainsKey(spawnData.enemyPrefab))
+            if (!_pool.ContainsKey(spawnData.enemyPrefab))
             {
                 _pool[spawnData.enemyPrefab] = new List<GameObject>();
 
+            }
+            int needed = stageData.enemySpawnDatas.Count(s => s.enemyPrefab == spawnData.enemyPrefab);
+            while (_pool[spawnData.enemyPrefab].Count < needed)
+            {
                 GameObject enemyObj = Instantiate(spawnData.enemyPrefab);
                 enemyObj.SetActive(false);
 
@@ -56,6 +61,7 @@ public class UnitSpawner : MonoBehaviour
 
             // 플레이어 캐릭터 위치에서 스폰할 몬스터의 위치를 빼면 방향 벡터 나옴
             Vector3 direction = _playerSpawnPoints[0].position - _enemySpawnPoints[i].position;
+
             direction.y = 0f; // 수평 회전만 적용 위해 y축 0
             enemyObj.transform.rotation = Quaternion.LookRotation(direction); // 몬스터가 플레이어 캐릭터를 바라보게 회전
             enemyObj.SetActive(true);
@@ -80,8 +86,7 @@ public class UnitSpawner : MonoBehaviour
                 if (!obj.activeSelf)
                 {
                     // View 초기화
-                    EnemyUnitView view = obj.GetComponent<EnemyUnitView>();
-                    view?.Reset();
+                    obj.GetComponent<EnemyUnitView>()?.Reset();
                     return obj;
                 }
             }
@@ -98,6 +103,10 @@ public class UnitSpawner : MonoBehaviour
         }
 
         _pool[prefab].Add(newObj);
+
+        // 새로 생성된 오브젝트도 초기화
+        newObj.GetComponent<EnemyUnitView>()?.Reset();
+
         return newObj;
     }
 

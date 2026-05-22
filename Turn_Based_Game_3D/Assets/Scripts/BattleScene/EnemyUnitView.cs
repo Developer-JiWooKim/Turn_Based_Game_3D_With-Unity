@@ -54,6 +54,8 @@ public class EnemyUnitView : UnitView
     {
         EnemyAnimator enemyAnimator = _unitAnimator as EnemyAnimator;
         if (enemyAnimator != null)
+        {
             await enemyAnimator.PlaySpawnAnimAsync();
+        }            
     }
 }

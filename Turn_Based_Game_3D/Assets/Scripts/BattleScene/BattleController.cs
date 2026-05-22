@@ -91,8 +91,6 @@ public class BattleController : MonoBehaviour
             }
         }
 
-        
-
         _unitOrderBySpeedSystem.OrderBySpeed(_battleUnits);
         
         OnTurnChanged?.Invoke(_turnCount);
@@ -229,8 +227,11 @@ public class BattleController : MonoBehaviour
 
     private void HandleTargetChanged(EnemyUnitView prevTarget, EnemyUnitView nextTarget)
     {
+        Debug.Log($"prevTarget: {prevTarget?.gameObject.name}, nextTarget: {nextTarget?.gameObject.name}");
+        Debug.Log($"nextTarget layer before: {nextTarget?.gameObject.layer}");
         prevTarget?.SetAsTarget(false);
         nextTarget?.SetAsTarget(true);
+        Debug.Log($"nextTarget layer after: {nextTarget?.gameObject.layer}");
     }
 
     public EnemyUnitView GetEnemyUnitView(BattleUnit target)

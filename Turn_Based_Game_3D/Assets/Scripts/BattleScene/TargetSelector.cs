@@ -54,6 +54,7 @@ public class TargetSelector : MonoBehaviour
     {
         // 리스트 처음일때 옆으로 이동시 마지막으로 순환
         int prevIndex = (_currentTargetIndex + 1) % _enemyViews.Count;
+
         SelectTarget(prevIndex);
     }
 

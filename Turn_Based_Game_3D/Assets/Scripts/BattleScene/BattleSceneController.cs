@@ -10,6 +10,8 @@ public class BattleSceneController : MonoBehaviour
     private void Start() => SetupBattle();
     private async void SetupBattle()
     {
+        Debug.Log("StartBattle 호출됨");
+
         StageData  currentStageData  = StageManager.Instance.CurrentStageData;
         PlayerData playerData        = PlayerDataManager.Instance.PlayerData;
 
@@ -59,9 +61,12 @@ public class BattleSceneController : MonoBehaviour
         }
         foreach (var task in spawnTasks)
         {
+            Debug.Log(task + " : 동작 시작");
             await task;
+            Debug.Log(task + " : 동작 완료");
         }
 
+        Debug.Log("소환 애니메이션 모두 완료");
         _battleController.StartBattle(players, enemies);
     }
 
