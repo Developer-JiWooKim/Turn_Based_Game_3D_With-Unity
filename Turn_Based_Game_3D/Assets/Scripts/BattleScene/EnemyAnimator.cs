@@ -6,6 +6,8 @@ public class EnemyAnimator : UnitAnimator
     [SerializeField] private float _moveSpeed    = 5.5f;
     [SerializeField] private float _attackOffset = 3.2f;
 
+    [SerializeField] private float _jumpAttackMoveDuration = 0.2f;
+
     private System.Func<Awaitable>  _onAttackHit;
 
     public async Awaitable PlayAttackAnimAsync(Transform target)
@@ -30,15 +32,12 @@ public class EnemyAnimator : UnitAnimator
         float distance = Vector3.Distance(transform.position, attackPosition);
         float moveDuration = distance / _moveSpeed;
 
-        _animator.SetTrigger("Walk");
-
-        // 타겟 앞으로 이동
-        await transform.DOMove(attackPosition, moveDuration)
-            .SetEase(Ease.InQuad)
-            .AsyncWaitForCompletion();
-
         _animator.SetTrigger("Attack");
-        await Awaitable.WaitForSecondsAsync(GetAnimationLength("Attack"), destroyCancellationToken);
+
+        transform.DOJump(attackPosition, .7f, 1, _jumpAttackMoveDuration)
+            .SetEase(Ease.InSine);
+
+        await Awaitable.WaitForSecondsAsync(GetAnimationLength("Attack") - _jumpAttackMoveDuration, destroyCancellationToken);
 
         // Jump 애니메이션 + DOJump 동시에
         float jumpDistance = Vector3.Distance(transform.position, originPosition);

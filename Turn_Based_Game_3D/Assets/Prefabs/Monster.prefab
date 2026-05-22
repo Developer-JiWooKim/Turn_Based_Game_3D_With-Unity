@@ -277,6 +277,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimator
   _moveSpeed: 5.5
   _attackOffset: 3.2
+  _jumpAttackMoveDuration: 0.2
 --- !u!1001 &6726998549633165635
 PrefabInstance:
   m_ObjectHideFlags: 0
