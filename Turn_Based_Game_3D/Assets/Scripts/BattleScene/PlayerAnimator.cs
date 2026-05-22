@@ -5,15 +5,16 @@ public class PlayerAnimator : UnitAnimator
 {
     private PlayerWeaponController _weaponController;
 
-    [SerializeField] private float _weaponIdleTransitionDuration = 0.5f; // Idle 모션으로 전환 속도
+    [SerializeField] private float _weaponIdleTransitionDuration = 0.5f;  // Idle 모션으로 전환 속도
 
-    [SerializeField] private float _moveSpeed                    = 5f;   // 이동 속도
-    [SerializeField] private float _attackOffset                 = 5f;   // 타겟으로부터의 거리
+    [SerializeField] private float _moveSpeed                    = 5f;    // 이동 속도
+    [SerializeField] private float _attackOffset                 = 5f;    // 타겟으로부터의 거리
+    [SerializeField] private float _hitStopTimeScale             = 0.05f; // 히트스탑 시 타임스케일
+    [SerializeField] private float _hitStopDuration              = 0.15f; // 히트스탑 지속 시간
 
-
-    private float _jumpDuration = 0.5f;
-
-    private System.Func<Awaitable> _onAttackHit;
+    private Transform               _currentTarget;
+    private float                   _jumpDuration = 0.5f;
+    private System.Func<Awaitable>  _onAttackHit;
 
     protected override void Initialize()
     {
@@ -28,6 +29,8 @@ public class PlayerAnimator : UnitAnimator
         {
             Debug.Log("PlayAttackAnimAsync에서 Target이 null");
         }
+
+        _currentTarget = target;
 
         try
         {
@@ -129,10 +132,26 @@ public class PlayerAnimator : UnitAnimator
 
     public async void OnAttackHit()
     {
+        if (_currentTarget != null)
+        {
+            _weaponController?.SpawnAttackEffect(_currentTarget.position);
+        }
+
+        _ = HitStopAsync(); // 히트 스탑 연출(검이 몬스터에게 타격됐을 때 히트 스탑 연출)
+
         if(_onAttackHit != null)
         {
             await _onAttackHit();
         }
+    }
+
+    private async Awaitable HitStopAsync()
+    {
+        Time.timeScale = _hitStopTimeScale;
+
+        await Awaitable.WaitForSecondsAsync(_hitStopDuration * Time.timeScale, destroyCancellationToken);
+
+        Time.timeScale = 1f;
     }
 
     public void SetAttackHitCallback(System.Func<Awaitable> callback)
