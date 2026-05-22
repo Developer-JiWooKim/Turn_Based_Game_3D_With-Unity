@@ -32,7 +32,9 @@ public class UnitSpawner : MonoBehaviour
                 _pool[spawnData.enemyPrefab] = new List<GameObject>();
 
             }
+
             int needed = stageData.enemySpawnDatas.Count(s => s.enemyPrefab == spawnData.enemyPrefab);
+
             while (_pool[spawnData.enemyPrefab].Count < needed)
             {
                 GameObject enemyObj = Instantiate(spawnData.enemyPrefab);

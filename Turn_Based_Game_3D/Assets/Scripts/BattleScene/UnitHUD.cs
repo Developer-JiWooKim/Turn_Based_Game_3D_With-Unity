@@ -3,14 +3,27 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UnitHUD : MonoBehaviour
-{
+{        
     [SerializeField] private Image           _hpBarFill;
     [SerializeField] private TextMeshProUGUI _nameText;
+    [SerializeField] private TextMeshProUGUI _hpText;
+    [SerializeField] private GameObject      _damagePopupPrefab;
 
-    private RectTransform _rectTransform;
+    private DamagePopup     _damagePopup;
+    private RectTransform   _rectTransform;
 
-    private void Awake() => _rectTransform = GetComponent<RectTransform>();
-    private void LateUpdate()
+    private void Awake() => Initialize();
+    private void Initialize()
+    {
+        _rectTransform = GetComponent<RectTransform>();
+
+        GameObject popup = Instantiate(_damagePopupPrefab, transform.position, Quaternion.identity);
+        _damagePopup = popup.GetComponent<DamagePopup>();
+        _damagePopup.gameObject.SetActive(false);
+    }
+
+    private void LateUpdate() => TowardCamera();
+    private void TowardCamera()
     {
         _rectTransform.rotation = Quaternion.LookRotation(Camera.main.transform.forward);
     }
@@ -30,12 +43,16 @@ public class UnitHUD : MonoBehaviour
             ratio > 0.5f    ?   Color.green :  // 체력이 절반 이상 -> 초록색
             ratio > 0.25f   ?   Color.yellow : // 1/4 이상일때 -> 노란색
                                 Color.red;     // 그 이하는 빨간색 
+
+        _hpText.text = $"{currentHp}/{maxHp}";
     }
 
     public void ShowDamagePopup(int damage)
     {
-        // TODO#: 데미지 팝업 UI 구현 예정
-        Debug.Log($"{damage} 데미지!");
+        if (_damagePopupPrefab == null) return;
+
+        _damagePopup.transform.position = transform.position + Vector3.up;
+        _damagePopup.ShowDamagePopup(damage);
     }
 
     public void Reset()
@@ -43,5 +60,6 @@ public class UnitHUD : MonoBehaviour
         _nameText.text = "";
         _hpBarFill.fillAmount = 1f;
         _hpBarFill.color = Color.green;
+        _hpText.text = "";
     }
 }

@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\WeaponSelectScene\WeaponSelectSceneController.cs" />
     <Compile Include="Assets\Scripts\BattleScene\UnitAnimator.cs" />
     <Compile Include="Assets\Scripts\Scriptable\StageData.cs" />
+    <Compile Include="Assets\Scripts\BattleScene\DamagePopup.cs" />
     <Compile Include="Assets\External Assets\Toon Shaders Pro\Shaders\Outline\Scripts\OutlineSettings.cs" />
     <Compile Include="Assets\Scripts\BattleScene\BattleUnitLinker.cs" />
     <Compile Include="Assets\Scripts\BattleScene\BattleController.cs" />

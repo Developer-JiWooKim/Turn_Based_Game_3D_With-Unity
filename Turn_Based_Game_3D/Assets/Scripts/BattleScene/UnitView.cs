@@ -55,11 +55,23 @@ public abstract class UnitView : MonoBehaviour
     public async Awaitable OnDamagedAsync(int damage)
     {
         if (_unitAnimator != null)
+        {
             await _unitAnimator.PlayHitAnimAsync();
+        }
 
         _unitHUD?.UpdateHp(_linkedUnit.CurrentHp, _linkedUnit.MaxHp);
-        _unitHUD?.ShowDamagePopup(damage);
+
+        if (_unitHUD != null)
+        {
+            _unitHUD.ShowDamagePopup(damage);
+        }
+        else
+        {
+            ShowDamagePopup(damage);
+        }
     }
+
+    protected virtual void ShowDamagePopup(int damage) { }
 
     public async Awaitable OnDeathAsync()
     {
