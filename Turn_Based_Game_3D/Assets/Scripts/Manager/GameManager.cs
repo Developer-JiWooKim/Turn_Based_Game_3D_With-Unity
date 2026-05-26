@@ -34,11 +34,7 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log($"OnSceneLoaded: {scene.name}");
-
         if (FadeController.Instance == null) return;
-
-        Debug.Log("FadeIn 시작");
 
         _ = FadeInAfterSceneLoaded();
     }

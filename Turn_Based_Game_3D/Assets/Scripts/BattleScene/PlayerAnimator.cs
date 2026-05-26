@@ -134,7 +134,7 @@ public class PlayerAnimator : UnitAnimator
     {
         if (_currentTarget != null)
         {
-            _weaponController?.SpawnHitEffect(_currentTarget.position);
+            _weaponController?.SpawnHitEffects(_currentTarget.position);
         }
 
         _ = HitStopAsync(); // 히트 스탑 연출(검이 몬스터에게 타격됐을 때 히트 스탑 연출)

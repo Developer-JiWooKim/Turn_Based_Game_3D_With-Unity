@@ -9,44 +9,20 @@ public class PlayerWeaponController : MonoBehaviour
 
     private Dictionary<WeaponType, WeaponCloakEffect> _weaponCloakEffects = new Dictionary<WeaponType, WeaponCloakEffect>();
 
-    private ObjectPool<GameObject> _hitEffectPool;
+    private HitEffectPool _hitEffectPool;
 
     private void Awake() => InitHitEffectPool();
     private void InitHitEffectPool()
     {
-        if (_hitEffectPrefab == null) return;
-
-        _hitEffectPool = new ObjectPool<GameObject>(
-            createFunc: () => Instantiate(_hitEffectPrefab),
-            actionOnGet: obj => obj.SetActive(true),
-            actionOnRelease: obj => obj.SetActive(false),
-            actionOnDestroy: obj => Destroy(obj),
-            defaultCapacity: 3
-        );
-    }
-
-    public void SpawnHitEffect(Vector3 position)
-    {
-        if (_hitEffectPool == null) return;
-
-        // 카메라 방향으로 약간 앞으로
-        Vector3 dirToCamera = (Camera.main.transform.position - position).normalized;
-        position += dirToCamera * _toCameraPos;
-
-        GameObject effect = _hitEffectPool.Get();
-        effect.transform.position = position;
-
-        _ = ReturnEffectToPool(effect);
-    }
-
-    private async Awaitable ReturnEffectToPool(GameObject effect)
-    {
-        while (effect.activeSelf)
+        if (_hitEffectPrefab != null)
         {
-            await Awaitable.NextFrameAsync(destroyCancellationToken);
+            _hitEffectPool = new HitEffectPool(_hitEffectPrefab, _toCameraPos);
         }
+    }
 
-        _hitEffectPool.Release(effect);
+    public void SpawnHitEffects(Vector3 position)
+    {
+        _hitEffectPool?.Spawn(position);
     }
 
     public void InitWeapons()
