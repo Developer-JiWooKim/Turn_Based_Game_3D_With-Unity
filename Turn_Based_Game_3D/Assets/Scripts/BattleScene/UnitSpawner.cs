@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -149,7 +148,7 @@ public class UnitSpawner : MonoBehaviour
         foreach (var weaponData in selectedWeapons)
         {
             if (weaponData == null || weaponData.WeaponPrefab == null) continue;
-            if (weaponData.weaponType != WeaponType.Sword) continue; // 검만 스폰 #TODO: 임시, 나중에 각각의 무기 위치 잡은 뒤 지울거임
+            //if (weaponData.weaponType != WeaponType.Sword) continue; // 검만 스폰 #TODO: 임시, 나중에 각각의 무기 위치 잡은 뒤 지울거임
 
             //TODO#: 무기 데이터 자체에 자신이 위치할 포지션을 갖도록하는게 좋아보임
             GameObject weaponObj = Instantiate(weaponData.WeaponPrefab, socket);
