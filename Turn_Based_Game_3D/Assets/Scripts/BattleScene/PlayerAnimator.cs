@@ -43,21 +43,27 @@ public class PlayerAnimator : UnitAnimator
             Awaitable uncloakTask = _weaponController?.UncloakWeapon(weaponType);
             Awaitable fadeTask = FadeLayerWeight(layerIndex, 0f, 1f, _weaponIdleTransitionDuration);
 
+            if (weaponType == WeaponType.Gun)
+            {
+                // Idle 포즈 설정
+                _weaponController.SetGunIdlePose();
+            }
+
             await uncloakTask;
             await fadeTask;
+
+            Vector3 direction = (target.position - transform.position).normalized;
+            direction.y = 0;
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+            await transform.DORotateQuaternion(targetRotation, 0.2f)
+                .SetEase(Ease.OutQuad)
+                .AsyncWaitForCompletion();
 
             // 무기가 검이면 타겟 앞으로 이동 
             // TODO#: 현재는 근접무기가 검뿐이라 조건을 이렇게 했지만, 나중에 무기가 늘어나면 무기 타입에 근접, 원거리 타입 새로 넣어서 이걸로 이동 여부 정해야 됨
             if (weaponType == WeaponType.Sword && target != null)
             {
-                Vector3 direction = (target.position - transform.position).normalized;
-                direction.y = 0;
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-
-                await transform.DORotateQuaternion(targetRotation, 0.2f)
-                    .SetEase(Ease.OutQuad)
-                    .AsyncWaitForCompletion();
-
                 Vector3 attackPosition = target.position - direction * _attackOffset;
                 attackPosition.y = originPosition.y;
 
@@ -70,10 +76,15 @@ public class PlayerAnimator : UnitAnimator
                     .SetEase(Ease.InQuad)
                     .AsyncWaitForCompletion();
             }
+            else if (weaponType == WeaponType.Gun && target != null)
+            {
+                // Attack 포즈로 전환
+                _weaponController.SetGunAttackPose();
+                _animator.SetTrigger($"{weaponType}Attack");
+            }
 
             // 공격애니메이션 끝날때까지 대기, 비동기 작업중 오브젝트가 파괴되면 실행중인 비동기 작업 취소
             await Awaitable.WaitForSecondsAsync(GetAnimationLength($"{weaponType}Attack"), destroyCancellationToken);
-
 
             // 원래 위치로 복귀
             if (weaponType == WeaponType.Sword && target != null)
@@ -91,6 +102,10 @@ public class PlayerAnimator : UnitAnimator
                 // DOJump 착지 시점까지 대기 (Jump 애니메이션 전체 길이 대신)
                 await Awaitable.WaitForSecondsAsync(_jumpDuration, destroyCancellationToken);
             }
+
+            transform.DORotateQuaternion(originRotation, 0.2f)
+                    .SetEase(Ease.OutQuad);
+
             // 공격 종료 후 바로 현재 무기 Idle로 전환
             _animator.SetTrigger($"{weaponType}Idle");
             await Awaitable.WaitForSecondsAsync(GetAnimationLength($"{weaponType}Idle"), destroyCancellationToken);

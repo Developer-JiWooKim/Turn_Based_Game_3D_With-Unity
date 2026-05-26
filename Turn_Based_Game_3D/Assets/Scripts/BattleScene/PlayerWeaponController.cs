@@ -1,11 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
 
 public class PlayerWeaponController : MonoBehaviour
 {
     [SerializeField] private GameObject _hitEffectPrefab;
     [SerializeField] private float      _toCameraPos = 2f;
+
+    // 총 애니메이션에 맞춘 총 위치
+    [SerializeField] private Vector3 _gunIdlePosition = new Vector3(-0.01821823f, 0.0319531f, -0.02460939f);
+    [SerializeField] private Vector3 _gunIdleRotation = new Vector3(-11.144f, 87.692f, 14.683f);
+    [SerializeField] private Vector3 _gunAttackPosition = new Vector3(-0.0246552f, 0.02883693f, -0.0247517f);
+    [SerializeField] private Vector3 _gunAttackRotation = new Vector3(3.97f, 79.856f, 13.905f);
+
 
     private Dictionary<WeaponType, WeaponCloakEffect> _weaponCloakEffects = new Dictionary<WeaponType, WeaponCloakEffect>();
 
@@ -62,4 +68,21 @@ public class PlayerWeaponController : MonoBehaviour
             cloakEffect.gameObject.SetActive(false); // 비활성화
         }
     }
+
+    public void SetGunIdlePose()
+    {
+        if (!_weaponCloakEffects.TryGetValue(WeaponType.Gun, out WeaponCloakEffect cloakEffect)) return;
+
+        cloakEffect.transform.localPosition = _gunIdlePosition;
+        cloakEffect.transform.localRotation = Quaternion.Euler(_gunIdleRotation);
+    }
+
+    public void SetGunAttackPose()
+    {
+        if (!_weaponCloakEffects.TryGetValue(WeaponType.Gun, out WeaponCloakEffect cloakEffect)) return;
+
+        cloakEffect.transform.localPosition = _gunAttackPosition;
+        cloakEffect.transform.localRotation = Quaternion.Euler(_gunAttackRotation);
+    }
+
 }
