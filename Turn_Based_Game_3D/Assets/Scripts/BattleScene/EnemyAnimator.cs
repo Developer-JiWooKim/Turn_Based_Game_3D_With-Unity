@@ -3,12 +3,8 @@ using UnityEngine;
 
 public class EnemyAnimator : UnitAnimator
 {
-    [SerializeField] private GameObject _hitEffectPrefab;
-    [SerializeField] private int        _hitEffectPoolSize = 3;
-
     [SerializeField] private float _moveSpeed    = 5.5f;
     [SerializeField] private float _attackOffset = 3.2f;
-
     [SerializeField] private float _jumpAttackMoveDuration = 0.2f;
 
     private System.Func<Awaitable>  _onAttackHit;

@@ -54,7 +54,12 @@ public class EnemyUnitView : UnitView
         EnemyAnimator enemyAnimator = _unitAnimator as EnemyAnimator;
         if (enemyAnimator != null)
         {
-            enemyAnimator.SetAttackHitCallback(onHitCallback);
+            enemyAnimator.SetAttackHitCallback(async () =>
+            {
+                SpawnHitEffect(target.position); // 플레이어 위치에 이펙트 생성
+                if (onHitCallback != null)
+                    await onHitCallback();
+            });
 
             await enemyAnimator.PlayAttackAnimAsync(target);
 

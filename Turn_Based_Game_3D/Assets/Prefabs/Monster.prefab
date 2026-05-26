@@ -231,6 +231,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 830ea98e951f0be4bbe7318608af1fe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyUnitView
+  _hitEffectPrefab: {fileID: 2708598583397607911, guid: 48b47bda81a1bb142854beb19b3e4fa6, type: 3}
+  _toCameraPos: 2
 --- !u!114 &8985353863796119691
 MonoBehaviour:
   m_ObjectHideFlags: 0
