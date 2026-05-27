@@ -9,12 +9,19 @@ public enum WeaponType
     Drone
 }
 
+public enum WeaponRangeType
+{
+    Melee,
+    Ranged,
+}
+
 [CreateAssetMenu(fileName = "WeaponData", menuName = "Scriptable Objects/WeaponData")]
 public class WeaponData : ScriptableObject
 {
     [Header("Weapon Information")]
     public string WeaponName;
     public WeaponType weaponType;
+    public WeaponRangeType rangeType;
     public string Description;
     public Sprite WeaponIcon;
     public GameObject WeaponPrefab; // 3D 프리뷰용

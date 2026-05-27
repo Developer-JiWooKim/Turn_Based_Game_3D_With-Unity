@@ -1,17 +1,17 @@
+using System;
+using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
 public class PlayerAnimator : UnitAnimator
 {
-    private PlayerWeaponController _weaponController;
-
     [SerializeField] private float _weaponIdleTransitionDuration = 0.5f;  // Idle 모션으로 전환 속도
-
     [SerializeField] private float _moveSpeed                    = 5f;    // 이동 속도
     [SerializeField] private float _attackOffset                 = 5f;    // 타겟으로부터의 거리
     [SerializeField] private float _hitStopTimeScale             = 0.05f; // 히트스탑 시 타임스케일
     [SerializeField] private float _hitStopDuration              = 0.15f; // 히트스탑 지속 시간
 
+    private PlayerWeaponController  _weaponController;
     private Transform               _currentTarget;
     private float                   _jumpDuration = 0.5f;
     private System.Func<Awaitable>  _onAttackHit;
@@ -22,7 +22,112 @@ public class PlayerAnimator : UnitAnimator
         _weaponController = GetComponent<PlayerWeaponController>();
     }
 
-    public async Awaitable PlayAttackAnimAsync(WeaponType weaponType, Transform target = null)
+    //public async Awaitable PlayAttackAnimAsync(WeaponType weaponType, Transform target = null)
+    //{
+    //    if (_animator == null) return;
+    //    if (target == null)
+    //    {
+    //        Debug.Log("PlayAttackAnimAsync에서 Target이 null");
+    //    }
+
+    //    _currentTarget = target;
+
+    //    try
+    //    {
+    //        Vector3    originPosition = transform.position;
+    //        Quaternion originRotation = transform.rotation;
+            
+    //        int layerIndex = GetWeaponLayerIndex(weaponType);
+
+    //        if (weaponType == WeaponType.Gun)
+    //        {
+    //            // Idle 포즈 설정
+    //            _weaponController.SetGunIdlePose();
+    //        }
+
+    //        // 무기 언클로킹 그 무기에 맞는 애니메이션 레이어로 전환을 동시에
+    //        Awaitable uncloakTask = _weaponController?.UncloakWeapon(weaponType);
+    //        Awaitable fadeTask = FadeLayerWeight(layerIndex, 0f, 1f, _weaponIdleTransitionDuration);
+
+    //        await uncloakTask;
+    //        await fadeTask;
+
+    //        Vector3 direction = (target.position - transform.position).normalized;
+    //        direction.y = 0;
+    //        Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+    //        await transform.DORotateQuaternion(targetRotation, 0.2f)
+    //            .SetEase(Ease.OutQuad)
+    //            .AsyncWaitForCompletion();
+
+    //        // 무기가 검이면 타겟 앞으로 이동 
+    //        // TODO#: 현재는 근접무기가 검뿐이라 조건을 이렇게 했지만, 나중에 무기가 늘어나면 무기 타입에 근접, 원거리 타입 새로 넣어서 이걸로 이동 여부 정해야 됨
+    //        if (weaponType == WeaponType.Sword && target != null)
+    //        {
+    //            Vector3 attackPosition = target.position - direction * _attackOffset;
+    //            attackPosition.y = originPosition.y;
+
+    //            float distance = Vector3.Distance(transform.position, attackPosition);
+    //            float moveDuration = distance / _moveSpeed;
+
+    //            _animator.SetTrigger("Sprint");
+
+    //            await transform.DOMove(attackPosition, moveDuration)
+    //                .SetEase(Ease.InQuad)
+    //                .AsyncWaitForCompletion();
+    //        }
+    //        else if (weaponType == WeaponType.Gun && target != null)
+    //        {
+    //            // Attack 포즈로 전환(무기 위치를 애니메이션에 맞게 수동으로 조절 중)
+    //            _weaponController.SetGunAttackPose();
+    //            _animator.SetTrigger($"{weaponType}Attack");
+    //        }
+
+    //        // 공격애니메이션 끝날때까지 대기, 비동기 작업중 오브젝트가 파괴되면 실행중인 비동기 작업 취소
+    //        await Awaitable.WaitForSecondsAsync(GetAnimationLength($"{weaponType}Attack"), destroyCancellationToken);
+
+    //        // 원래 위치로 복귀
+    //        if (weaponType == WeaponType.Sword && target != null)
+    //        {
+    //            _animator.SetTrigger("Jump");
+
+    //            await Awaitable.WaitForSecondsAsync(0.5f, destroyCancellationToken);
+
+    //            transform.DOJump(originPosition, 1f, 1, _jumpDuration)
+    //                .SetEase(Ease.OutQuad);
+
+    //            transform.DORotateQuaternion(originRotation, 0.2f)
+    //                .SetEase(Ease.OutQuad);
+
+    //            // DOJump 착지 시점까지 대기 (Jump 애니메이션 전체 길이 대신)
+    //            await Awaitable.WaitForSecondsAsync(_jumpDuration, destroyCancellationToken);
+
+    //            // 무기 타입이 Sword면 원래 위치로 돌아온 후 Idle로 변환하는 트리거 필요, 공격 종료 후 바로 현재 무기 Idle로 전환
+    //            _animator.SetTrigger($"{weaponType}Idle");
+    //        }
+    //        else if (weaponType == WeaponType.Gun)
+    //        {
+    //            _weaponController?.SetGunIdlePose();
+    //        }
+
+    //        transform.DORotateQuaternion(originRotation, 0.2f)
+    //                .SetEase(Ease.OutQuad);
+
+    //        await Awaitable.WaitForSecondsAsync(GetAnimationLength($"{weaponType}Idle"), destroyCancellationToken);
+
+    //        // 무기 클로킹 완료까지 대기
+    //        Awaitable cloakTask = _weaponController?.CloakWeapon(weaponType);
+    //        fadeTask = FadeLayerWeight(layerIndex, 1f, 0f, _weaponIdleTransitionDuration); // 서서히 해당 무기 Layer 비활성화
+
+    //        await cloakTask;
+    //        await fadeTask;
+
+    //    } catch (System.OperationCanceledException)
+    //    {
+    //        Debug.Log("PlayAttackAnim 중 문제 발생");
+    //    }
+    //}
+    public async Awaitable PlayAttackAnimAsync(WeaponType weaponType, WeaponRangeType rangeType, Transform target = null)
     {
         if (_animator == null) return;
         if (target == null)
@@ -34,93 +139,110 @@ public class PlayerAnimator : UnitAnimator
 
         try
         {
-            Vector3    originPosition = transform.position;
+            Vector3 originPosition = transform.position;
             Quaternion originRotation = transform.rotation;
-            
+
             int layerIndex = GetWeaponLayerIndex(weaponType);
 
-            // 무기 언클로킹 그 무기에 맞는 애니메이션 레이어로 전환을 동시에
-            Awaitable uncloakTask = _weaponController?.UncloakWeapon(weaponType);
-            Awaitable fadeTask = FadeLayerWeight(layerIndex, 0f, 1f, _weaponIdleTransitionDuration);
-
+            //#TODO:총뿐만 아니라 크로스 보우도 애니메이션에 따라 무기 위치가 바뀔 수 있음
             if (weaponType == WeaponType.Gun)
             {
                 // Idle 포즈 설정
                 _weaponController.SetGunIdlePose();
             }
 
+            // 무기 언클로킹 그 무기에 맞는 애니메이션 레이어로 전환을 동시에
+            Awaitable uncloakTask = _weaponController?.UncloakWeapon(weaponType);
+            Awaitable fadeTask = FadeLayerWeight(layerIndex, 0f, 1f, _weaponIdleTransitionDuration);
+
             await uncloakTask;
             await fadeTask;
 
             Vector3 direction = (target.position - transform.position).normalized;
             direction.y = 0;
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
 
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
             await transform.DORotateQuaternion(targetRotation, 0.2f)
                 .SetEase(Ease.OutQuad)
                 .AsyncWaitForCompletion();
 
-            // 무기가 검이면 타겟 앞으로 이동 
-            // TODO#: 현재는 근접무기가 검뿐이라 조건을 이렇게 했지만, 나중에 무기가 늘어나면 무기 타입에 근접, 원거리 타입 새로 넣어서 이걸로 이동 여부 정해야 됨
-            if (weaponType == WeaponType.Sword && target != null)
-            {
-                Vector3 attackPosition = target.position - direction * _attackOffset;
-                attackPosition.y = originPosition.y;
+            if (rangeType == WeaponRangeType.Melee)
+                await PlayMeleeAttackAsync(weaponType, target, originPosition, originRotation);
+            else
+                await PlayRangedAttackAsync(weaponType, originRotation);
 
-                float distance = Vector3.Distance(transform.position, attackPosition);
-                float moveDuration = distance / _moveSpeed;
-
-                _animator.SetTrigger("Sprint");
-
-                await transform.DOMove(attackPosition, moveDuration)
-                    .SetEase(Ease.InQuad)
-                    .AsyncWaitForCompletion();
-            }
-            else if (weaponType == WeaponType.Gun && target != null)
-            {
-                // Attack 포즈로 전환
-                _weaponController.SetGunAttackPose();
-                _animator.SetTrigger($"{weaponType}Attack");
-            }
-
-            // 공격애니메이션 끝날때까지 대기, 비동기 작업중 오브젝트가 파괴되면 실행중인 비동기 작업 취소
-            await Awaitable.WaitForSecondsAsync(GetAnimationLength($"{weaponType}Attack"), destroyCancellationToken);
-
-            // 원래 위치로 복귀
-            if (weaponType == WeaponType.Sword && target != null)
-            {
-                _animator.SetTrigger("Jump");
-
-                await Awaitable.WaitForSecondsAsync(0.5f, destroyCancellationToken);
-
-                transform.DOJump(originPosition, 1f, 1, _jumpDuration)
-                    .SetEase(Ease.OutQuad);
-
-                transform.DORotateQuaternion(originRotation, 0.2f)
-                    .SetEase(Ease.OutQuad);
-
-                // DOJump 착지 시점까지 대기 (Jump 애니메이션 전체 길이 대신)
-                await Awaitable.WaitForSecondsAsync(_jumpDuration, destroyCancellationToken);
-            }
-
-            transform.DORotateQuaternion(originRotation, 0.2f)
-                    .SetEase(Ease.OutQuad);
-
-            // 공격 종료 후 바로 현재 무기 Idle로 전환
-            _animator.SetTrigger($"{weaponType}Idle");
-            await Awaitable.WaitForSecondsAsync(GetAnimationLength($"{weaponType}Idle"), destroyCancellationToken);
-
-            // 무기 클로킹 완료까지 대기
             Awaitable cloakTask = _weaponController?.CloakWeapon(weaponType);
-            fadeTask = FadeLayerWeight(layerIndex, 1f, 0f, _weaponIdleTransitionDuration); // 서서히 해당 무기 Layer 비활성화
+            Awaitable fadeOutTask = FadeLayerWeight(layerIndex, 1f, 0f, _weaponIdleTransitionDuration);
 
             await cloakTask;
-            await fadeTask;
+            await fadeOutTask;
 
-        } catch (System.OperationCanceledException)
+        }
+        catch (System.OperationCanceledException)
         {
             Debug.Log("PlayAttackAnim 중 문제 발생");
         }
+    }
+
+    // 근접 무기 공격 연출
+    private async Awaitable PlayMeleeAttackAsync(WeaponType weaponType, Transform target, Vector3 originPosition, Quaternion originRotation)
+    {
+        Vector3 direction = (target.position - transform.position).normalized;
+        Vector3 attackPosition = target.position - direction * _attackOffset;
+        attackPosition.y = originPosition.y;
+
+        float distance = Vector3.Distance(transform.position, attackPosition);
+        float moveDuration = distance / _moveSpeed;
+        
+        // 근접무기는 해당 위치로 달려가는 애니메이션을 반드시 넣고 그 애니메이션은 Sprint로 할거임
+        _animator.SetTrigger("Sprint");
+
+        await transform.DOMove(attackPosition, moveDuration)
+                .SetEase(Ease.InQuad)
+                .AsyncWaitForCompletion();
+
+        await Awaitable.WaitForSecondsAsync(GetAnimationLength($"{weaponType}Attack"), destroyCancellationToken);
+
+        // 원래 위치로 복귀
+        _animator.SetTrigger("Jump");
+        await Awaitable.WaitForSecondsAsync(0.5f, destroyCancellationToken);
+
+        transform.DOJump(originPosition, 1f, 1, _jumpDuration).SetEase(Ease.OutQuad);
+        transform.DORotateQuaternion(originRotation, 0.2f).SetEase(Ease.OutQuad);
+
+        await Awaitable.WaitForSecondsAsync(_jumpDuration, destroyCancellationToken);
+
+        // WeaponIdle 복귀 후 대기
+        _animator.SetTrigger($"{weaponType}Idle");
+        await Awaitable.WaitForSecondsAsync(GetAnimationLength($"{weaponType}Idle"), destroyCancellationToken);
+    }
+
+    private async Awaitable PlayRangedAttackAsync(WeaponType weaponType, Quaternion originRotation)
+    {
+        float clipLength = GetAnimationLength($"{weaponType}Attack");
+
+        if (weaponType == WeaponType.Gun)
+        {
+            _weaponController?.SetGunAttackPose();
+
+            _animator.SetTrigger($"{weaponType}Attack");
+            await Awaitable.WaitForSecondsAsync(clipLength, destroyCancellationToken);
+
+            _weaponController?.SetGunIdlePose();
+        }
+        else if (weaponType == WeaponType.Crossbow)
+        {
+            // TODO#: 화살 오브젝트 구현 시
+            // 1. CrossbowAttack 트리거로 애니메이션 재생
+            // 2. 화살 오브젝트 발사
+            // 3. 화살이 적에게 명중하는 시점에 OnAttackHit() 호출
+            // 4. 명중 완료 신호 받을 때까지 await 대기 (TaskCompletionSource 방식 예정)
+            _animator.SetTrigger($"{weaponType}Attack");
+            await Awaitable.WaitForSecondsAsync(clipLength, destroyCancellationToken);
+        }
+
+        transform.DORotateQuaternion(originRotation, 0.2f).SetEase(Ease.OutQuad);
+        await Awaitable.WaitForSecondsAsync(_weaponIdleTransitionDuration, destroyCancellationToken);
     }
 
     private async Awaitable FadeLayerWeight(int layerIndex, float from, float to, float duration)

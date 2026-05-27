@@ -55,6 +55,7 @@ public class UnitSpawner : MonoBehaviour
                 Debug.LogError("_enemySpawnPoints의 수와 스폰할 몬스터의 데이터 수가 다름");
                 break;
             }
+
             GameObject prefab = stageData.enemySpawnDatas[i].enemyPrefab;
             GameObject enemyObj = GetFromPool(prefab);
 
@@ -155,6 +156,10 @@ public class UnitSpawner : MonoBehaviour
             weaponObj.transform.localPosition = Vector3.zero;
             weaponObj.transform.localRotation = Quaternion.identity;
             weaponObj.SetActive(false);
+
+            // 스폰 직후 WeaponType 주입
+            WeaponCloakEffect cloakEffect = weaponObj.GetComponent<WeaponCloakEffect>();
+            cloakEffect?.Initialize(weaponData.weaponType);
         }
 
         // 무기 스폰 후 PlayerWeaponController 초기화

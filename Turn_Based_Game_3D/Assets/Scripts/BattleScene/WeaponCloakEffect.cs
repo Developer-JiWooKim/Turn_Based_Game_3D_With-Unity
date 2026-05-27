@@ -14,9 +14,11 @@ public class WeaponCloakEffect : MonoBehaviour
     private static readonly int CloakAmount     = Shader.PropertyToID("_CloakAmount");
     private static readonly int FlashIntensity  = Shader.PropertyToID("_FlashIntensity");
 
+    public WeaponType WeaponType { get; private set; }
 
-    private void Awake() => Initialize();
-    private void Initialize()
+
+    private void Awake() => CacheRenderers();
+    private void CacheRenderers()
     {
         _renderers = GetComponentsInChildren<Renderer>();
 
@@ -24,6 +26,10 @@ public class WeaponCloakEffect : MonoBehaviour
         _originalMaterials = new Material[_renderers.Length][];
         for (int i = 0; i < _renderers.Length; i++)
             _originalMaterials[i] = _renderers[i].materials;
+    }
+    public void Initialize(WeaponType weaponType)
+    {
+        WeaponType = weaponType;
     }
 
     private async Awaitable FlashAsync()

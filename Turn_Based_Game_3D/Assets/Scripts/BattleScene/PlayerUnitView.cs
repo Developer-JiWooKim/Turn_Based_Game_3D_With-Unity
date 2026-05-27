@@ -8,8 +8,8 @@ public class PlayerUnitView : UnitView
 
     protected override void OnAwake()
     {
-        _unitAnimator       = GetComponent<UnitAnimator>();
-        _unitHUD            = GetComponentInChildren<UnitHUD>();
+        _unitAnimator = GetComponent<UnitAnimator>();
+        _unitHUD      = GetComponentInChildren<UnitHUD>();
 
         // 데미지 팝업 미리 생성
         if (_damagePopupPrefab != null)
@@ -32,7 +32,9 @@ public class PlayerUnitView : UnitView
         PlayerBattleUnit player = _linkedUnit as PlayerBattleUnit;
         if (player == null) return;
 
-        WeaponType weaponType = player.Weapons[weaponIndex].weaponType;
-        await (_unitAnimator as PlayerAnimator)?.PlayAttackAnimAsync(weaponType, target);
+        WeaponData weapon = player.Weapons[weaponIndex];
+        // WeaponType weaponType = player.Weapons[weaponIndex].weaponType; TODO#: 지울예정
+        //await (_unitAnimator as PlayerAnimator)?.PlayAttackAnimAsync(weaponType, target);
+        await (_unitAnimator as PlayerAnimator)?.PlayAttackAnimAsync(weapon.weaponType, weapon.rangeType, target);
     }
 }

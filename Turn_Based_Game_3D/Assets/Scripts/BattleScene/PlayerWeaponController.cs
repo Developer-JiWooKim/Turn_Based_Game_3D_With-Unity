@@ -7,10 +7,10 @@ public class PlayerWeaponController : MonoBehaviour
     [SerializeField] private float      _toCameraPos = 2f;
 
     // 총 애니메이션에 맞춘 총 위치
-    [SerializeField] private Vector3 _gunIdlePosition = new Vector3(-0.01821823f, 0.0319531f, -0.02460939f);
-    [SerializeField] private Vector3 _gunIdleRotation = new Vector3(-11.144f, 87.692f, 14.683f);
-    [SerializeField] private Vector3 _gunAttackPosition = new Vector3(-0.0246552f, 0.02883693f, -0.0247517f);
-    [SerializeField] private Vector3 _gunAttackRotation = new Vector3(3.97f, 79.856f, 13.905f);
+    private Vector3 _gunIdlePosition = new Vector3(0.021f, 0.0117f, -0.0072f);
+    private Vector3 _gunIdleRotation = new Vector3(-27.923f, 91.552f, 17.673f);
+    private Vector3 _gunAttackPosition = new Vector3(-0.013f, 0.007f, -0.027f);
+    private Vector3 _gunAttackRotation = new Vector3(-7.931f, 78.542f, 24.135f);
 
 
     private Dictionary<WeaponType, WeaponCloakEffect> _weaponCloakEffects = new Dictionary<WeaponType, WeaponCloakEffect>();
@@ -39,13 +39,14 @@ public class PlayerWeaponController : MonoBehaviour
 
         foreach (var effect in effects)
         {
-            foreach (WeaponType weaponType in System.Enum.GetValues(typeof(WeaponType)))
+            WeaponType type = effect.WeaponType;
+            if (!_weaponCloakEffects.ContainsKey(type))
             {
-                if (effect.gameObject.name.Contains(weaponType.ToString()))
-                {
-                    _weaponCloakEffects[weaponType] = effect;
-                    break;
-                }
+                _weaponCloakEffects[type] = effect;
+            }
+            else
+            {
+                Debug.LogWarning($"WeaponType {type}이 중복 등록됨: {effect.gameObject.name}");
             }
         }
     }
@@ -57,7 +58,6 @@ public class PlayerWeaponController : MonoBehaviour
             cloakEffect.gameObject.SetActive(true);
             await cloakEffect.UncloakAsync();
         }
-            
     }
 
     public async Awaitable CloakWeapon(WeaponType weaponType)
