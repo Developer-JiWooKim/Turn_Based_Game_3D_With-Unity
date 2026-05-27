@@ -14,8 +14,8 @@ public class PlayerWeaponController : MonoBehaviour
 
 
     private Dictionary<WeaponType, WeaponCloakEffect> _weaponCloakEffects = new Dictionary<WeaponType, WeaponCloakEffect>();
-
-    private HitEffectPool _hitEffectPool;
+    private HitEffectPool       _hitEffectPool;
+    private GunEffectController _gunEffectController;
 
     private void Awake() => InitHitEffectPool();
     private void InitHitEffectPool()
@@ -49,6 +49,18 @@ public class PlayerWeaponController : MonoBehaviour
                 Debug.LogWarning($"WeaponType {type}이 중복 등록됨: {effect.gameObject.name}");
             }
         }
+
+        // GunEffectController 캐싱
+        if (_weaponCloakEffects.TryGetValue(WeaponType.Gun, out WeaponCloakEffect gunEffect))
+        {
+            _gunEffectController = gunEffect.GetComponentInChildren<GunEffectController>(true);
+            _gunEffectController?.Initialize();
+        }
+    }
+
+    public void PlayGunFireEffect(Vector3 targetPosition)
+    {
+        _gunEffectController?.PlayFireEffect(targetPosition);
     }
 
     public async Awaitable UncloakWeapon(WeaponType weaponType)
