@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class WeaponCloakEffect : MonoBehaviour
 {
-    [SerializeField] private float _uncloakDuration = 0.5f; // 클로킹 해제 시간
-    [SerializeField] private float _cloakDuration   = 0.3f; // 클로킹 시간
+    [SerializeField] private float _uncloakDuration = 1f; // 클로킹 해제 시간
+    [SerializeField] private float _cloakDuration   = 1f; // 클로킹 시간
 
     [SerializeField] private Material _cloakMaterial; // 클로킹 머테리얼
 
