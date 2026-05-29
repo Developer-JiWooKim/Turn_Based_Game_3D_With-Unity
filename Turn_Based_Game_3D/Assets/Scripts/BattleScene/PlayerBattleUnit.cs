@@ -47,10 +47,9 @@ public class PlayerBattleUnit : BattleUnit
         for (int i = 0; i < Weapons.Length; i++)
         {
             bool canUse = CanUseWeapon(i);
-            Debug.Log($"Weapon[{i}] {Weapons[i]?.WeaponName} CanUse: {canUse} Type: {Weapons[i]?.weaponType} Ammo: {_currentAmmos[i]} StaminaCost: {Weapons[i]?.StaminaCost} CurrentStamina: {CurrentStamina}");
+
             if (canUse) return true;
         }
-        Debug.Log("HasAnyUsableWeapon: false - 턴 스킵");
         return false;
     }
 

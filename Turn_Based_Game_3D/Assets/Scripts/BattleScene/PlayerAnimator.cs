@@ -13,7 +13,9 @@ public class PlayerAnimator : UnitAnimator
     private PlayerWeaponController  _weaponController;
     private Transform               _currentTarget;
     private float                   _jumpDuration = 0.5f;
-    private Func<Awaitable>  _onAttackHit;
+    private Func<Awaitable>         _onAttackHit;
+
+    private System.Threading.Tasks.TaskCompletionSource<bool> _crossbowHitSource;
 
     protected override void Initialize()
     {
@@ -43,6 +45,10 @@ public class PlayerAnimator : UnitAnimator
             {
                 // Idle 포즈 설정
                 _weaponController.SetGunIdlePose();
+            }
+            else if (weaponType == WeaponType.Crossbow)
+            {
+                _weaponController.SetCrossbowIdlePose();
             }
 
             // 무기 언클로킹 그 무기에 맞는 애니메이션 레이어로 전환을 동시에
@@ -131,12 +137,26 @@ public class PlayerAnimator : UnitAnimator
             // 2. 화살 오브젝트 발사
             // 3. 화살이 적에게 명중하는 시점에 OnAttackHit() 호출
             // 4. 명중 완료 신호 받을 때까지 await 대기 (TaskCompletionSource 방식 예정)
+
+            _weaponController?.SetCrossbowAttackPose();
             _animator.SetTrigger($"{weaponType}Attack");
+
             await Awaitable.WaitForSecondsAsync(clipLength, destroyCancellationToken);
+
+            // 명중 시점에 타격 판정
+            OnAttackHit();
+            _weaponController?.SetCrossbowIdlePose();
         }
 
         transform.DORotateQuaternion(originRotation, 0.2f).SetEase(Ease.OutQuad);
         await Awaitable.WaitForSecondsAsync(_weaponIdleTransitionDuration, destroyCancellationToken);
+    }
+
+    public void OnCrossbowFire()
+    {
+        if (_currentTarget == null) return;
+
+        _crossbowHitSource = _weaponController?.FireCrossbowArrow(_currentTarget.position);
     }
 
     private async Awaitable FadeLayerWeight(int layerIndex, float from, float to, float duration)
@@ -177,7 +197,6 @@ public class PlayerAnimator : UnitAnimator
     }
     public void OnGunFire()
     {
-        Debug.Log("OnGunFire 호출됨");
         if (_currentTarget == null) return;
 
         _weaponController?.PlayGunFireEffect(_currentTarget.position);
@@ -192,7 +211,7 @@ public class PlayerAnimator : UnitAnimator
         Time.timeScale = 1f;
     }
 
-    public void SetAttackHitCallback(System.Func<Awaitable> callback)
+    public void SetAttackHitCallback(Func<Awaitable> callback)
     {
         _onAttackHit = callback;
     }

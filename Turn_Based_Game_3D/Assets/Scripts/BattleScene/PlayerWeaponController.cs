@@ -7,15 +7,22 @@ public class PlayerWeaponController : MonoBehaviour
     [SerializeField] private float      _toCameraPos = 2f;
 
     // 총 애니메이션에 맞춘 총 위치
-    private Vector3 _gunIdlePosition = new Vector3(0.021f, 0.0117f, -0.0072f);
-    private Vector3 _gunIdleRotation = new Vector3(-27.923f, 91.552f, 17.673f);
-    private Vector3 _gunAttackPosition = new Vector3(-0.013f, 0.007f, -0.027f);
-    private Vector3 _gunAttackRotation = new Vector3(-7.931f, 78.542f, 24.135f);
+    private Vector3 _gunIdlePosition    = new Vector3(0.021f, 0.0117f, -0.0072f);
+    private Vector3 _gunIdleRotation    = new Vector3(-27.923f, 91.552f, 17.673f);
+    private Vector3 _gunAttackPosition  = new Vector3(-0.013f, 0.007f, -0.027f);
+    private Vector3 _gunAttackRotation  = new Vector3(-7.931f, 78.542f, 24.135f);
+
+    //석궁 애니메이션에 맞춘 총 위치
+    private Vector3 _crossbowIdlePosition   = new Vector3(0.272f, 0.138f, -0.003f);
+    private Vector3 _crossbowIdleRotation   = new Vector3(-22.356f, 97.813f, 0.4f);
+    private Vector3 _crossbowAttackPosition = new Vector3(0.304f, 0.1f, 0.063f);
+    private Vector3 _crossbowAttackRotation = new Vector3(-10.231f, 79.644f, 18.365f);
 
 
     private Dictionary<WeaponType, WeaponCloakEffect> _weaponCloakEffects = new Dictionary<WeaponType, WeaponCloakEffect>();
-    private HitEffectPool       _hitEffectPool;
-    private GunEffectController _gunEffectController;
+    private HitEffectPool               _hitEffectPool;
+    private GunEffectController         _gunEffectController;
+    private CrossbowEffectController    _crossbowEffectController;
 
     private void Awake() => InitHitEffectPool();
     private void InitHitEffectPool()
@@ -56,6 +63,15 @@ public class PlayerWeaponController : MonoBehaviour
             _gunEffectController = gunEffect.GetComponentInChildren<GunEffectController>(true);
             _gunEffectController?.Initialize();
         }
+        if (_weaponCloakEffects.TryGetValue(WeaponType.Crossbow, out WeaponCloakEffect crossbowEffect))
+        {
+            _crossbowEffectController = crossbowEffect.GetComponentInChildren<CrossbowEffectController>(true);
+        }            
+    }
+
+    public System.Threading.Tasks.TaskCompletionSource<bool> FireCrossbowArrow(Vector3 targetPosition)
+    {
+        return _crossbowEffectController?.FireArrow(targetPosition);
     }
 
     public void PlayGunFireEffect(Vector3 targetPosition)
@@ -97,4 +113,19 @@ public class PlayerWeaponController : MonoBehaviour
         cloakEffect.transform.localRotation = Quaternion.Euler(_gunAttackRotation);
     }
 
+    public void SetCrossbowIdlePose()
+    {
+        if (!_weaponCloakEffects.TryGetValue(WeaponType.Crossbow, out WeaponCloakEffect cloakEffect)) return;
+
+        cloakEffect.transform.localPosition = _crossbowIdlePosition;
+        cloakEffect.transform.localRotation = Quaternion.Euler(_crossbowIdleRotation);
+    }
+
+    public void SetCrossbowAttackPose()
+    {
+        if (!_weaponCloakEffects.TryGetValue(WeaponType.Crossbow, out WeaponCloakEffect cloakEffect)) return;
+
+        cloakEffect.transform.localPosition = _crossbowAttackPosition;
+        cloakEffect.transform.localRotation = Quaternion.Euler(_crossbowAttackRotation);
+    }
 }

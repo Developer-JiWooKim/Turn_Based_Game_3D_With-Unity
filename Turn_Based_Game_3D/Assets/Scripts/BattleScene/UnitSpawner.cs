@@ -95,7 +95,6 @@ public class UnitSpawner : MonoBehaviour
         }
 
         // 풀에 없으면 새로 생성
-        Debug.LogWarning($"{prefab.name} 풀 부족 - 새로 생성");
         GameObject newObj = Instantiate(prefab);
         newObj.SetActive(false);
 

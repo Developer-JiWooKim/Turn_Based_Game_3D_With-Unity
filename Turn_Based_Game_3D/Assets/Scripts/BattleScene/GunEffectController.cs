@@ -11,14 +11,14 @@ public class GunEffectController : MonoBehaviour
     public void Initialize()
     {
         if (_bulletTrail != null)
+        {
             _bulletTrail.enabled = false;
-
-        Debug.Log($"GunEffectController.Initialize - MuzzlePoint: {_muzzlePoint}, MuzzleFlash: {_muzzleFlash}, BulletTrail: {_bulletTrail}");
+        }
+            
     }
 
     public void PlayFireEffect(Vector3 targetPosition)
     {
-        Debug.Log($"PlayFireEffect - MuzzleFlash: {_muzzleFlash}, BulletTrail: {_bulletTrail}");
         _muzzleFlash?.Play();
 
         if (_bulletTrail != null && _muzzlePoint != null)

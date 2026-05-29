@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7365609322746364515}
-  - component: {fileID: 2325134907314352814}
   - component: {fileID: 2829174318768484245}
   - component: {fileID: 2438120090696247192}
   - component: {fileID: 7254780155324391517}
@@ -38,29 +37,6 @@ Transform:
   - {fileID: 3290313032342675006}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &2325134907314352814
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2348793233176415942}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.3
-  m_Height: 2.7
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.4, z: 0}
 --- !u!95 &2829174318768484245
 Animator:
   serializedVersion: 7
@@ -110,10 +86,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerWeaponController
   _hitEffectPrefab: {fileID: 2708598583397607911, guid: c3ea06f54f8584f41b0bd65f04fc32b7, type: 3}
   _toCameraPos: 2
-  _gunIdlePosition: {x: -0.01821823, y: 0.0319531, z: -0.02460939}
-  _gunIdleRotation: {x: -11.144, y: 87.692, z: 14.683}
-  _gunAttackPosition: {x: -0.0246552, y: 0.02883693, z: -0.0247517}
-  _gunAttackRotation: {x: 3.97, y: 79.856, z: 13.905}
 --- !u!114 &7849581132551134668
 MonoBehaviour:
   m_ObjectHideFlags: 0

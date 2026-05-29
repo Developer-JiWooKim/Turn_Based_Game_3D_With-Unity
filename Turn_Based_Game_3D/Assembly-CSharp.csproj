@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\BattleScene\PlayerInputHandler.cs" />
     <Compile Include="Assets\Scripts\WeaponSelectScene\WeaponSelectSceneController.cs" />
     <Compile Include="Assets\Scripts\BattleScene\UnitAnimator.cs" />
+    <Compile Include="Assets\Scripts\BattleScene\ArrowProjectile.cs" />
     <Compile Include="Assets\Scripts\Scriptable\StageData.cs" />
     <Compile Include="Assets\Scripts\BattleScene\DamagePopup.cs" />
     <Compile Include="Assets\External Assets\Toon Shaders Pro\Shaders\Outline\Scripts\OutlineSettings.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Assets\Scripts\Scriptable\SkillData.cs" />
     <Compile Include="Assets\Scripts\InputSystem_Actions.cs" />
     <Compile Include="Assets\Scripts\BattleScene\UnitView.cs" />
+    <Compile Include="Assets\Scripts\BattleScene\CrossbowEffectController.cs" />
     <Compile Include="Assets\External Assets\DoubleL\Demo\DemoCameraController.cs" />
     <Compile Include="Assets\Scripts\Manager\PlayerDataManager.cs" />
     <Compile Include="Assets\External Assets\Nokobot\Sci-Fi_Crossbow\Prefabs\Blue Variation\CrossbowShoot.cs" />
