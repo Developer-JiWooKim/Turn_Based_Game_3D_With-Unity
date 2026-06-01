@@ -97,6 +97,8 @@ public class BattleController : MonoBehaviour
 
         _targetSelector.Initialize(_enemyUnitViews);
 
+        OnPlayerActionComplete?.Invoke(_playerUnits[0]);
+
         _ = BattleLoop(_battleUnits);
     }
 

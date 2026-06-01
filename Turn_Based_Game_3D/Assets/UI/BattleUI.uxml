@@ -40,23 +40,33 @@
 
             <!-- 우측: 플레이어 HP/MP -->
             <ui:VisualElement name="player-status" class="player-status">
+
+            <!-- 이름 + 레벨 + 경험치 바 -->
+            <ui:VisualElement class="bar-row">
                 <ui:Label name="player-name" text="전사" class="player-name"/>
-                <ui:VisualElement class="bar-row">
-                    <ui:Label text="HP" class="bar-label"/>
-                    <ui:VisualElement name="hp-bar-bg" class="bar-bg">
-                        <ui:VisualElement name="hp-bar" class="bar hp-bar"/>
-                    </ui:VisualElement>
-                    <ui:Label name="hp-text" text="350/350" class="bar-text"/>
-                </ui:VisualElement>
-                <ui:VisualElement class="bar-row">
-                    <ui:Label text="ST" class="bar-label"/>
-                    <ui:VisualElement name="mp-bar-bg" class="bar-bg">
-                        <ui:VisualElement name="mp-bar" class="bar mp-bar"/>
-                    </ui:VisualElement>
-                    <ui:Label name="mp-text" text="80/80" class="bar-text"/>
+                <ui:Label name="level-text" text="Lv. 1" class="bar-label"/>
+                <ui:VisualElement name="exp-bar-bg" class="bar-bg">
+                    <ui:VisualElement name="exp-bar" class="bar exp-bar"/>
                 </ui:VisualElement>
             </ui:VisualElement>
 
+            <ui:VisualElement class="bar-row">
+                <ui:Label text="HP" class="bar-label"/>
+                <ui:VisualElement name="hp-bar-bg" class="bar-bg">
+                    <ui:VisualElement name="hp-bar" class="bar hp-bar"/>
+                </ui:VisualElement>
+                <ui:Label name="hp-text" text="" class="bar-text"/>
+            </ui:VisualElement>
+
+            <ui:VisualElement class="bar-row">
+                   <ui:Label text="ST" class="bar-label"/>
+                   <ui:VisualElement name="mp-bar-bg" class="bar-bg">
+                       <ui:VisualElement name="mp-bar" class="bar mp-bar"/>
+                   </ui:VisualElement>
+                   <ui:Label name="mp-text" text="" class="bar-text"/>
+                </ui:VisualElement>
+
+            </ui:VisualElement>
         </ui:VisualElement>
 
         <!-- Game Clear 패널 -->

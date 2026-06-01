@@ -35,7 +35,6 @@ public class BattleUnit : IDamageable
 
     public bool IsPlayer { get; private set; }
 
-
     public BattleUnit(PlayerData data)
     {
         IsPlayer = true;
@@ -60,6 +59,14 @@ public class BattleUnit : IDamageable
 
         _speed = data.enemyStat.Speed;
         _atk = data.enemyStat.AttackPower;
+    }
+
+    protected void AddBonusStats(int bonusHp, int bonusAtk, int bonusSpd)
+    {
+        _maxHp      += bonusHp;
+        _currentHp  += bonusHp;
+        _atk        += bonusAtk;
+        _speed      += bonusSpd;
     }
 
     public virtual void TakeDamage(int damage)

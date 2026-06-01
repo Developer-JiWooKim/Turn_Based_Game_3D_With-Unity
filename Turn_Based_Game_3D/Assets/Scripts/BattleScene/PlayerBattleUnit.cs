@@ -13,7 +13,14 @@ public class PlayerBattleUnit : BattleUnit
     public PlayerBattleUnit(PlayerData data, WeaponData[] weapons) : base(data)
     {
         _playerData = data;
-        Weapons = weapons;
+        Weapons     = weapons;
+
+        // 레벨 보너스 스탯 적용
+        int bonusHp = PlayerDataManager.Instance.GetBonusHp();
+        int bonusAtk = PlayerDataManager.Instance.GetBonusAtk();
+        int bonusSpd = PlayerDataManager.Instance.GetBonusSpd();
+
+        AddBonusStats(bonusHp, bonusAtk, bonusSpd);
 
         _currentAmmos = new int[weapons.Length];
         for (int i = 0; i < weapons.Length; i++)

@@ -35,6 +35,9 @@ public class UnitHUD : MonoBehaviour
 
     public void UpdateHp(int currentHp, int maxHp)
     {
+
+        Debug.Log($"UnitHUD.UpdateHp - {currentHp}/{maxHp}");
+
         float ratio = (float)currentHp / maxHp;
 
         _hpBarFill.fillAmount = ratio;

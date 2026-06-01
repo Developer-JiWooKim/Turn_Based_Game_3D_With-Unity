@@ -209,3 +209,7 @@
     border-color: rgba(255, 255, 255, 0.3);
     pointer-events: auto;
 }
+
+.exp-bar {
+    background-color: rgb(80, 180, 255);
+}

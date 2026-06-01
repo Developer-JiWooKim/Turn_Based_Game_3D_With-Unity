@@ -6,21 +6,21 @@ public class BattleUIController : MonoBehaviour
     private BattleController    _battleController;
     private PlayerInputHandler  _playerInputHandler;
 
-    // UIToolKit 관련, 이 부분은 잘 몰라서 AI에게 맡김
     private UIDocument _uiDocument;
+
     private VisualElement _skillBar;
     private VisualElement _hpBar;
     private VisualElement _mpBar;
+    private VisualElement _gameClearPanel;
+    private VisualElement _gameOverPanel;
+    private VisualElement _expBar;
+
+    private Label _levelText;
     private Label _hpText;
     private Label _mpText;
     private Label _turnLabel;
+
     private Button _quitBtn;
-
-    private VisualElement _gameClearPanel;
-    private VisualElement _gameOverPanel;
-
-
-    // public event Action<BattleUnit, PlayerSkillData> OnPlayerInput;
 
     private void Awake() => Initialize();
 
@@ -29,16 +29,18 @@ public class BattleUIController : MonoBehaviour
         _uiDocument = GetComponent<UIDocument>();
         var root = _uiDocument.rootVisualElement;
 
-        _skillBar   = root.Q<VisualElement>("skill-bar");
-        _hpBar      = root.Q<VisualElement>("hp-bar");
-        _mpBar      = root.Q<VisualElement>("mp-bar");
+        _skillBar       = root.Q<VisualElement>("skill-bar");
+        _hpBar          = root.Q<VisualElement>("hp-bar");
+        _mpBar          = root.Q<VisualElement>("mp-bar");
+        _gameClearPanel = root.Q<VisualElement>("game-clear-panel");
+        _gameOverPanel  = root.Q<VisualElement>("game-over-panel");
+        _expBar         = root.Q<VisualElement>("exp-bar");
+
+        _levelText  = root.Q<Label>("level-text");
         _hpText     = root.Q<Label>("hp-text");
         _mpText     = root.Q<Label>("mp-text");
         _turnLabel  = root.Q<Label>("turn-label");
-        _quitBtn    = root.Q<Button>("quit-btn");
-
-        _gameClearPanel = root.Q<VisualElement>("game-clear-panel");
-        _gameOverPanel  = root.Q<VisualElement>("game-over-panel");
+        _quitBtn    = root.Q<Button>("quit-btn");        
 
         _turnLabel.text = $"Turn [ 1 ]";    // 턴 초기값
 
@@ -49,6 +51,25 @@ public class BattleUIController : MonoBehaviour
         root.Q<Button>("retry-btn").clicked          += OnRetryButtonClicked;
 
         _skillBar.style.visibility = Visibility.Hidden;
+
+        // 초기 레벨 표시
+        UpdateLevelUI();
+    }
+
+    private void UpdateLevelUI()
+    {
+        int level = PlayerDataManager.Instance.CurrentLevel;
+        if (_levelText != null)
+            _levelText.text = $"Lv. {level}";
+
+        // 노멀 모드는 항상 꽉 찬 상태 (스테이지 클리어 = 1레벨업)
+        if (_expBar != null)
+            _expBar.style.width = Length.Percent(100f);
+    }
+
+    private void HandleLevelUp(int newLevel)
+    {
+        UpdateLevelUI();
     }
 
     public void Subscribe(BattleController battleController, PlayerInputHandler playerInputHandler)
@@ -62,8 +83,10 @@ public class BattleUIController : MonoBehaviour
         _battleController.OnPlayerActionComplete += HandlePlayerActionComplete;
         _battleController.OnTurnChanged          += HangleTurnChanged;
 
-         GameManager.Instance.OnGameClear += HandleGameClear;
-         GameManager.Instance.OnGameOver  += HandleGameOver;
+        GameManager.Instance.OnGameClear += HandleGameClear;
+        GameManager.Instance.OnGameOver  += HandleGameOver;
+
+        PlayerDataManager.Instance.OnLevelUp += HandleLevelUp;
     }
 
     private void OnDestroy() => Unsubscribe();
@@ -79,6 +102,8 @@ public class BattleUIController : MonoBehaviour
 
             GameManager.Instance.OnGameOver -= HandleGameOver;
             GameManager.Instance.OnGameOver -= HandleGameClear;
+
+            PlayerDataManager.Instance.OnLevelUp -= HandleLevelUp;
         }
     }
 
@@ -138,6 +163,8 @@ public class BattleUIController : MonoBehaviour
 
     private void RefreshPlayerStatus(PlayerBattleUnit player)
     {
+        Debug.Log($"RefreshPlayerStatus - HP: {player.CurrentHp}/{player.MaxHp}, ST: {player.CurrentStamina}/{player.MaxStamina}");
+
         float hpRatio = (float)player.CurrentHp / player.MaxHp;
         float mpRatio = (float)player.CurrentStamina / player.MaxStamina;
 

@@ -81,13 +81,21 @@ public class BattleSceneController : MonoBehaviour
         if (isWin)
         {
             // 다음 스테이지 전 총알 리셋
-            // TODO#: 나중에 플레이어 유닛 리스트로 교체
             foreach (var player in _battleController.PlayerUnits)
                 player.ResetAmmos();
+
+            // 노멀 모드 스테이지 클리어 시 레벨업
+            if (StageManager.Instance.CurrentGameMode == GameMode.Normal)
+                PlayerDataManager.Instance.LevelUp();
+
+
             GameManager.Instance.NextStage();
         }
         else
         {
+            // 게임 오버 시 초기화
+            PlayerDataManager.Instance.ResetPlayerProgress();
+
             GameManager.Instance.GameOver();
         }
     }
