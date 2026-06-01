@@ -13,9 +13,39 @@ public class PlayerAnimator : UnitAnimator
     private PlayerWeaponController  _weaponController;
     private Transform               _currentTarget;
     private float                   _jumpDuration = 0.5f;
-    private Func<Awaitable>         _onAttackHit;
+    private Func<Awaitable>         _onAttackHit;    
 
     private System.Threading.Tasks.TaskCompletionSource<bool> _crossbowHitSource;
+
+    private Transform _rightHandIKTarget;
+    private Transform _leftHandIKTarget;
+
+    public void SetHandIKTargets(Transform rightHand, Transform leftHand)
+    {
+        _rightHandIKTarget = rightHand;
+        _leftHandIKTarget = leftHand;
+    }
+
+    public void ClearHandIKTargets()
+    {
+        _rightHandIKTarget = null;
+        _leftHandIKTarget = null;
+    }
+
+    private void OnAnimatorIK(int layerIndex)
+    {
+        if (_rightHandIKTarget != null)
+        {
+            _animator.SetIKPosition(AvatarIKGoal.RightHand, _rightHandIKTarget.position);
+            _animator.SetIKRotation(AvatarIKGoal.RightHand, _rightHandIKTarget.rotation);
+        }
+
+        if (_leftHandIKTarget != null)
+        {
+            _animator.SetIKPosition(AvatarIKGoal.LeftHand, _leftHandIKTarget.position);
+            _animator.SetIKRotation(AvatarIKGoal.LeftHand, _leftHandIKTarget.rotation);
+        }
+    }
 
     protected override void Initialize()
     {
@@ -58,6 +88,10 @@ public class PlayerAnimator : UnitAnimator
             await uncloakTask;
             await fadeTask;
 
+            // IK 활성화
+            var ikPoints = _weaponController?.GetWeaponIKPoints(weaponType);
+            SetHandIKTargets(ikPoints?.rightHand, ikPoints?.leftHand);
+
             Vector3 direction = (target.position - transform.position).normalized;
             direction.y = 0;
 
@@ -77,6 +111,8 @@ public class PlayerAnimator : UnitAnimator
             await cloakTask;
             await fadeOutTask;
 
+            // IK 비활성화
+            ClearHandIKTargets();
         }
         catch (OperationCanceledException)
         {
@@ -119,6 +155,8 @@ public class PlayerAnimator : UnitAnimator
 
     private async Awaitable PlayRangedAttackAsync(WeaponType weaponType, Quaternion originRotation)
     {
+        SetHandIKWeight(0f); // ★ 공격 중 IK 끔
+
         float clipLength = GetAnimationLength($"{weaponType}Attack");
 
         if (weaponType == WeaponType.Gun)
@@ -150,6 +188,22 @@ public class PlayerAnimator : UnitAnimator
 
         transform.DORotateQuaternion(originRotation, 0.2f).SetEase(Ease.OutQuad);
         await Awaitable.WaitForSecondsAsync(_weaponIdleTransitionDuration, destroyCancellationToken);
+
+        SetHandIKWeight(1f); // ★ 복귀 후 IK 켬
+    }
+
+    private void SetHandIKWeight(float weight)
+    {
+        if (_rightHandIKTarget != null)
+        {
+            _animator.SetIKPositionWeight(AvatarIKGoal.RightHand, weight);
+            _animator.SetIKRotationWeight(AvatarIKGoal.RightHand, weight);
+        }
+        if (_leftHandIKTarget != null)
+        {
+            _animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, weight);
+            _animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, weight);
+        }
     }
 
     public void OnCrossbowFire()
@@ -195,6 +249,7 @@ public class PlayerAnimator : UnitAnimator
             await _onAttackHit();
         }
     }
+
     public void OnGunFire()
     {
         if (_currentTarget == null) return;
