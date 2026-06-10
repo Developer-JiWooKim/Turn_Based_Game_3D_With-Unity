@@ -1,7 +1,5 @@
 using System;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class PlayerDataManager : MonoBehaviour
 {
@@ -15,7 +13,7 @@ public class PlayerDataManager : MonoBehaviour
     private int _currentLevel = 1;
     private int _currentExp = 0;
 
-    // #TODO:현재는 테스트를 위해 하드 코딩으로 레벨업 시 올라갈 수치 입력
+    // #TODO: 현재는 테스트를 위해 하드 코딩으로 레벨업 시 올라갈 수치 입력
     private const int HpPerLevel = 20;
     private const int AtkPerLevel = 3;
     private const int SpdPerLevel = 1;
@@ -30,26 +28,25 @@ public class PlayerDataManager : MonoBehaviour
     private void Awake() => Initialize();
     private void Initialize()
     {
-        if (_instance == null)
-        {
-            _instance = this;
-        }
-        else
+        if (_instance != null && _instance != this)
         {
             Destroy(this.gameObject);
+            return;
         }
+
+        _instance = this;
     }
 
     public void SelectWeapon(int slot, WeaponData weapon)
     {
-        if (slot < 0 || weapon == null) return;
+        if (slot < 0 || slot >= _selectedWeapons.Length || weapon == null) return;
 
         _selectedWeapons[slot] = weapon;
     }
 
     public void ClearSelectWeapons()
     {
-        _selectedWeapons = new WeaponData[3];
+        Array.Clear(_selectedWeapons, 0, _selectedWeapons.Length);
     }
 
     public void LevelUp()
@@ -57,6 +54,7 @@ public class PlayerDataManager : MonoBehaviour
         _currentLevel++;
         OnLevelUp?.Invoke(_currentLevel);
     }
+
     // 레벨에 따른 스탯 증가값 반환
     public int GetBonusHp() => (_currentLevel - 1) * HpPerLevel;
     public int GetBonusAtk() => (_currentLevel - 1) * AtkPerLevel;

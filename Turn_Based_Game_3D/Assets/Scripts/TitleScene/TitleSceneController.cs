@@ -20,34 +20,34 @@ public class TitleSceneController : MonoBehaviour
         _uiDocument = GetComponent<UIDocument>();
         var root = _uiDocument.rootVisualElement;
 
-        _startBtn  = root.Q<Button>("start-btn");
+        _startBtn = root.Q<Button>("start-btn");
         _optionBtn = root.Q<Button>("option-btn");
-        _quitBtn   = root.Q<Button>("quit-btn");
+        _quitBtn = root.Q<Button>("quit-btn");
 
-        _startBtn.clicked  += OnStartButtonClicked;
+        _startBtn.clicked += OnStartButtonClicked;
         _optionBtn.clicked += OnOptionButtonClicked;
-        _quitBtn.clicked   += OnQuitButtonClicked;
+        _quitBtn.clicked += OnQuitButtonClicked;
 
         _modeSelectPanel = root.Q<VisualElement>("mode-select-panel");
-        _normalBtn       = root.Q<Button>("normal-btn");
-        _challengeBtn    = root.Q<Button>("challenge-btn");
-        _modeBackBtn     = root.Q<Button>("mode-back-btn");
+        _normalBtn = root.Q<Button>("normal-btn");
+        _challengeBtn = root.Q<Button>("challenge-btn");
+        _modeBackBtn = root.Q<Button>("mode-back-btn");
 
-        _normalBtn.clicked    += OnNormalButtonClicked;
+        _normalBtn.clicked += OnNormalButtonClicked;
         _challengeBtn.clicked += OnChallengeButtonClicked;
-        _modeBackBtn.clicked  += OnModeBackButtonClicked;
+        _modeBackBtn.clicked += OnModeBackButtonClicked;
     }
 
     private void OnDestroy() => UnSubscribeButtonEvent();
     private void UnSubscribeButtonEvent()
     {
-        _startBtn.clicked     -= OnStartButtonClicked;
-        _optionBtn.clicked    -= OnOptionButtonClicked;
-        _quitBtn.clicked      -= OnQuitButtonClicked;
+        _startBtn.clicked -= OnStartButtonClicked;
+        _optionBtn.clicked -= OnOptionButtonClicked;
+        _quitBtn.clicked -= OnQuitButtonClicked;
 
-        _normalBtn.clicked    -= OnNormalButtonClicked;
+        _normalBtn.clicked -= OnNormalButtonClicked;
         _challengeBtn.clicked -= OnChallengeButtonClicked;
-        _modeBackBtn.clicked  -= OnModeBackButtonClicked;
+        _modeBackBtn.clicked -= OnModeBackButtonClicked;
     }
 
 

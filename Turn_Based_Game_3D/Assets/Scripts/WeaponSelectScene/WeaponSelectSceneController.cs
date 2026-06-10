@@ -4,10 +4,10 @@ using UnityEngine.UIElements;
 
 public class WeaponSelectSceneController : MonoBehaviour
 {
-    [SerializeField] private UIDocument _uiDocument;
-    [SerializeField] private WeaponData[] _weaponDatas;
-    [SerializeField] private Transform _previewPoint;
-    [SerializeField] private RenderTexture _previewRenderTexture;
+    [SerializeField] private UIDocument           _uiDocument;
+    [SerializeField] private WeaponData[]         _weaponDatas;
+    [SerializeField] private Transform            _previewPoint;
+    [SerializeField] private RenderTexture        _previewRenderTexture;
     [SerializeField] private WeaponPreviewRotator _previewRotator;
 
     private VisualElement   _previewArea;
@@ -26,7 +26,7 @@ public class WeaponSelectSceneController : MonoBehaviour
 
     private GameObject _currentPreviewObj;
 
-    private WeaponData   _currentWeapon; // 현재 하이라이트된 무기
+    private WeaponData   _currentWeapon; // 현재 하이라이트된 무기 데이터
     private WeaponData[] _selectedWeapons = new WeaponData[3];
 
     private Dictionary<WeaponData, GameObject> _previewPool   = new Dictionary<WeaponData, GameObject>();

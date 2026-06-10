@@ -14,7 +14,7 @@ public class StageManager : MonoBehaviour
     [Header("Normal Mode")]
     [SerializeField] private StageData[] _stageDatas; // 1~n 스테이지 고정 데이터
 
-    [Header("Challenge Mode - Stat Scaling")]
+    [Header("Challenge Mode - Stat Scaling")] // #TODO: 현재 기획이 안되어있어서 일단 하드코딩
     [SerializeField] private int _hpIncreasePerStage = 20;
     [SerializeField] private int _atkIncreasePerStage = 5;
     [SerializeField] private int _spdIncreasePerStage = 1;
@@ -26,26 +26,34 @@ public class StageManager : MonoBehaviour
     public GameMode CurrentGameMode   => _currentGameMode;
 
     // 노멀 모드에서 현재 스테이지 데이터
-    public StageData CurrentStageData =>
-        _currentGameMode == GameMode.Normal ? _stageDatas[_currentStageLevel - 1] : null;
+    public StageData CurrentStageData
+    {
+        // 인덱스 범위 초과 에러(IndexOutOfRangeException) 예방
+        get
+        {
+            if (_currentGameMode == GameMode.Normal && _currentStageLevel > 0 && _currentStageLevel <= _stageDatas.Length)
+            {
+                return _stageDatas[_currentStageLevel - 1];
+            }
+            return null;
+        }
+    }
+        
 
-    public bool IsLastStage =>
-        _currentGameMode == GameMode.Normal && _currentStageLevel >= _stageDatas.Length;
+    public bool IsLastStage => _currentGameMode == GameMode.Normal && _currentStageLevel >= _stageDatas.Length;
 
 
     private void Awake() => Initialize();
 
     private void Initialize()
     {
-        if (_instance == null)
-        {
-            _instance = this;
-            _currentStageLevel = 1;
+        if (_instance != null && _instance != this) 
+        { 
+            Destroy(gameObject); 
+            return; 
         }
-        else
-        {
-            Destroy(this.gameObject);
-        }
+
+        _instance = this;
     }
 
     public void SetGameMode(GameMode mode)

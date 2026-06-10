@@ -14,16 +14,15 @@ public class GameManager : MonoBehaviour
 
     private void Initialize()
     {
-        if (_instance == null)
-        {
-            _instance = this;
-            DontDestroyOnLoad(this.gameObject);
-            SceneManager.sceneLoaded += OnSceneLoaded;
-        }
-        else
+        if (_instance != null && _instance != this)
         {
             Destroy(this.gameObject);
+            return;
         }
+
+        _instance = this;
+        DontDestroyOnLoad(this.gameObject);
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     public async void LoadScene(string sceneName)
@@ -36,13 +35,7 @@ public class GameManager : MonoBehaviour
     {
         if (FadeController.Instance == null) return;
 
-        _ = FadeInAfterSceneLoaded();
-    }
-
-    private async Awaitable FadeInAfterSceneLoaded()
-    {
-        await Awaitable.NextFrameAsync();
-        await FadeController.Instance.FadeInAsync();
+        _ = FadeController.Instance.FadeInAsync();
     }
 
     private void OnDestroy()
@@ -54,8 +47,7 @@ public class GameManager : MonoBehaviour
     {
         StageManager.Instance.NextStage();
 
-        if (StageManager.Instance.CurrentGameMode == GameMode.Normal
-        && StageManager.Instance.IsLastStage)
+        if (StageManager.Instance.CurrentGameMode == GameMode.Normal && StageManager.Instance.IsLastStage)
         {
             GameClear();
         }
@@ -65,15 +57,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void GameClear()
-    {
-        OnGameClear?.Invoke();
-    }
+    private void GameClear() => OnGameClear?.Invoke();
 
-    public void GameOver()
-    {
-        OnGameOver?.Invoke();
-    }
+    public void GameOver() => OnGameOver?.Invoke();
 
     public void ResetStage()
     {
