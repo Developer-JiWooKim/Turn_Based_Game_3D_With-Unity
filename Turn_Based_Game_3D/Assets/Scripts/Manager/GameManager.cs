@@ -66,4 +66,6 @@ public class GameManager : MonoBehaviour
         StageManager.Instance.ResetStage();
         LoadScene("BattleScene");
     }
+
+    // 20260611 리팩토링 작업 시작
 }
