@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
 
     private void Initialize()
     {
-        if (_instance != null && _instance != this)
+        if (_instance != null)
         {
             Destroy(this.gameObject);
             return;
