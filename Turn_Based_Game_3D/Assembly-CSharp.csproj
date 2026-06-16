@@ -103,6 +103,7 @@
     <None Include="Assets\External Assets\Toon Shaders Pro\Shaders\Toon\Toon.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\External Assets\Toon Shaders Pro\Shaders\Outline\Resources\Outline.shader" />
+    <None Include="Assets\External Assets\KayKit\KayKit_Adventurers\License.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\UI\BattleUI.uss" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
@@ -118,11 +119,13 @@
     <None Include="Assets\UI\BattleUI.uxml" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\External Assets\Toon Shaders Pro\Shaders\Outline\Resources\OutlineUtils.hlsl" />
+    <None Include="Assets\External Assets\KayKit\KayKit_Character_Animations\License.txt" />
     <None Include="Assets\External Assets\Toon Shaders Pro\Shaders\Toon Terrain\TerrainLitBasemapGen.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\UI\TitleUI.uxml" />
     <None Include="Assets\External Assets\Toon Shaders Pro\Shaders\Outline\Resources\HullOutlines.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\SDFFunctions.hlsl" />
+    <None Include="Assets\External Assets\KayKit\KayKit_Skeletons\License.txt" />
     <None Include="Assets\External Assets\Toon Shaders Pro\Shaders\Toon\Subgraphs\MixFog.hlsl" />
     <None Include="Assets\External Assets\Toon Shaders Pro\Shaders\Toon Terrain\TerrainLitInput.hlsl" />
     <None Include="Assets\External Assets\Toon Shaders Pro\Shaders\Toon Terrain\TerrainLitPasses.hlsl" />
@@ -144,6 +147,7 @@
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\External Assets\Toon Shaders Pro\Shaders\Toon Terrain\TerrainLitBase.shader" />
     <None Include="Assets\External Assets\Toon Shaders Pro\Shaders\Toon\ToonFunctions.hlsl" />
+    <None Include="Assets\External Assets\KayKit\KayKit_Environment\License.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
