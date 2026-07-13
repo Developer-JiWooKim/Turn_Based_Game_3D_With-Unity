@@ -1146,6 +1146,7 @@
     <ProjectReference Include="Unity.AI.Navigation.csproj" />
     <ProjectReference Include="Unity.RenderPipelines.Core.ShaderLibrary.csproj" />
     <ProjectReference Include="UnityEditor.Purchasing.csproj" />
+    <ProjectReference Include="CFXRRuntime.csproj" />
     <ProjectReference Include="Unity.VisualScripting.SettingsProvider.Editor.csproj" />
     <ProjectReference Include="Unity.Purchasing.csproj" />
     <ProjectReference Include="Unity.Splines.Editor.csproj" />
@@ -1189,7 +1190,6 @@
     <ProjectReference Include="Unity.VisualScripting.State.Editor.csproj" />
     <ProjectReference Include="Unity.Purchasing.SecurityCore.csproj" />
     <ProjectReference Include="Unity.Mathematics.csproj" />
-    <ProjectReference Include="CFXRRuntime.csproj" />
     <ProjectReference Include="Unity.RenderPipelines.Universal.Shaders.csproj" />
     <ProjectReference Include="UnityEngine.UI.csproj" />
     <ProjectReference Include="Unity.Multiplayer.Center.Common.csproj" />
@@ -1199,7 +1199,6 @@
     <ProjectReference Include="Unity.InternalAPIEngineBridge.004.csproj" />
     <ProjectReference Include="Unity.Multiplayer.Center.Editor.csproj" />
     <ProjectReference Include="Unity.PathTracing.Editor.csproj" />
-    <ProjectReference Include="CFXREditor.csproj" />
     <ProjectReference Include="Unity.Microsoft.GDK.Discovery.csproj" />
     <ProjectReference Include="Unity.RenderPipelines.Universal.Runtime.csproj" />
     <ProjectReference Include="Unity.VisualScripting.State.csproj" />
@@ -1213,6 +1212,7 @@
     <ProjectReference Include="Unity.Microsoft.GDK.csproj" />
     <ProjectReference Include="Unity.Settings.Editor.csproj" />
     <ProjectReference Include="Unity.Splines.csproj" />
+    <ProjectReference Include="CFXREditor.csproj" />
     <ProjectReference Include="Unity.Purchasing.Codeless.csproj" />
     <ProjectReference Include="UnityEditor.UI.csproj" />
   </ItemGroup>
