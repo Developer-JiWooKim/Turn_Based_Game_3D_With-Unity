@@ -7,10 +7,12 @@ namespace Assets.MyAssets.Scripts.Scriptable
 public enum WeaponType
 {
     None = -1,
-    Gun,
-    Sword,
-    Crossbow,
-    Drone
+    Sword = 0,
+    Axe = 1,
+    Dagger = 2,
+    Crossbow = 3,
+    Staff = 4,
+    Bow = 5,
 }
 
 public enum WeaponRangeType

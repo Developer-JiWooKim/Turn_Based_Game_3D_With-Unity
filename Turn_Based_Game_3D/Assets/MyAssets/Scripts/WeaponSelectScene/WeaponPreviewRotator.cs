@@ -38,7 +38,5 @@ namespace Assets.MyAssets.Scripts.WeaponSelectScene
         {
             _isDragging = false;
         }
-
     }
-
 }

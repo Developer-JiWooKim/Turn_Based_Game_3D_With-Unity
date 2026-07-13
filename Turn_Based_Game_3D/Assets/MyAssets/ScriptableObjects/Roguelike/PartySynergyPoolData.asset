@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e94381633ba0ec741a8799aa05260843, type: 3}
+  m_Name: PartySynergyPoolData
+  m_EditorClassIdentifier: Assembly-CSharp::PartySynergyPoolData
+  Entries:
+  - Character: 0
+    RequiredCount: 2
+    Bonus:
+      Hp: 0
+      Stamina: 0
+      StaminaRecovery: 0
+      AttackPower: 0
+      DefenseValue: 10
+      Speed: 0
+      CritRate: 0
+      CritDamageBonus: 0
+      Resistance: 5
+  - Character: 1
+    RequiredCount: 2
+    Bonus:
+      Hp: 0
+      Stamina: 0
+      StaminaRecovery: 0
+      AttackPower: 8
+      DefenseValue: 0
+      Speed: 0
+      CritRate: 0
+      CritDamageBonus: 0
+      Resistance: 0
+  - Character: 2
+    RequiredCount: 2
+    Bonus:
+      Hp: 0
+      Stamina: 0
+      StaminaRecovery: 0
+      AttackPower: 0
+      DefenseValue: 0
+      Speed: 0
+      CritRate: 10
+      CritDamageBonus: 0
+      Resistance: 0
+  - Character: 3
+    RequiredCount: 2
+    Bonus:
+      Hp: 0
+      Stamina: 0
+      StaminaRecovery: 0
+      AttackPower: 0
+      DefenseValue: 0
+      Speed: 5
+      CritRate: 0
+      CritDamageBonus: 0
+      Resistance: 0
+  - Character: 4
+    RequiredCount: 2
+    Bonus:
+      Hp: 0
+      Stamina: 0
+      StaminaRecovery: 0
+      AttackPower: 0
+      DefenseValue: 0
+      Speed: 0
+      CritRate: 0
+      CritDamageBonus: 20
+      Resistance: 0
+  - Character: 5
+    RequiredCount: 2
+    Bonus:
+      Hp: 0
+      Stamina: 0
+      StaminaRecovery: 0
+      AttackPower: 0
+      DefenseValue: 0
+      Speed: 5
+      CritRate: 5
+      CritDamageBonus: 0
+      Resistance: 0

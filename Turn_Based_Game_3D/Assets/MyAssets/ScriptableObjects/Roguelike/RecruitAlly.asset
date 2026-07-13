@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30c4062ff5080944da6662064b4e3dcf, type: 3}
+  m_Name: RecruitAlly
+  m_EditorClassIdentifier: Assembly-CSharp::RoguelikeChoiceData
+  Category: 8
+  ChoiceName: 파티원 영입
+  Description: 6종 중 랜덤 캐릭터가 파티에 합류합니다 (중복 허용). 파티가 꽉 찼다면 교체 대상을 선택합니다. (해당 런 동안 영구)
+  BaseWeight: 10
+  Bonus:
+    Hp: 0
+    Stamina: 0
+    StaminaRecovery: 0
+    AttackPower: 0
+    DefenseValue: 0
+    Speed: 0
+    CritRate: 0
+    CritDamageBonus: 0
+    Resistance: 0
+  HealPercent: 0
+  EnemyHpDownPercent: 0
+  EnemyAtkDownPercent: 0

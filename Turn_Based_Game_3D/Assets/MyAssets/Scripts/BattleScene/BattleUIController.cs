@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Assets.MyAssets.Scripts.Scriptable;
@@ -8,24 +9,28 @@ namespace Assets.MyAssets.Scripts.BattleScene
 
 public class BattleUIController : MonoBehaviour
 {
+    private class PartyStatusRow
+    {
+        public VisualElement HpBar;
+        public VisualElement MpBar;
+        public Label         HpText;
+        public Label         MpText;
+    }
+
     private BattleController    _battleController;
     private PlayerInputHandler  _playerInputHandler;
 
     private UIDocument _uiDocument;
 
     private VisualElement _skillBar;
-    private VisualElement _hpBar;
-    private VisualElement _mpBar;
-    private VisualElement _gameClearPanel;
+    private VisualElement _partyStatusContainer;
     private VisualElement _gameOverPanel;
-    private VisualElement _expBar;
 
-    private Label _levelText;
-    private Label _hpText;
-    private Label _mpText;
     private Label _turnLabel;
 
     private Button _quitBtn;
+
+    private readonly Dictionary<PlayerBattleUnit, PartyStatusRow> _partyStatusRows = new Dictionary<PlayerBattleUnit, PartyStatusRow>();
 
     private void Awake() => Initialize();
 
@@ -34,47 +39,21 @@ public class BattleUIController : MonoBehaviour
         _uiDocument = GetComponent<UIDocument>();
         var root = _uiDocument.rootVisualElement;
 
-        _skillBar       = root.Q<VisualElement>("skill-bar");
-        _hpBar          = root.Q<VisualElement>("hp-bar");
-        _mpBar          = root.Q<VisualElement>("mp-bar");
-        _gameClearPanel = root.Q<VisualElement>("game-clear-panel");
-        _gameOverPanel  = root.Q<VisualElement>("game-over-panel");
-        _expBar         = root.Q<VisualElement>("exp-bar");
+        _skillBar             = root.Q<VisualElement>("skill-bar");
+        _partyStatusContainer = root.Q<VisualElement>("player-status");
+        _gameOverPanel        = root.Q<VisualElement>("game-over-panel");
 
-        _levelText  = root.Q<Label>("level-text");
-        _hpText     = root.Q<Label>("hp-text");
-        _mpText     = root.Q<Label>("mp-text");
         _turnLabel  = root.Q<Label>("turn-label");
-        _quitBtn    = root.Q<Button>("quit-btn");        
+        _quitBtn    = root.Q<Button>("quit-btn");
 
         _turnLabel.text = $"Turn [ 1 ]";    // 턴 초기값
 
         _quitBtn.clicked += OnQuitButtonClicked;
 
-        root.Q<Button>("title-btn-clear").clicked    += OnTitleButtonClicked;
         root.Q<Button>("title-btn-gameover").clicked += OnTitleButtonClicked;
         root.Q<Button>("retry-btn").clicked          += OnRetryButtonClicked;
 
         _skillBar.style.visibility = Visibility.Hidden;
-
-        // 초기 레벨 표시
-        UpdateLevelUI();
-    }
-
-    private void UpdateLevelUI()
-    {
-        int level = PlayerDataManager.Instance.CurrentLevel;
-        if (_levelText != null)
-            _levelText.text = $"Lv. {level}";
-
-        // 노멀 모드는 항상 꽉 찬 상태 (스테이지 클리어 = 1레벨업)
-        if (_expBar != null)
-            _expBar.style.width = Length.Percent(100f);
-    }
-
-    private void HandleLevelUp(int newLevel)
-    {
-        UpdateLevelUI();
     }
 
     public void Subscribe(BattleController battleController, PlayerInputHandler playerInputHandler)
@@ -87,11 +66,9 @@ public class BattleUIController : MonoBehaviour
         _battleController.OnBattleEnd            += HandleBattleEnd;
         _battleController.OnPlayerActionComplete += HandlePlayerActionComplete;
         _battleController.OnTurnChanged          += HangleTurnChanged;
+        _battleController.OnBattleStarted        += HandleBattleStarted;
 
-        GameManager.Instance.OnGameClear += HandleGameClear;
         GameManager.Instance.OnGameOver  += HandleGameOver;
-
-        PlayerDataManager.Instance.OnLevelUp += HandleLevelUp;
     }
 
     private void OnDestroy() => Unsubscribe();
@@ -104,23 +81,15 @@ public class BattleUIController : MonoBehaviour
             _battleController.OnUnitDamaged -= HandleUnitDamaged;
             _battleController.OnPlayerActionComplete -= HandlePlayerActionComplete;
             _battleController.OnTurnChanged -= HangleTurnChanged;
+            _battleController.OnBattleStarted -= HandleBattleStarted;
 
             GameManager.Instance.OnGameOver  -= HandleGameOver;
-            GameManager.Instance.OnGameClear -= HandleGameClear;
-
-            PlayerDataManager.Instance.OnLevelUp -= HandleLevelUp;
         }
     }
 
     private void HandleGameOver()
     {
         _gameOverPanel.style.display = DisplayStyle.Flex;
-        _skillBar.style.visibility = Visibility.Hidden;
-    }
-
-    private void HandleGameClear()
-    {
-        _gameClearPanel.style.display = DisplayStyle.Flex;
         _skillBar.style.visibility = Visibility.Hidden;
     }
 
@@ -152,6 +121,71 @@ public class BattleUIController : MonoBehaviour
         _turnLabel.text = $"Turn [ {currentTurn} ]";
     }
 
+    private void HandleBattleStarted(List<PlayerBattleUnit> players)
+    {
+        _partyStatusContainer.Clear();
+        _partyStatusRows.Clear();
+
+        foreach (var player in players)
+        {
+            BuildPartyStatusRow(player);
+            RefreshPlayerStatus(player);
+        }
+    }
+
+    private void BuildPartyStatusRow(PlayerBattleUnit player)
+    {
+        var nameRow = new VisualElement();
+        nameRow.AddToClassList("bar-row");
+        var nameLabel = new Label(player.Name);
+        nameLabel.AddToClassList("player-name");
+        nameRow.Add(nameLabel);
+
+        var hpRow = new VisualElement();
+        hpRow.AddToClassList("bar-row");
+        var hpLabel = new Label("HP");
+        hpLabel.AddToClassList("bar-label");
+        var hpBarBg = new VisualElement();
+        hpBarBg.AddToClassList("bar-bg");
+        var hpBar = new VisualElement();
+        hpBar.AddToClassList("bar");
+        hpBar.AddToClassList("hp-bar");
+        hpBarBg.Add(hpBar);
+        var hpText = new Label();
+        hpText.AddToClassList("bar-text");
+        hpRow.Add(hpLabel);
+        hpRow.Add(hpBarBg);
+        hpRow.Add(hpText);
+
+        var mpRow = new VisualElement();
+        mpRow.AddToClassList("bar-row");
+        var mpLabel = new Label("ST");
+        mpLabel.AddToClassList("bar-label");
+        var mpBarBg = new VisualElement();
+        mpBarBg.AddToClassList("bar-bg");
+        var mpBar = new VisualElement();
+        mpBar.AddToClassList("bar");
+        mpBar.AddToClassList("mp-bar");
+        mpBarBg.Add(mpBar);
+        var mpText = new Label();
+        mpText.AddToClassList("bar-text");
+        mpRow.Add(mpLabel);
+        mpRow.Add(mpBarBg);
+        mpRow.Add(mpText);
+
+        _partyStatusContainer.Add(nameRow);
+        _partyStatusContainer.Add(hpRow);
+        _partyStatusContainer.Add(mpRow);
+
+        _partyStatusRows[player] = new PartyStatusRow
+        {
+            HpBar  = hpBar,
+            MpBar  = mpBar,
+            HpText = hpText,
+            MpText = mpText,
+        };
+    }
+
     private void HandlePlayerActionComplete(PlayerBattleUnit player)
     {
         RefreshPlayerStatus(player);
@@ -168,16 +202,16 @@ public class BattleUIController : MonoBehaviour
 
     private void RefreshPlayerStatus(PlayerBattleUnit player)
     {
-        Debug.Log($"RefreshPlayerStatus - HP: {player.CurrentHp}/{player.MaxHp}, ST: {player.CurrentStamina}/{player.MaxStamina}");
+        if (!_partyStatusRows.TryGetValue(player, out PartyStatusRow row)) return;
 
         float hpRatio = (float)player.CurrentHp / player.MaxHp;
         float mpRatio = (float)player.CurrentStamina / player.MaxStamina;
 
-        _hpBar.style.width = Length.Percent(hpRatio * 100f);
-        _mpBar.style.width = Length.Percent(mpRatio * 100f);
+        row.HpBar.style.width = Length.Percent(hpRatio * 100f);
+        row.MpBar.style.width = Length.Percent(mpRatio * 100f);
 
-        _hpText.text = $"{player.CurrentHp}/{player.MaxHp}";
-        _mpText.text = $"{player.CurrentStamina}/{player.MaxStamina}";
+        row.HpText.text = $"{player.CurrentHp}/{player.MaxHp}";
+        row.MpText.text = $"{player.CurrentStamina}/{player.MaxStamina}";
     }
 
     private void HandleBattleEnd(bool result)
@@ -186,7 +220,7 @@ public class BattleUIController : MonoBehaviour
         Debug.Log(result ? "승리!" : "패배...");
     }
 
-    private void OnTurnStart(BattleUnit unit) 
+    private void OnTurnStart(BattleUnit unit)
     {
         if (unit is PlayerBattleUnit player)
         {

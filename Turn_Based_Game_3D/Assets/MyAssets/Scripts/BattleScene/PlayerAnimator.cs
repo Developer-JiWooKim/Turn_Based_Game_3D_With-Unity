@@ -74,13 +74,8 @@ public class PlayerAnimator : UnitAnimator
 
             int layerIndex = GetWeaponLayerIndex(weaponType);
 
-            //#TODO:총뿐만 아니라 크로스 보우도 애니메이션에 따라 무기 위치가 바뀔 수 있음
-            if (weaponType == WeaponType.Gun)
-            {
-                // Idle 포즈 설정
-                _weaponController.SetGunIdlePose();
-            }
-            else if (weaponType == WeaponType.Crossbow)
+            //#TODO:크로스 보우도 애니메이션에 따라 무기 위치가 바뀔 수 있음
+            if (weaponType == WeaponType.Crossbow)
             {
                 _weaponController.SetCrossbowIdlePose();
             }
@@ -163,16 +158,7 @@ public class PlayerAnimator : UnitAnimator
 
         float clipLength = GetAnimationLength($"{weaponType}Attack");
 
-        if (weaponType == WeaponType.Gun)
-        {
-            _weaponController?.SetGunAttackPose();
-
-            _animator.SetTrigger($"{weaponType}Attack");
-            await Awaitable.WaitForSecondsAsync(clipLength, destroyCancellationToken);
-
-            _weaponController?.SetGunIdlePose();
-        }
-        else if (weaponType == WeaponType.Crossbow)
+        if (weaponType == WeaponType.Crossbow)
         {
             // TODO#: 화살 오브젝트 구현 시
             // 1. CrossbowAttack 트리거로 애니메이션 재생

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f7d2620c49c88d459db34f4cfa287b5, type: 3}
+  m_Name: RoguelikeChoicePoolData
+  m_EditorClassIdentifier: Assembly-CSharp::RoguelikeChoicePoolData
+  AllChoices:
+  - {fileID: 11400000, guid: 68b0a3fc04dc0102f04b758cfad6f1c8, type: 2}
+  - {fileID: 11400000, guid: 8069dc220c096ad6f430f4cfc32bac4e, type: 2}
+  - {fileID: 11400000, guid: ea388eca071c45a2ab92834618f7d0e8, type: 2}
+  - {fileID: 11400000, guid: b06355771256a1438bcb348a26b01472, type: 2}
+  - {fileID: 11400000, guid: e97e342076cfd846cc82b6ba2fe87dd0, type: 2}
+  - {fileID: 11400000, guid: 574afca0533f2a10e0cca98237b474df, type: 2}
+  - {fileID: 11400000, guid: 39c2039cb989ce9dd5a8662d6498d34a, type: 2}
+  - {fileID: 11400000, guid: 7ac046f2a6d11f8c36e686c2c235316d, type: 2}
+  - {fileID: 11400000, guid: 2768ecf6133251f306db033ea25ffb91, type: 2}

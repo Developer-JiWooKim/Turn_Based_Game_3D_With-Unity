@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Crossbow
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   WeaponName: Crossbow
-  weaponType: 2
+  weaponType: 3
   rangeType: 1
   Description: Crossbow Weapon
   WeaponIcon: {fileID: 21300000, guid: 7be858d441ef26a449ce5370ffc43f00, type: 3}

@@ -10,12 +10,6 @@ public class PlayerWeaponController : MonoBehaviour
     [SerializeField] private GameObject _hitEffectPrefab;
     [SerializeField] private float      _toCameraPos = 2f;
 
-    // 총 애니메이션에 맞춘 총 위치
-    private Vector3 _gunIdlePosition = new Vector3(0.021f, 0.0117f, -0.0072f);
-    private Vector3 _gunIdleRotation = new Vector3(-27.923f, 91.552f, 17.673f);
-    private Vector3 _gunAttackPosition = new Vector3(-0.013f, 0.007f, -0.027f);
-    private Vector3 _gunAttackRotation = new Vector3(-7.931f, 78.542f, 24.135f);
-
     //석궁 애니메이션에 맞춘 총 위치
     private Vector3 _crossbowIdlePosition = new Vector3(0.272f, 0.138f, -0.003f);
     private Vector3 _crossbowIdleRotation = new Vector3(-22.356f, 97.813f, 0.4f);
@@ -63,12 +57,6 @@ public class PlayerWeaponController : MonoBehaviour
             }
         }
 
-        // GunEffectController 캐싱
-        if (_weaponCloakEffects.TryGetValue(WeaponType.Gun, out WeaponCloakEffect gunEffect))
-        {
-            _gunEffectController = gunEffect.GetComponentInChildren<GunEffectController>(true);
-            _gunEffectController?.Initialize();
-        }
         if (_weaponCloakEffects.TryGetValue(WeaponType.Crossbow, out WeaponCloakEffect crossbowEffect))
         {
             _crossbowEffectController = crossbowEffect.GetComponentInChildren<CrossbowEffectController>(true);
@@ -122,22 +110,6 @@ public class PlayerWeaponController : MonoBehaviour
             await cloakEffect.CloakAsync();
             cloakEffect.gameObject.SetActive(false); // 비활성화
         }
-    }
-
-    public void SetGunIdlePose()
-    {
-        if (!_weaponCloakEffects.TryGetValue(WeaponType.Gun, out WeaponCloakEffect cloakEffect)) return;
-
-        cloakEffect.transform.localPosition = _gunIdlePosition;
-        cloakEffect.transform.localRotation = Quaternion.Euler(_gunIdleRotation);
-    }
-
-    public void SetGunAttackPose()
-    {
-        if (!_weaponCloakEffects.TryGetValue(WeaponType.Gun, out WeaponCloakEffect cloakEffect)) return;
-
-        cloakEffect.transform.localPosition = _gunAttackPosition;
-        cloakEffect.transform.localRotation = Quaternion.Euler(_gunAttackRotation);
     }
 
     public void SetCrossbowIdlePose()

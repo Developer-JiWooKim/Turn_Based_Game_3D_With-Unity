@@ -3,83 +3,88 @@ using Assets.MyAssets.Scripts.Scriptable;
 
 namespace Assets.MyAssets.Scripts.Manager
 {
-
-public enum GameMode
-{
-    Normal,
-    Challenge
-}
-
-public class StageManager : MonoBehaviour
-{
-    private static StageManager _instance;
-    public static StageManager Instance => _instance;
-
-    [Header("Normal Mode")]
-    [SerializeField] private StageData[] _stageDatas; // 1~n 스테이지 고정 데이터
-
-    [Header("Challenge Mode - Stat Scaling")] // #TODO: 현재 기획이 안되어있어서 일단 하드코딩
-    [SerializeField] private int _hpIncreasePerStage = 20;
-    [SerializeField] private int _atkIncreasePerStage = 5;
-    [SerializeField] private int _spdIncreasePerStage = 1;
-
-    private int      _currentStageLevel = 1;
-    private GameMode _currentGameMode   = GameMode.Normal;
-
-    public int      CurrentStageLevel => _currentStageLevel;
-    public GameMode CurrentGameMode   => _currentGameMode;
-
-    // 노멀 모드에서 현재 스테이지 데이터
-    public StageData CurrentStageData
+    public class StageManager : Singleton<StageManager>
     {
-        // 인덱스 범위 초과 에러(IndexOutOfRangeException) 예방
-        get
+        [SerializeField] private StageData[] _stageDatas; // 1~n 스테이지 고정 데이터
+        [SerializeField] private SpawnPatternPoolData _spawnPatternPool; // 고정 스테이지 이후 무한 진행용 패턴 풀
+
+        private readonly System.Random _random = new System.Random();
+
+        private int _currentStageLevel = 1;
+        private StageData _resolvedStageData;
+
+        private MetaProgressData _metaProgress;
+
+        public int CurrentStageLevel => _currentStageLevel;
+
+        public int BestStageReached => _metaProgress.BestStageReached;
+        public int PermanentPoints => _metaProgress.PermanentPoints;
+
+        public StageData CurrentStageData => _resolvedStageData;
+
+        protected override void Awake()
         {
-            if (_currentGameMode == GameMode.Normal && _currentStageLevel > 0 && _currentStageLevel <= _stageDatas.Length)
+            base.Awake();
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            _metaProgress = MetaProgressStorage.Load();
+            _resolvedStageData = ResolveStageData();
+        }
+
+        public void NextStage()
+        {
+            bool isNewRecord = _currentStageLevel > _metaProgress.BestStageReached;
+
+            if (isNewRecord)
+            {
+                _metaProgress.BestStageReached = _currentStageLevel;
+
+                if (_currentStageLevel % 10 == 0)
+                {
+                    _metaProgress.PermanentPoints++;
+                }
+
+                MetaProgressStorage.Save(_metaProgress);
+            }
+
+            _currentStageLevel++;
+            _resolvedStageData = ResolveStageData();
+        }
+
+        public void ResetStage()
+        {
+            _currentStageLevel = 1;
+            _resolvedStageData = ResolveStageData();
+        }
+
+        // 고정 배치 스테이지를 넘어서면 스폰 패턴 풀에서 무작위로 골라 임시 StageData를 구성한다.
+        private StageData ResolveStageData()
+        {
+            if (_currentStageLevel > 0 && _currentStageLevel <= _stageDatas.Length)
             {
                 return _stageDatas[_currentStageLevel - 1];
             }
-            return null;
+
+            bool isBossStage = _currentStageLevel % 5 == 0;
+            var pool = isBossStage ? _spawnPatternPool.BossPatterns : _spawnPatternPool.NormalPatterns;
+
+            if (pool == null || pool.Count == 0)
+            {
+                Debug.LogError("스폰 패턴 풀이 비어있습니다.");
+                return null;
+            }
+
+            SpawnPattern chosen = pool[_random.Next(pool.Count)];
+
+            StageData runtimeStage = ScriptableObject.CreateInstance<StageData>();
+            runtimeStage.stageNumber = _currentStageLevel;
+            runtimeStage.stageTitle = $"Stage {_currentStageLevel}";
+            runtimeStage.enemySpawnDatas = chosen.EnemySpawnDatas;
+
+            return runtimeStage;
         }
     }
-        
-
-    public bool IsLastStage => _currentGameMode == GameMode.Normal && _currentStageLevel >= _stageDatas.Length;
-
-
-    private void Awake() => Initialize();
-
-    private void Initialize()
-    {
-        if (_instance != null && _instance != this) 
-        { 
-            Destroy(gameObject); 
-            return; 
-        }
-
-        _instance = this;
-    }
-
-    public void SetGameMode(GameMode mode)
-    {
-        _currentGameMode = mode;
-        _currentStageLevel = 1;
-    }
-
-    public void NextStage() => _currentStageLevel++;
-
-    public void ResetStage() => _currentStageLevel = 1;
-
-
-    // 챌린지 모드 스탯 스케일링
-    public int GetScaledHp(int baseHp)
-        => baseHp + (_currentStageLevel - 1) * _hpIncreasePerStage;
-
-    public int GetScaledAtk(int baseAtk)
-        => baseAtk + (_currentStageLevel - 1) * _atkIncreasePerStage;
-
-    public int GetScaledSpd(int baseSpd)
-        => baseSpd + (_currentStageLevel - 1) * _spdIncreasePerStage;
-}
-
 }

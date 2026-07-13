@@ -15,16 +15,13 @@ public class UnitSpawner : MonoBehaviour
 
     // 풀: 프리팹별로 미리 생성한 오브젝트 보관
     private Dictionary<GameObject, List<GameObject>> _pool;
-    private GameObject _playerInstance;
+    private List<GameObject> _playerInstances;
 
     private void Awake() => Initialize();
     private void Initialize()
     {
         _pool = new Dictionary<GameObject, List<GameObject>>();
-
-        // 플레이어 생성 후 비활성화
-        _playerInstance = Instantiate(_playerPrefab, _playerSpawnPoints[0].position, _playerSpawnPoints[0].rotation);
-        _playerInstance.SetActive(false);
+        _playerInstances = new List<GameObject>();
     }
 
     public void PreparePool(StageData stageData)
@@ -116,21 +113,28 @@ public class UnitSpawner : MonoBehaviour
         return newObj;
     }
 
-    public GameObject SpawnPlayer()
+    public List<GameObject> SpawnParty(int count)
     {
-        _playerInstance.transform.position = _playerSpawnPoints[0].position;
-        _playerInstance.transform.rotation = _playerSpawnPoints[0].rotation;
-        _playerInstance.SetActive(true);
+        for (int i = 0; i < count; i++)
+        {
+            if (i >= _playerSpawnPoints.Length)
+            {
+                Debug.LogError("_playerSpawnPoints의 수와 파티원 수가 다름");
+                break;
+            }
 
-        // 선택한 무기 스폰
-        SpawnWeapons();
+            GameObject playerObj = Instantiate(_playerPrefab, _playerSpawnPoints[i].position, _playerSpawnPoints[i].rotation);
+            _playerInstances.Add(playerObj);
 
-        return _playerInstance;
+            SpawnWeapons(playerObj);
+        }
+
+        return _playerInstances;
     }
 
-    private void SpawnWeapons()
+    private void SpawnWeapons(GameObject playerInstance)
     {
-        Transform[] allTransforms = _playerInstance.GetComponentsInChildren<Transform>();
+        Transform[] allTransforms = playerInstance.GetComponentsInChildren<Transform>();
         Transform socket = null;
 
         foreach (var t in allTransforms)
@@ -153,7 +157,6 @@ public class UnitSpawner : MonoBehaviour
         foreach (var weaponData in selectedWeapons)
         {
             if (weaponData == null || weaponData.WeaponPrefab == null) continue;
-            //if (weaponData.weaponType != WeaponType.Sword) continue; // 검만 스폰 #TODO: 임시, 나중에 각각의 무기 위치 잡은 뒤 지울거임
 
             //TODO#: 무기 데이터 자체에 자신이 위치할 포지션을 갖도록하는게 좋아보임
             GameObject weaponObj = Instantiate(weaponData.WeaponPrefab, socket);
@@ -167,13 +170,8 @@ public class UnitSpawner : MonoBehaviour
         }
 
         // 무기 스폰 후 PlayerWeaponController 초기화
-        PlayerWeaponController weaponController = _playerInstance.GetComponentInChildren<PlayerWeaponController>();
+        PlayerWeaponController weaponController = playerInstance.GetComponentInChildren<PlayerWeaponController>();
         weaponController?.InitWeapons();
-    }
-
-    public void ReturnPlayerToPool()
-    {
-        _playerInstance.SetActive(false);
     }
 }
 

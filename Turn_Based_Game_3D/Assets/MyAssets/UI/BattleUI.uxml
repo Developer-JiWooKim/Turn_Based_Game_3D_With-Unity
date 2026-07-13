@@ -38,41 +38,8 @@
             <!-- 좌측: 스킬 버튼 (동적 생성) -->
             <ui:VisualElement name="skill-bar" class="skill-bar"/>
 
-            <!-- 우측: 플레이어 HP/MP -->
-            <ui:VisualElement name="player-status" class="player-status">
-
-            <!-- 이름 + 레벨 + 경험치 바 -->
-            <ui:VisualElement class="bar-row">
-                <ui:Label name="player-name" text="전사" class="player-name"/>
-                <ui:Label name="level-text" text="Lv. 1" class="bar-label"/>
-                <ui:VisualElement name="exp-bar-bg" class="bar-bg">
-                    <ui:VisualElement name="exp-bar" class="bar exp-bar"/>
-                </ui:VisualElement>
-            </ui:VisualElement>
-
-            <ui:VisualElement class="bar-row">
-                <ui:Label text="HP" class="bar-label"/>
-                <ui:VisualElement name="hp-bar-bg" class="bar-bg">
-                    <ui:VisualElement name="hp-bar" class="bar hp-bar"/>
-                </ui:VisualElement>
-                <ui:Label name="hp-text" text="" class="bar-text"/>
-            </ui:VisualElement>
-
-            <ui:VisualElement class="bar-row">
-                   <ui:Label text="ST" class="bar-label"/>
-                   <ui:VisualElement name="mp-bar-bg" class="bar-bg">
-                       <ui:VisualElement name="mp-bar" class="bar mp-bar"/>
-                   </ui:VisualElement>
-                   <ui:Label name="mp-text" text="" class="bar-text"/>
-                </ui:VisualElement>
-
-            </ui:VisualElement>
-        </ui:VisualElement>
-
-        <!-- Game Clear 패널 -->
-        <ui:VisualElement name="game-clear-panel" class="result-panel">
-            <ui:Label text="Stage Clear!" class="result-text"/>
-            <ui:Button name="title-btn-clear" text="타이틀로" class="result-btn"/>
+            <!-- 우측: 파티원 HP/MP (파티원 수만큼 BattleUIController가 런타임에 채움) -->
+            <ui:VisualElement name="player-status" class="player-status"/>
         </ui:VisualElement>
 
         <!-- Game Over 패널 -->
@@ -80,6 +47,19 @@
             <ui:Label text="Game Over" class="result-text"/>
             <ui:Button name="retry-btn" text="재도전" class="result-btn"/>
             <ui:Button name="title-btn-gameover" text="타이틀로" class="result-btn"/>
+        </ui:VisualElement>
+
+        <!-- 로그라이크 선택지 팝업 (스테이지 승리 후, 3개 중 1개 선택) -->
+        <ui:VisualElement name="roguelike-choice-panel" class="result-panel">
+            <ui:Label text="스테이지 클리어!" class="result-text"/>
+            <ui:VisualElement name="choice-card-container" class="choice-card-container"/>
+        </ui:VisualElement>
+
+        <!-- 파티원 영입 - 교체 대상 선택 팝업 (파티가 꽉 찬 경우) -->
+        <ui:VisualElement name="recruit-replace-panel" class="result-panel">
+            <ui:Label text="영입할 자리가 없습니다. 교체할 파티원을 선택하세요." class="result-text"/>
+            <ui:VisualElement name="replace-target-container" class="choice-card-container"/>
+            <ui:Button name="recruit-cancel-btn" text="영입 취소" class="result-btn"/>
         </ui:VisualElement>
 
     </ui:VisualElement>

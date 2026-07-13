@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30c4062ff5080944da6662064b4e3dcf, type: 3}
+  m_Name: CritUp
+  m_EditorClassIdentifier: Assembly-CSharp::RoguelikeChoiceData
+  Category: 3
+  ChoiceName: 크리티컬 강화
+  Description: 다음 전투부터 CRIT Rate와 CRIT DMG가 동시에 증가합니다. (런 종료까지 유지)
+  BaseWeight: 15
+  Bonus:
+    Hp: 0
+    Stamina: 0
+    StaminaRecovery: 0
+    AttackPower: 0
+    DefenseValue: 0
+    Speed: 0
+    CritRate: 10
+    CritDamageBonus: 20
+    Resistance: 0
+  HealPercent: 0
+  EnemyHpDownPercent: 0
+  EnemyAtkDownPercent: 0

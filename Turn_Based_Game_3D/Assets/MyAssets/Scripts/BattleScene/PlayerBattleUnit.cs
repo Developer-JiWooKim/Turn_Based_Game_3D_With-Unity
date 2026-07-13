@@ -7,25 +7,19 @@ namespace Assets.MyAssets.Scripts.BattleScene
 
 public class PlayerBattleUnit : BattleUnit
 {
-    private PlayerData _playerData;
-    public PlayerData PlayerData => _playerData;
+    private PartyMember _partyMember;
+    public PartyMember PartyMember => _partyMember;
+    public PlayerData PlayerData => _partyMember.Data;
     public WeaponData[] Weapons { get; private set; }
 
     // 런타임 총알 수 관리
     private int[] _currentAmmos;
     public int[] CurrentAmmos => _currentAmmos;
 
-    public PlayerBattleUnit(PlayerData data, WeaponData[] weapons) : base(data)
+    public PlayerBattleUnit(PartyMember partyMember, WeaponData[] weapons) : base(partyMember.Data)
     {
-        _playerData = data;
-        Weapons     = weapons;
-
-        // 레벨 보너스 스탯 적용
-        int bonusHp = PlayerDataManager.Instance.GetBonusHp();
-        int bonusAtk = PlayerDataManager.Instance.GetBonusAtk();
-        int bonusSpd = PlayerDataManager.Instance.GetBonusSpd();
-
-        AddBonusStats(bonusHp, bonusAtk, bonusSpd);
+        _partyMember = partyMember;
+        Weapons      = weapons;
 
         _currentAmmos = new int[weapons.Length];
         for (int i = 0; i < weapons.Length; i++)
@@ -37,21 +31,13 @@ public class PlayerBattleUnit : BattleUnit
     public bool CanUseWeapon(int weaponIndex)
     {
         WeaponData weapon = Weapons[weaponIndex];
-
-        if (weapon.weaponType == WeaponType.Gun)
-            return _currentAmmos[weaponIndex] > 0;
-        else
-            return CurrentStamina >= weapon.StaminaCost;
+        return CurrentStamina >= weapon.StaminaCost;
     }
 
     public void UseWeapon(int weaponIndex)
     {
         WeaponData weapon = Weapons[weaponIndex];
-
-        if (weapon.weaponType == WeaponType.Gun)
-            _currentAmmos[weaponIndex]--;
-        else
-            UseStamina(weapon.StaminaCost);
+        UseStamina(weapon.StaminaCost);
     }
 
     public bool HasAnyUsableWeapon()

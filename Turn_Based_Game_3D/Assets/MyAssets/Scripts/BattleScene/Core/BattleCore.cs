@@ -38,12 +38,13 @@ public class BattleCore
     public List<EnemyBattleUnit>  EnemyUnits  => _enemyUnits;
     public BattleUnit CurrentUnit => _turnOrder.CurrentUnit;
 
-    public event Action<BattleUnit>       OnTurnStart;
-    public event Action<IDamageable, int> OnUnitDamaged;
-    public event Action<bool>             OnBattleEnd;
-    public event Action<PlayerBattleUnit> OnPlayerActionComplete;
-    public event Action<int>              OnTurnChanged;
-    public event Action<BattleUnit>       OnEnemyDied;
+    public event Action<BattleUnit>             OnTurnStart;
+    public event Action<IDamageable, int>       OnUnitDamaged;
+    public event Action<bool>                   OnBattleEnd;
+    public event Action<PlayerBattleUnit>       OnPlayerActionComplete;
+    public event Action<int>                    OnTurnChanged;
+    public event Action<BattleUnit>             OnEnemyDied;
+    public event Action<List<PlayerBattleUnit>> OnBattleStarted;
 
     public void SetupBattle(List<PlayerBattleUnit> players, List<EnemyBattleUnit> enemies)
     {
@@ -59,6 +60,7 @@ public class BattleCore
         _turnOrder.OrderBySpeed(_battleUnits);
 
         OnTurnChanged?.Invoke(_turnCount);
+        OnBattleStarted?.Invoke(_playerUnits);
     }
 
     /// <summary>
@@ -127,6 +129,14 @@ public class BattleCore
     public EnemyBattleUnit GetFallbackTarget()
     {
         return _enemyUnits.Find(u => !u.IsDead);
+    }
+
+    /// <summary>
+    /// 적이 공격할 대상을 고를 때 사용 — 살아있는 첫 번째 플레이어를 반환한다 (단순 타겟팅 AI).
+    /// </summary>
+    public PlayerBattleUnit GetFirstAlivePlayer()
+    {
+        return _playerUnits.Find(u => !u.IsDead);
     }
 
     /// <summary>

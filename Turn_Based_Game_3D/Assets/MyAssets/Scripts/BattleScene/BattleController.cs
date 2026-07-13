@@ -22,6 +22,7 @@ public class BattleController : MonoBehaviour
     private List<EnemyUnitView>     _enemyUnitViews;            // 적 캐릭터 유닛 뷰 리스트
 
     private bool  _playerActed;           // 플레이어가 현재 턴에서 행동을 완료했는지 여부, true이면 플레이어가 행동을 마쳤음을 나타냄
+    private PlayerBattleUnit _actingPlayer;   // 현재 턴에서 행동 중인 플레이어 유닛
 
     public int TurnCount => _battleCore.TurnCount;
     public List<PlayerBattleUnit> PlayerUnits => _battleCore.PlayerUnits;
@@ -33,6 +34,7 @@ public class BattleController : MonoBehaviour
     public event Action<PlayerBattleUnit>   OnPlayerActionComplete; // 플레이어의 행동이 종료되고 처리할 이벤트(MP갱신 등등)
     public event Action<int>                OnTurnChanged;          // 턴이 변경될 때 처리할 이벤트(턴 UI 업데이트, 유닛 행동 순서 갱신)
     public event Action<BattleUnit>         OnEnemyDied;            // 적이 죽었을 때 처리할 이벤트
+    public event Action<List<PlayerBattleUnit>> OnBattleStarted;    // 전투 시작 시 파티 구성을 전달하는 이벤트
 
     private void Awake() => Initialize();
     private void Initialize()
@@ -46,6 +48,7 @@ public class BattleController : MonoBehaviour
         _battleCore.OnPlayerActionComplete += player => OnPlayerActionComplete?.Invoke(player);
         _battleCore.OnTurnChanged          += turn => OnTurnChanged?.Invoke(turn);
         _battleCore.OnEnemyDied            += unit => OnEnemyDied?.Invoke(unit);
+        _battleCore.OnBattleStarted        += players => OnBattleStarted?.Invoke(players);
 
         _playerUnitViews = new List<PlayerUnitView>();
         _enemyUnitViews  = new List<EnemyUnitView>();
@@ -92,8 +95,6 @@ public class BattleController : MonoBehaviour
 
         _targetSelector.Initialize(_enemyUnitViews);
 
-        _battleCore.NotifyPlayerActionComplete(players[0]);
-
         _ = BattleLoop();
     }
 
@@ -107,7 +108,7 @@ public class BattleController : MonoBehaviour
 
             if (currentUnit.IsPlayer)
             {
-                await PlayerTurn();
+                await PlayerTurn(currentUnit as PlayerBattleUnit);
             }
             else
             {
@@ -143,6 +144,12 @@ public class BattleController : MonoBehaviour
             return;
         }
 
+        if (currentEnemy.SkipFirstAction)
+        {
+            currentEnemy.SkipFirstAction = false;
+            return; // 로그라이크 "몬스터 행동불가" 디버프 — 이번 턴은 행동 없이 지나감
+        }
+
         currentEnemy.ReduceCooldowns();
 
         EnemySkillData skill = currentEnemy.GetEnemySkill();
@@ -151,22 +158,19 @@ public class BattleController : MonoBehaviour
         if (skill != null)
         {
             EnemyUnitView enemyView = _enemyUnitViews.Find(v => v.LinkedUnit == currentEnemy);
-            // TODO#: 현재는 적 입장에서는 타겟이 플레이어 한명 밖에 없으므로 _playerUnitViews[0]에서 찾지만, 나중에 플레이어 측이 늘어나면 위 방법처럼 찾는 로직 필요
-            PlayerUnitView playerView = _playerUnitViews[0];
 
-            if (enemyView != null)
+            // 살아있는 파티원 중 첫 번째를 타겟으로 삼음 (단순 타겟팅 AI, 정교한 타겟 선택은 이후 과제)
+            PlayerBattleUnit targetPlayer = _battleCore.GetFirstAlivePlayer();
+            PlayerUnitView   playerView   = _playerUnitViews.Find(v => v.LinkedUnit == targetPlayer);
+
+            if (enemyView != null && playerView != null)
             {
                 await enemyView.PlayAttackAnimAsync(playerView.transform, async () =>
                 {
-                    PlayerBattleUnit targetPlayer = _battleCore.PlayerUnits[0];
-
                     int damage = _battleCore.CalculateAttackDamage(currentEnemy, targetPlayer, (int)skill.Power);
                     _battleCore.ApplyDamage(targetPlayer, damage); // 스킬 사용 시 타겟에게 데미지를 입히고 OnUnitDamaged 발행
 
-                    if (playerView != null)
-                    {
-                        await playerView.OnDamagedAsync(damage);
-                    }
+                    await playerView.OnDamagedAsync(damage);
                 });
 
                 currentEnemy.SetCooldown(skill); // 스킬 사용 후 쿨 타임 적용
@@ -178,10 +182,9 @@ public class BattleController : MonoBehaviour
         }
     }
 
-    private async Awaitable PlayerTurn()
+    private async Awaitable PlayerTurn(PlayerBattleUnit player)
     {
-        // #TODO: 플레이어 유닛 늘어나면 현재 턴에 해당하는 유닛을 찾는 로직 넣어야됨
-        PlayerBattleUnit player = _battleCore.PlayerUnits[0];
+        _actingPlayer = player;
 
         // 턴 시작 시 스태미나 회복
         _battleCore.RecoverPlayerStamina(player);
@@ -238,7 +241,7 @@ public class BattleController : MonoBehaviour
     public void SetPlayerActed()
     {
         _playerActed = true;
-        _battleCore.NotifyPlayerActionComplete(_battleCore.PlayerUnits[0]);
+        _battleCore.NotifyPlayerActionComplete(_actingPlayer);
     }
 
     public async void OnPlayerAction(IDamageable target, int weaponIndex)
@@ -257,7 +260,7 @@ public class BattleController : MonoBehaviour
             return;
         }
 
-        PlayerBattleUnit player = _battleCore.PlayerUnits[0];
+        PlayerBattleUnit player = _actingPlayer;
         if (!player.CanUseWeapon(weaponIndex))
         {
             Debug.Log("무기를 사용할 수 없습니다!");
@@ -265,8 +268,6 @@ public class BattleController : MonoBehaviour
         }
 
         // TODO#: 스킬의 데미지 계산 공식은 나중에 스킬 시스템이 완성되면 변경할 예정
-        // TODO#: 현재는 플레이어가 한명이므로 무조건 리스트 0번 자리에 있지만 늘어나면
-        //        현재 행동하는 플레이어를 찾아 얻어오는 식으로 새로 짜야됨
         WeaponData weapon = player.Weapons[weaponIndex];
 
         int damage = _battleCore.CalculateAttackDamage(player, target as BattleUnit, weapon.Damage);

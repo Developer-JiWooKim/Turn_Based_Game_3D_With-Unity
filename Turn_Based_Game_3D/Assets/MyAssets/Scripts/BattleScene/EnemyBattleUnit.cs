@@ -16,6 +16,9 @@ public class EnemyBattleUnit : BattleUnit
 
     public EnemyData EnemyData => enemyData;
 
+    // 로그라이크 "몬스터 행동불가" 디버프 적용 시 true — 다음 자신의 턴 1회를 그냥 흘려보낸다.
+    public bool SkipFirstAction { get; set; }
+
     public EnemyBattleUnit(EnemyData data) : base(data)
     {
         _skillCooldowns = new Dictionary<EnemySkillData, int>();
@@ -36,13 +39,10 @@ public class EnemyBattleUnit : BattleUnit
         {
             if (!CanUseSkill(skill)) continue; //스킬 사용 여부 검사
 
-            result = skill;
-
-            //TODO#: 현재는 우선순위에 따라 스킬을 사용하도록하지 않고 사용할 수 있는 스킬만 반환하도록 되어있음, 나중에 우선순위 로직 구현해서 여기에 추가 예정
-            //if (skill.Priority > result.Priority)
-            //{
-            //    result = skill;
-            //}
+            if (result == null || skill.Priority > result.Priority)
+            {
+                result = skill;
+            }
         }
 
         return result;

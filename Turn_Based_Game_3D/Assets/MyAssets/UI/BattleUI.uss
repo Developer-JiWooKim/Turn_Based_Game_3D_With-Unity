@@ -210,6 +210,30 @@
     pointer-events: auto;
 }
 
-.exp-bar {
-    background-color: rgb(80, 180, 255);
+/* 로그라이크 선택지 / 영입 교체 카드 컨테이너 */
+.choice-card-container {
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.choice-card-btn {
+    width: 220px;
+    height: 140px;
+    margin: 10px;
+    padding: 10px;
+    font-size: 18px;
+    white-space: normal;
+    color: white;
+    background-color: rgba(30, 30, 30, 0.85);
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.3);
+    pointer-events: auto;
+}
+
+.choice-card-btn:hover {
+    background-color: rgba(70, 70, 70, 0.95);
+    border-color: rgb(255, 210, 60);
 }

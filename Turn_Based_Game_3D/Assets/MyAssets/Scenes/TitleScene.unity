@@ -300,7 +300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d82437cb8069346bfc2ebc672aaf28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDataManager
-  _playerData: {fileID: 11400000, guid: e97178e32eaf8694fbed73976b64d389, type: 2}
+  _partyRoster: []
 --- !u!1001 &970712049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -699,9 +699,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b8c9a7c7f4cd68244847ef0fde2f3be9, type: 2}
   - {fileID: 11400000, guid: ab381170cfea26944b2317476039fd5a, type: 2}
   - {fileID: 11400000, guid: 91888c705b467734c8e6b9b6a06a85ac, type: 2}
-  _hpIncreasePerStage: 20
-  _atkIncreasePerStage: 5
-  _spdIncreasePerStage: 1
 --- !u!1 &2140773768
 GameObject:
   m_ObjectHideFlags: 0
