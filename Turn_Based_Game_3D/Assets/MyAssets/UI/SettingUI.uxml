@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:Style src="SettingUI.uss"/>
+
+    <ui:VisualElement name="root" class="root">
+
+        <ui:VisualElement name="character-select-area" class="character-select-area">
+
+            <ui:VisualElement name="top-area" class="top-area">
+
+                <ui:VisualElement name="preview-area" class="preview-area"/>
+
+                <ui:VisualElement name="character-info" class="character-info">
+                    <ui:Label name="character-name" text="CHARACTER NAME" class="character-name"/>
+                    <ui:VisualElement class="character-stat-row">
+                        <ui:Label text="HP" class="character-stat-label"/>
+                        <ui:Label name="character-hp" text="0" class="character-stat-value"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="character-stat-row">
+                        <ui:Label text="ATK" class="character-stat-label"/>
+                        <ui:Label name="character-atk" text="0" class="character-stat-value"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="character-stat-row">
+                        <ui:Label text="DEF" class="character-stat-label"/>
+                        <ui:Label name="character-def" text="0" class="character-stat-value"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="character-stat-row">
+                        <ui:Label text="SPD" class="character-stat-label"/>
+                        <ui:Label name="character-spd" text="0" class="character-stat-value"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <ui:VisualElement name="character-list" class="character-list">
+                    <ui:Label text="CHARACTER LIST" class="list-title"/>
+                    <ui:VisualElement name="character-grid" class="character-grid"/>
+                </ui:VisualElement>
+
+            </ui:VisualElement>
+
+            <ui:VisualElement name="bottom-area" class="bottom-area">
+                <ui:Button name="back-btn" text="BACK" class="back-btn"/>
+                <ui:Button name="start-btn" text="SELECT" class="start-btn"/>
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+
+        <ui:VisualElement name="weight-allocation-panel" class="weight-allocation-panel">
+            <ui:Label text="성향 포인트 배분" class="panel-title"/>
+            <ui:VisualElement class="remaining-points-row">
+                <ui:Label text="보유 포인트" class="character-stat-label"/>
+                <ui:Label name="remaining-points" text="0" class="character-stat-value"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="category-list" class="category-list"/>
+            <ui:VisualElement class="weight-panel-buttons">
+                <ui:Button name="respec-all-btn" text="리스펙" class="reset-btn"/>
+                <ui:Button name="battle-start-btn" text="확인" class="start-btn"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

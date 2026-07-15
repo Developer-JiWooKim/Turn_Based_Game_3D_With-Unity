@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
   PlayerName: Barbarian
   Character: 1
+  RepresentativeWeapon: {fileID: 11400000, guid: 9eda24d4fb3a16399fc2ecf55fbbf972, type: 2}
+  CharacterPrefab: {fileID: 0}
   playerStat:
     Hp: 120
     Stamina: 60

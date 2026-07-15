@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
   PlayerName: Knight
   Character: 0
+  RepresentativeWeapon: {fileID: 11400000, guid: 730a6b40b9ab2d542ac5e4c171cbc079, type: 2}
+  CharacterPrefab: {fileID: 0}
   playerStat:
     Hp: 140
     Stamina: 50

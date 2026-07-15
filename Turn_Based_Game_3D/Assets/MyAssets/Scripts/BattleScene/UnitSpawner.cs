@@ -113,9 +113,9 @@ public class UnitSpawner : MonoBehaviour
         return newObj;
     }
 
-    public List<GameObject> SpawnParty(int count)
+    public List<GameObject> SpawnParty(List<PartyMember> roster)
     {
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < roster.Count; i++)
         {
             if (i >= _playerSpawnPoints.Length)
             {
@@ -126,13 +126,13 @@ public class UnitSpawner : MonoBehaviour
             GameObject playerObj = Instantiate(_playerPrefab, _playerSpawnPoints[i].position, _playerSpawnPoints[i].rotation);
             _playerInstances.Add(playerObj);
 
-            SpawnWeapons(playerObj);
+            SpawnWeapons(playerObj, roster[i].Data.RepresentativeWeapon);
         }
 
         return _playerInstances;
     }
 
-    private void SpawnWeapons(GameObject playerInstance)
+    private void SpawnWeapons(GameObject playerInstance, WeaponData weaponData)
     {
         Transform[] allTransforms = playerInstance.GetComponentsInChildren<Transform>();
         Transform socket = null;
@@ -152,12 +152,9 @@ public class UnitSpawner : MonoBehaviour
             return;
         }
 
-        // 선택한 무기들 스폰
-        WeaponData[] selectedWeapons = PlayerDataManager.Instance.SelectedWeapons;
-        foreach (var weaponData in selectedWeapons)
+        // 캐릭터의 대표 무기 스폰
+        if (weaponData != null && weaponData.WeaponPrefab != null)
         {
-            if (weaponData == null || weaponData.WeaponPrefab == null) continue;
-
             //TODO#: 무기 데이터 자체에 자신이 위치할 포지션을 갖도록하는게 좋아보임
             GameObject weaponObj = Instantiate(weaponData.WeaponPrefab, socket);
             weaponObj.transform.localPosition = Vector3.zero;

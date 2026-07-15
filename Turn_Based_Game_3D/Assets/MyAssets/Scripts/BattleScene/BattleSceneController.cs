@@ -21,7 +21,6 @@ public class BattleSceneController : MonoBehaviour
 
         StageData         currentStageData = StageManager.Instance.CurrentStageData;
         List<PartyMember> partyRoster      = PlayerDataManager.Instance.PartyRoster;
-        WeaponData[]       selectedWeapons  = PlayerDataManager.Instance.SelectedWeapons;
 
         // 파티 시너지 계산을 위해 캐릭터 유형별 인원 수를 미리 집계
         Dictionary<CharacterType, int> typeCounts = new Dictionary<CharacterType, int>();
@@ -31,8 +30,8 @@ public class BattleSceneController : MonoBehaviour
             typeCounts[member.Data.Character] = count + 1;
         }
 
-        // 파티 스폰
-        List<GameObject> playerObjects = _unitSpawner.SpawnParty(partyRoster.Count);
+        // 파티 스폰 (각 파티원의 대표 무기를 함께 장착)
+        List<GameObject> playerObjects = _unitSpawner.SpawnParty(partyRoster);
 
         List<PlayerBattleUnit> players = new List<PlayerBattleUnit>();
 
@@ -40,7 +39,8 @@ public class BattleSceneController : MonoBehaviour
         {
             PlayerUnitView   playerUnitView = playerObjects[i].GetComponent<PlayerUnitView>();
             PartyMember      member         = partyRoster[i];
-            PlayerBattleUnit playerUnit     = new PlayerBattleUnit(member, selectedWeapons);
+            WeaponData[]     weapons        = new WeaponData[] { member.Data.RepresentativeWeapon };
+            PlayerBattleUnit playerUnit     = new PlayerBattleUnit(member, weapons);
 
             // 런 로그라이크 버프 적용
             playerUnit.ApplyStatBonus(RunStateManager.Instance.RunBuffs);

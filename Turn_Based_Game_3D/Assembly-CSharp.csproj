@@ -52,6 +52,7 @@
     <Compile Include="Assets\MyAssets\Scripts\Struct\StatData.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\GunEffectController.cs" />
     <Compile Include="Assets\Toon Shaders Pro\Shaders\Outline\Scripts\OutlineSettings.cs" />
+    <Compile Include="Assets\MyAssets\Scripts\SettingScene\PointAllocationUI.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\PlayerUnitView.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\PlayerBattleUnit.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\PlayerAnimator.cs" />
@@ -67,7 +68,6 @@
     <Compile Include="Assets\MyAssets\Scripts\Scriptable\SpawnPatternPoolData.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Utility\FadeScreenEffect.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\IDamageable.cs" />
-    <Compile Include="Assets\MyAssets\Scripts\SettingScene\WeaponPreviewRotator.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Scriptable\RoguelikeChoiceCategory.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\Core\UnitOrderBySpeedSystem.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\BattleController.cs" />
@@ -77,6 +77,8 @@
     <Compile Include="Assets\MyAssets\Scripts\Scriptable\StageData.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\ArrowProjectile.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\DamagePopup.cs" />
+    <Compile Include="Assets\MyAssets\Scripts\SettingScene\CharacterSelectUIController.cs" />
+    <Compile Include="Assets\MyAssets\Scripts\SettingScene\PointAllocationUIController.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\EnemyAnimator.cs" />
     <Compile Include="Assets\Toon Shaders Pro\Shaders\Outline\Scripts\ToonShaderUtility.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Manager\RoguelikeChoiceManager.cs" />
@@ -90,9 +92,9 @@
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\CrossbowEffectController.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\BattleUnitLinker.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\UnitAnimator.cs" />
+    <Compile Include="Assets\MyAssets\Scripts\SettingScene\CharacterSelectUI.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\TargetSelector.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Manager\MetaProgressData.cs" />
-    <Compile Include="Assets\MyAssets\Scripts\SettingScene\WeaponSelectSceneController.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\BattleUIController.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\EnemyUnitView.cs" />
     <Compile Include="Assets\MyAssets\Scripts\TitleScene\TitleUIController.cs" />
@@ -104,11 +106,14 @@
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\WeaponCloakEffect.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\PlayerInputHandler.cs" />
     <Compile Include="Assets\Toon Shaders Pro\Demo\Scripts\Worm.cs" />
+    <Compile Include="Assets\MyAssets\Scripts\SettingScene\PreviewRotator.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Scriptable\SkillData.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Manager\PlayerDataManager.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\EnemyBattleUnit.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Manager\RunStateManager.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Manager\Singleton.cs" />
+    <Compile Include="Assets\MyAssets\Scripts\SettingScene\SettingUIController.cs" />
+    <Compile Include="Assets\MyAssets\Scripts\TitleScene\TitleUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Toon Shaders Pro\Shaders\Toon\Toon.shader" />
@@ -124,7 +129,7 @@
     <None Include="Assets\Toon Shaders Pro\Shaders\Toon\ToonInput.hlsl" />
     <None Include="Assets\MyAssets\UI\TitleUI.uss" />
     <None Include="Assets\Toon Shaders Pro\Shaders\Toon Terrain\ToonTerrainFunctions.hlsl" />
-    <None Include="Assets\MyAssets\UI\WeaponSelectUI.uxml" />
+    <None Include="Assets\MyAssets\UI\SettingUI.uxml" />
     <None Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Shaders\CFXR.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\MyAssets\UI\BattleUI.uxml" />
@@ -153,7 +158,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\MyAssets\UI\FadeUI.uxml" />
     <None Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Shaders\CFXR_PASSES.cginc" />
-    <None Include="Assets\MyAssets\UI\WeaponSelectUI.uss" />
+    <None Include="Assets\MyAssets\UI\SettingUI.uss" />
     <None Include="Assets\Toon Shaders Pro\Shaders\Toon Terrain\TerrainLit.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\Toon Shaders Pro\Shaders\Toon Terrain\TerrainLitBase.shader" />

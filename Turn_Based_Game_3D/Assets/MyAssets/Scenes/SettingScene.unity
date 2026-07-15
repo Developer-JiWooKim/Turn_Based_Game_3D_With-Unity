@@ -267,7 +267,7 @@ GameObject:
   - component: {fileID: 767695558}
   - component: {fileID: 767695557}
   m_Layer: 0
-  m_Name: WeaponSelectUI
+  m_Name: CharacterSelectUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -322,7 +322,7 @@ GameObject:
   - component: {fileID: 800192031}
   - component: {fileID: 800192032}
   m_Layer: 0
-  m_Name: WeaponPreview
+  m_Name: PreviewRotator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -575,7 +575,7 @@ GameObject:
   - component: {fileID: 1849134933}
   - component: {fileID: 1849134934}
   m_Layer: 0
-  m_Name: WeaponSelectController
+  m_Name: SettingSceneController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -608,15 +608,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5a6a5e6f12f9f64eb7a943cf7814794, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponSelectSceneController
-  _uiDocument: {fileID: 767695557}
-  _weaponDatas:
-  - {fileID: 11400000, guid: 679c7e58d424b1b46b63ca8b832790d9, type: 2}
-  - {fileID: 11400000, guid: 730a6b40b9ab2d542ac5e4c171cbc079, type: 2}
-  - {fileID: 11400000, guid: 192684643afaee449a0cc666afd3fc6f, type: 2}
-  - {fileID: 11400000, guid: ce29eda4de30eea4d8db5723cdd9e05d, type: 2}
-  _previewPoint: {fileID: 800192031}
-  _previewRenderTexture: {fileID: 8400000, guid: 0752f704e62ed2c4785251532c30bc35, type: 2}
-  _previewRotator: {fileID: 800192032}
+  _characterSelectUI: {fileID: 0}
+  _pointAllocationUI: {fileID: 0}
 --- !u!1 &2098786415
 GameObject:
   m_ObjectHideFlags: 0

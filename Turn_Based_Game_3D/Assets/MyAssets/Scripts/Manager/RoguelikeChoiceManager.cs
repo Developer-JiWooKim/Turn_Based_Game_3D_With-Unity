@@ -19,7 +19,7 @@ namespace Assets.MyAssets.Scripts.Manager
         public PartySynergyPoolData SynergyPool => _synergyPool;
 
         /// <summary>
-        /// BaseWeight 기반 가중치 비복원 추출로 count개의 선택지를 뽑는다.
+        /// BaseWeight + 성향 포인트 투자치 기반 가중치 비복원 추출로 count개의 선택지를 뽑는다.
         /// </summary>
         public List<RoguelikeChoiceData> DrawChoices(int count = 3)
         {
@@ -29,7 +29,7 @@ namespace Assets.MyAssets.Scripts.Manager
             for (int i = 0; i < count && pool.Count > 0; i++)
             {
                 float totalWeight = 0f;
-                foreach (var choice in pool) totalWeight += choice.BaseWeight;
+                foreach (var choice in pool) totalWeight += EffectiveWeight(choice);
 
                 double roll = _random.NextDouble() * totalWeight;
                 float cumulative = 0f;
@@ -37,7 +37,7 @@ namespace Assets.MyAssets.Scripts.Manager
 
                 foreach (var choice in pool)
                 {
-                    cumulative += choice.BaseWeight;
+                    cumulative += EffectiveWeight(choice);
                     if (roll < cumulative)
                     {
                         picked = choice;
@@ -50,6 +50,12 @@ namespace Assets.MyAssets.Scripts.Manager
             }
 
             return result;
+        }
+
+        private float EffectiveWeight(RoguelikeChoiceData choice)
+        {
+            int invested = StageManager.Instance.GetCategoryInvestedPoints(choice.Category);
+            return choice.BaseWeight + invested * _choicePool.WeightPerInvestedPoint;
         }
 
         public PlayerData DrawRandomCharacter()

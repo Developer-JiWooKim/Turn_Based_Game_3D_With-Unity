@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
   PlayerName: Mage
   Character: 4
+  RepresentativeWeapon: {fileID: 11400000, guid: 054ba2fbaa8b0c755f028fb8108b337b, type: 2}
+  CharacterPrefab: {fileID: 0}
   playerStat:
     Hp: 70
     Stamina: 50

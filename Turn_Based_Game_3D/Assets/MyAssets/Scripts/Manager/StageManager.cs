@@ -63,6 +63,43 @@ namespace Assets.MyAssets.Scripts.Manager
             _resolvedStageData = ResolveStageData();
         }
 
+        public int GetCategoryInvestedPoints(RoguelikeChoiceCategory category)
+        {
+            return _metaProgress.CategoryInvestedPoints[(int)category];
+        }
+
+        // 성향 포인트 배분 - 잔여 포인트가 있으면 해당 카테고리에 1점 투자
+        public bool TryInvestPoint(RoguelikeChoiceCategory category)
+        {
+            if (_metaProgress.PermanentPoints <= 0) return false;
+
+            _metaProgress.PermanentPoints--;
+            _metaProgress.CategoryInvestedPoints[(int)category]++;
+            MetaProgressStorage.Save(_metaProgress);
+            return true;
+        }
+
+        // 성향 포인트 배분 - 해당 카테고리에서 1점만 회수(-버튼)
+        public bool TryWithdrawPoint(RoguelikeChoiceCategory category)
+        {
+            int index = (int)category;
+            if (_metaProgress.CategoryInvestedPoints[index] <= 0) return false;
+
+            _metaProgress.CategoryInvestedPoints[index]--;
+            _metaProgress.PermanentPoints++;
+            MetaProgressStorage.Save(_metaProgress);
+            return true;
+        }
+
+        // 성향 포인트 배분 - 해당 카테고리에 투자한 포인트를 전부 무료로 환불(전체 리스펙 버튼에서 사용)
+        public void RespecCategory(RoguelikeChoiceCategory category)
+        {
+            int index = (int)category;
+            _metaProgress.PermanentPoints += _metaProgress.CategoryInvestedPoints[index];
+            _metaProgress.CategoryInvestedPoints[index] = 0;
+            MetaProgressStorage.Save(_metaProgress);
+        }
+
         // 고정 배치 스테이지를 넘어서면 스폰 패턴 풀에서 무작위로 골라 임시 StageData를 구성한다.
         private StageData ResolveStageData()
         {

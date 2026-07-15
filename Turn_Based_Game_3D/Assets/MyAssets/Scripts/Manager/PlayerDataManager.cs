@@ -27,15 +27,12 @@ namespace Assets.MyAssets.Scripts.Manager
 
         private const int MaxPartySize = 4;
 
-        [SerializeField] private List<PlayerData> _partyRoster = new List<PlayerData>();
+        [SerializeField] private List<PlayerData> _partyRoster = new List<PlayerData>(); // SettingScene 없이 BattleScene을 바로 테스트할 때의 기본 구성
 
         private List<PlayerData>  _originalRoster;   // 최초 구성 스냅샷 (게임오버 시 복원용)
         private List<PartyMember> _runtimeRoster;    // 실제 런타임 로스터 (슬롯별 HP 등 상태 보유)
 
-        private WeaponData[] _selectedWeapons = new WeaponData[3];
-
         public List<PartyMember> PartyRoster => _runtimeRoster;
-        public WeaponData[] SelectedWeapons => _selectedWeapons;
 
         protected override void Awake()
         {
@@ -63,16 +60,11 @@ namespace Assets.MyAssets.Scripts.Manager
             _runtimeRoster  = _partyRoster.ConvertAll(data => new PartyMember(data));
         }
 
-        public void SelectWeapon(int slot, WeaponData weapon)
+        // SettingScene에서 시작 캐릭터를 고른 뒤 파티 로스터를 그 1명으로 확정
+        public void SetStartingCharacter(PlayerData data)
         {
-            if (slot < 0 || slot >= _selectedWeapons.Length || weapon == null) return;
-
-            _selectedWeapons[slot] = weapon;
-        }
-
-        public void ClearSelectWeapons()
-        {
-            Array.Clear(_selectedWeapons, 0, _selectedWeapons.Length);
+            _partyRoster = new List<PlayerData> { data };
+            Initialize();
         }
 
         // 캐릭터가 전투 중 사망하면 파티에서 영구 추방

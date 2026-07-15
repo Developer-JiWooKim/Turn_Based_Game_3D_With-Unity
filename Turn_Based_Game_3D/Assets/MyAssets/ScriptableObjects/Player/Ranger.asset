@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
   PlayerName: Ranger
   Character: 5
+  RepresentativeWeapon: {fileID: 11400000, guid: 7bd54ae51251557e994aa199c6119345, type: 2}
+  CharacterPrefab: {fileID: 0}
   playerStat:
     Hp: 95
     Stamina: 55

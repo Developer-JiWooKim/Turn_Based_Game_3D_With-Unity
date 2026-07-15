@@ -11,6 +11,7 @@ public class MetaProgressData
 {
     public int BestStageReached;
     public int PermanentPoints;
+    public int[] CategoryInvestedPoints = new int[9]; // 인덱스 = (int)RoguelikeChoiceCategory
 }
 
 }

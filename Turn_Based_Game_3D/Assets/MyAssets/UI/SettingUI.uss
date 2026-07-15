@@ -4,6 +4,12 @@
     flex-direction: column;
 }
 
+.character-select-area {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+}
+
 .top-area {
     flex-direction: row;
     flex-grow: 1;
@@ -19,7 +25,7 @@
     border-radius: 4px;
 }
 
-.weapon-info {
+.character-info {
     width: 25%;
     background-color: rgba(0, 10, 20, 0.7);
     border-width: 1px;
@@ -30,14 +36,14 @@
     gap: 8px;
 }
 
-.weapon-name {
+.character-name {
     font-size: 22px;
     color: rgb(0, 255, 220);
     -unity-font-style: bold;
     margin-bottom: 8px;
 }
 
-.weapon-stat-row {
+.character-stat-row {
     flex-direction: row;
     justify-content: space-between;
     border-bottom-width: 1px;
@@ -45,25 +51,18 @@
     padding-bottom: 4px;
 }
 
-.weapon-stat-label {
+.character-stat-label {
     font-size: 13px;
     color: rgba(180, 220, 220, 0.8);
 }
 
-.weapon-stat-value {
+.character-stat-value {
     font-size: 13px;
     color: rgb(0, 255, 220);
     -unity-font-style: bold;
 }
 
-.weapon-desc {
-    font-size: 12px;
-    color: rgba(180, 200, 200, 0.6);
-    margin-top: 8px;
-    white-space: normal;
-}
-
-.weapon-list {
+.character-list {
     flex-grow: 1;
     background-color: rgba(0, 10, 20, 0.7);
     border-width: 1px;
@@ -81,13 +80,13 @@
     letter-spacing: 2px;
 }
 
-.weapon-grid {
+.character-grid {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 8px;
 }
 
-.weapon-grid-btn {
+.character-grid-btn {
     width: 80px;
     height: 80px;
     background-color: rgba(0, 20, 30, 0.8);
@@ -96,13 +95,19 @@
     border-radius: 4px;
     -unity-background-scale-mode: scale-to-fit;
 
-    color: white; /* 추가 */
-    font-size: 11px; /* 작은 글씨로 이름 맞추기 */
+    color: white;
+    font-size: 11px;
 }
 
-.weapon-grid-btn:hover {
+.character-grid-btn:hover {
     border-color: rgba(0, 255, 220, 0.8);
     background-color: rgba(0, 40, 50, 0.9);
+}
+
+.character-grid-btn-selected {
+    border-color: rgb(0, 255, 220);
+    border-width: 2px;
+    background-color: rgba(0, 60, 80, 0.9);
 }
 
 .bottom-area {
@@ -114,39 +119,6 @@
     background-color: rgba(0, 5, 15, 0.8);
     border-top-width: 1px;
     border-color: rgba(0, 255, 220, 0.3);
-}
-
-.selected-weapons-area {
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 8px;
-}
-
-.selected-title {
-    font-size: 20px;
-    color: rgba(0, 255, 220, 0.6);
-    -unity-font-style: bold;
-    padding-top: -32px;
-    letter-spacing: 2px;
-}
-
-.selected-weapons {
-    flex-direction: row;
-    align-items: center;
-    
-    gap: 24px;
-}
-
-.selected-slot {
-    width: 80px;
-    height: 80px;
-    background-color: rgba(0, 20, 30, 0.6);
-    border-width: 1px;
-    border-color: rgba(0, 255, 220, 0.2);
-    border-radius: 4px;
-    margin-left: 8px;
-    margin-right: 8px;
 }
 
 .back-btn {
@@ -183,42 +155,98 @@
     background-color: rgba(0, 220, 180, 0.4);
 }
 
-.select-btn {
-    margin-top: auto;
-    width: 100%;
-    height: 40px;
-    background-color: rgba(0, 180, 150, 0.3);
-    border-width: 1px;
-    border-color: rgb(0, 255, 220);
-    border-radius: 4px;
-    color: rgb(0, 255, 220);
-    font-size: 14px;
-    -unity-font-style: bold;
-}
-
-.select-btn:hover {
-    background-color: rgba(0, 220, 180, 0.4);
-}
-
-.weapon-grid-btn-selected {
-    border-color: rgb(0, 255, 220);
-    border-width: 2px;
-    background-color: rgba(0, 60, 80, 0.9);
-}
-
 .reset-btn {
-    width: 80px;
-    height: 30px;
+    width: 160px;
+    height: 80px;
     background-color: rgba(0, 20, 30, 0.8);
     border-width: 1px;
     border-color: rgba(255, 80, 80, 0.6);
     border-radius: 4px;
     color: rgba(255, 80, 80, 0.8);
-    font-size: 12px;
-    margin-top: 6px;
+    font-size: 15px;
+    margin: 8px;
 }
 
 .reset-btn:hover {
     background-color: rgba(255, 80, 80, 0.2);
     border-color: rgb(255, 80, 80);
+}
+
+.weight-allocation-panel {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 5, 15, 0.95);
+    flex-direction: column;
+    align-items: center;
+    padding: 32px;
+}
+
+.panel-title {
+    font-size: 24px;
+    color: rgb(0, 255, 220);
+    -unity-font-style: bold;
+    margin-bottom: 16px;
+    letter-spacing: 2px;
+}
+
+.remaining-points-row {
+    flex-direction: row;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.category-list {
+    width: 60%;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+}
+
+.category-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(0, 10, 20, 0.7);
+    border-width: 1px;
+    border-color: rgba(0, 255, 220, 0.3);
+    border-radius: 4px;
+    padding: 8px 16px;
+}
+
+.category-name {
+    font-size: 14px;
+    color: rgba(180, 220, 220, 0.9);
+    flex-grow: 1;
+}
+
+.category-invested {
+    font-size: 14px;
+    color: rgb(0, 255, 220);
+    -unity-font-style: bold;
+    width: 32px;
+    -unity-text-align: middle-center;
+}
+
+.category-btn {
+    width: 32px;
+    height: 32px;
+    background-color: rgba(0, 20, 30, 0.8);
+    border-width: 1px;
+    border-color: rgba(0, 255, 220, 0.4);
+    border-radius: 4px;
+    color: rgb(0, 255, 220);
+    font-size: 16px;
+    -unity-font-style: bold;
+}
+
+.category-btn:hover {
+    background-color: rgba(0, 40, 50, 0.9);
+}
+
+.weight-panel-buttons {
+    flex-direction: row;
+    gap: 16px;
+    margin-top: 16px;
 }
