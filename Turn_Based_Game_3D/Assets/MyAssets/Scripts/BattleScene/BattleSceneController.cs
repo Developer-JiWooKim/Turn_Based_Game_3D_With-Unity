@@ -145,15 +145,17 @@ public class BattleSceneController : MonoBehaviour
             }
 
             // 로그라이크 선택지 팝업 → 선택 완료(영입 교체 흐름 포함) 후 다음 스테이지로 이동
-            _roguelikeChoiceUIController.ShowChoices(() => GameManager.Instance.NextStage());
+            _roguelikeChoiceUIController.ShowChoices(() =>
+            {
+                StageManager.Instance.NextStage();
+                GameManager.Instance.LoadScene("BattleScene");
+            });
         }
         else
         {
-            // 전멸 시 다음 런을 위해 로스터/런 상태 복원
+            // 전멸 시 다음 런을 위해 로스터/런 상태 복원 (게임 오버 UI는 BattleUIController가 OnBattleEnd로 직접 처리)
             PlayerDataManager.Instance.ResetRoster();
             RunStateManager.Instance.ResetRun();
-
-            GameManager.Instance.GameOver();
         }
     }
 

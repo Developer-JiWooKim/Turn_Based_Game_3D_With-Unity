@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 using Assets.MyAssets.Scripts.Scriptable;
 using Assets.MyAssets.Scripts.Manager;
 
-namespace Assets.MyAssets.Scripts.WeaponSelectScene
+namespace Assets.MyAssets.Scripts.SettingScene
 {
 
     public class WeaponSelectSceneController : MonoBehaviour
@@ -13,7 +13,7 @@ namespace Assets.MyAssets.Scripts.WeaponSelectScene
         [SerializeField] private WeaponData[] _weaponDatas;
         [SerializeField] private Transform _previewPoint;
         [SerializeField] private RenderTexture _previewRenderTexture;
-        [SerializeField] private WeaponPreviewRotator _previewRotator;
+        [SerializeField] private PreviewRotator _previewRotator;
 
         private VisualElement _previewArea;
         private VisualElement _weaponGrid;

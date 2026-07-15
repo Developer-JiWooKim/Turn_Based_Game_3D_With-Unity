@@ -359,8 +359,8 @@
     <Compile Include="Library\PackageCache\com.unity.microsoft.gdk@343e03cd89b8\Runtime\Interop\XNetworkingInterop.cs" />
     <Compile Include="Library\PackageCache\com.unity.microsoft.gdk@343e03cd89b8\Runtime\Interop\XBL\SocialManager\XblTitleHistory.cs" />
     <Compile Include="Library\PackageCache\com.unity.microsoft.gdk@343e03cd89b8\Runtime\XBL\Social\XblSocialRelationship.cs" />
-    <Compile Include="Library\PackageCache\com.unity.microsoft.gdk@343e03cd89b8\Runtime\Interop\XBL\MultiplayerActivity\XblMultiplayerActivityInfo.cs" />
     <Compile Include="Library\PackageCache\com.unity.microsoft.gdk@343e03cd89b8\Runtime\XBL\UserStatistics\XblUserStatisticsResult.cs" />
+    <Compile Include="Library\PackageCache\com.unity.microsoft.gdk@343e03cd89b8\Runtime\Interop\XBL\MultiplayerActivity\XblMultiplayerActivityInfo.cs" />
     <Compile Include="Library\PackageCache\com.unity.microsoft.gdk@343e03cd89b8\Runtime\Interop\XBL\UserStatistics\XblUserStatisticsInterop.cs" />
     <Compile Include="Library\PackageCache\com.unity.microsoft.gdk@343e03cd89b8\Runtime\Interop\XBL\SocialManager\XblSocialManagerUser.cs" />
     <Compile Include="Library\PackageCache\com.unity.microsoft.gdk@343e03cd89b8\Runtime\Interop\XBL\Leaderboards\XblLeaderboardInterop.cs" />

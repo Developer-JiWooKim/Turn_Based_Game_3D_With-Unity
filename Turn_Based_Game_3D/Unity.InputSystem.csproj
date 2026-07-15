@@ -351,8 +351,8 @@
     <Compile Include="Library\PackageCache\com.unity.inputsystem@21a28c3a6c83\InputSystem\Devices\InputDeviceMatcher.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@21a28c3a6c83\InputSystem\Controls\Processors\CompensateDirectionProcessor.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@21a28c3a6c83\InputSystem\Devices\IEventPreProcessor.cs" />
-    <Compile Include="Library\PackageCache\com.unity.inputsystem@21a28c3a6c83\InputSystem\State\InputStateHistory.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@21a28c3a6c83\InputSystem\Editor\PropertyDrawers\InputActionDrawerBase.cs" />
+    <Compile Include="Library\PackageCache\com.unity.inputsystem@21a28c3a6c83\InputSystem\State\InputStateHistory.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@21a28c3a6c83\InputSystem\Utilities\ReadOnlyArray.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@21a28c3a6c83\InputSystem\Utilities\TypeHelpers.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@21a28c3a6c83\InputSystem\Controls\Processors\InvertVector2Processor.cs" />

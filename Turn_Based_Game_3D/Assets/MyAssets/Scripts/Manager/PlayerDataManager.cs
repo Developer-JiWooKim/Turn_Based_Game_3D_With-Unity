@@ -40,6 +40,9 @@ namespace Assets.MyAssets.Scripts.Manager
         protected override void Awake()
         {
             base.Awake();
+            if (!IsValidInstance) return;
+
+            DontDestroyOnLoad(gameObject);
             Initialize();
         }
 

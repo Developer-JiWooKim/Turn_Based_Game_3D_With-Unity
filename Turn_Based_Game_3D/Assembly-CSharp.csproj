@@ -55,7 +55,6 @@
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\PlayerUnitView.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\PlayerBattleUnit.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\PlayerAnimator.cs" />
-    <Compile Include="Assets\MyAssets\Scripts\WeaponSelectScene\WeaponSelectSceneController.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\UnitView.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\BattleSceneController.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\Core\BattleCore.cs" />
@@ -66,7 +65,9 @@
     <Compile Include="Assets\Toon Shaders Pro\Shaders\Outline\Scripts\OutlineFeature.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Scriptable\PlayerData.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Scriptable\SpawnPatternPoolData.cs" />
+    <Compile Include="Assets\MyAssets\Scripts\Utility\FadeScreenEffect.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\IDamageable.cs" />
+    <Compile Include="Assets\MyAssets\Scripts\SettingScene\WeaponPreviewRotator.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Scriptable\RoguelikeChoiceCategory.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\Core\UnitOrderBySpeedSystem.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\BattleController.cs" />
@@ -76,13 +77,11 @@
     <Compile Include="Assets\MyAssets\Scripts\Scriptable\StageData.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\ArrowProjectile.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\DamagePopup.cs" />
-    <Compile Include="Assets\MyAssets\Scripts\TitleScene\TitleSceneController.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\EnemyAnimator.cs" />
     <Compile Include="Assets\Toon Shaders Pro\Shaders\Outline\Scripts\ToonShaderUtility.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Manager\RoguelikeChoiceManager.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\BattleUnit.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Scriptable\PartySynergyData.cs" />
-    <Compile Include="Assets\MyAssets\Scripts\FadeScreenEffect\FadeController.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Manager\GameManager.cs" />
     <Compile Include="Assets\InputSystem_Actions.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Scriptable\BattleBalanceData.cs" />
@@ -93,13 +92,14 @@
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\UnitAnimator.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\TargetSelector.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Manager\MetaProgressData.cs" />
+    <Compile Include="Assets\MyAssets\Scripts\SettingScene\WeaponSelectSceneController.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\BattleUIController.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\EnemyUnitView.cs" />
+    <Compile Include="Assets\MyAssets\Scripts\TitleScene\TitleUIController.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Scriptable\EnemyData.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\UnitHUD.cs" />
     <Compile Include="Assets\Toon Shaders Pro\Demo\Scripts\VertexColorRandom.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Manager\StageManager.cs" />
-    <Compile Include="Assets\MyAssets\Scripts\WeaponSelectScene\WeaponPreviewRotator.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Scriptable\RoguelikeChoicePoolData.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\WeaponCloakEffect.cs" />
     <Compile Include="Assets\MyAssets\Scripts\BattleScene\PlayerInputHandler.cs" />

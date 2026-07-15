@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Assets.MyAssets.Scripts.WeaponSelectScene
+namespace Assets.MyAssets.Scripts.SettingScene
 {
 
-    public class WeaponPreviewRotator : MonoBehaviour
+    public class PreviewRotator : MonoBehaviour
     {
         [SerializeField] private float _autoRotateSpeed = 30f;  // 자동 회전 속도
         [SerializeField] private float _dragRotateSpeed = 0.3f; // 드래그 회전 속도

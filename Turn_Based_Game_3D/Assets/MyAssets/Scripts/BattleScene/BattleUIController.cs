@@ -67,8 +67,6 @@ public class BattleUIController : MonoBehaviour
         _battleController.OnPlayerActionComplete += HandlePlayerActionComplete;
         _battleController.OnTurnChanged          += HangleTurnChanged;
         _battleController.OnBattleStarted        += HandleBattleStarted;
-
-        GameManager.Instance.OnGameOver  += HandleGameOver;
     }
 
     private void OnDestroy() => Unsubscribe();
@@ -82,15 +80,7 @@ public class BattleUIController : MonoBehaviour
             _battleController.OnPlayerActionComplete -= HandlePlayerActionComplete;
             _battleController.OnTurnChanged -= HangleTurnChanged;
             _battleController.OnBattleStarted -= HandleBattleStarted;
-
-            GameManager.Instance.OnGameOver  -= HandleGameOver;
         }
-    }
-
-    private void HandleGameOver()
-    {
-        _gameOverPanel.style.display = DisplayStyle.Flex;
-        _skillBar.style.visibility = Visibility.Hidden;
     }
 
     private void OnTitleButtonClicked()
@@ -102,9 +92,8 @@ public class BattleUIController : MonoBehaviour
 
     private void OnRetryButtonClicked()
     {
-        // TODO#: 재도전
-        Debug.Log("재도전");
-        GameManager.Instance.ResetStage();
+        StageManager.Instance.ResetStage();
+        GameManager.Instance.LoadScene("BattleScene");
     }
 
     private void OnQuitButtonClicked()
@@ -217,7 +206,11 @@ public class BattleUIController : MonoBehaviour
     private void HandleBattleEnd(bool result)
     {
         _skillBar.style.visibility = Visibility.Hidden;
-        Debug.Log(result ? "승리!" : "패배...");
+
+        if (!result)
+        {
+            _gameOverPanel.style.display = DisplayStyle.Flex;
+        }
     }
 
     private void OnTurnStart(BattleUnit unit)

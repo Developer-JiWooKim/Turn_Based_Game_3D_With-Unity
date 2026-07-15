@@ -16,7 +16,7 @@
 }
 
 .title-label {
-    font-size: 48px;
+    font-size: 80px;
     color: rgb(0, 255, 220);
     -unity-font-style: bold;
     margin-bottom: 48px;
@@ -30,7 +30,7 @@
 }
 
 .title-btn {
-    width: 200px;
+    width: 300px;
     height: 55px;
     background-color: rgba(0, 20, 30, 0.8);
     border-width: 1px;

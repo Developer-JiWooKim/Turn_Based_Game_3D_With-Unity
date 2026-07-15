@@ -743,8 +743,8 @@
     <Compile Include="Library\PackageCache\com.unity.shadergraph@06b482f4a9ba\Editor\Data\Nodes\UV\TilingAndOffsetNode.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@06b482f4a9ba\Editor\Data\Interfaces\IMayRequireViewDirection.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@06b482f4a9ba\Editor\DefaultShaderIncludes.cs" />
-    <Compile Include="Library\PackageCache\com.unity.shadergraph@06b482f4a9ba\Editor\ShaderGraphProjectSettings.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@06b482f4a9ba\Editor\Generation\Targets\CustomRenderTexture\CustomTextureSubTarget.cs" />
+    <Compile Include="Library\PackageCache\com.unity.shadergraph@06b482f4a9ba\Editor\ShaderGraphProjectSettings.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@06b482f4a9ba\Editor\Data\Graphs\CubemapShaderProperty.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@06b482f4a9ba\Editor\Data\Graphs\GraphSetup.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@06b482f4a9ba\Editor\Data\Nodes\Math\Vector\DotProductNode.cs" />

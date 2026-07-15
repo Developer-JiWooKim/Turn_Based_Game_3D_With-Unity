@@ -5,7 +5,7 @@ using Assets.MyAssets.Scripts.Manager;
 namespace Assets.MyAssets.Scripts.TitleScene
 {
 
-    public class TitleSceneController : MonoBehaviour
+    public class TitleUIController : MonoBehaviour
     {
         private UIDocument _uiDocument;
 
@@ -20,7 +20,7 @@ namespace Assets.MyAssets.Scripts.TitleScene
             VisualElement root = _uiDocument.rootVisualElement;
             if (root == null)
             {
-                Debug.LogError("TitleSceneController-Initialize(): VisualElement root is null");
+                Debug.LogError("TitleUIController-Initialize(): VisualElement root is null");
                 return;
             }
 
@@ -44,7 +44,7 @@ namespace Assets.MyAssets.Scripts.TitleScene
 
         private void OnStartButtonClicked()
         {
-            GameManager.Instance.LoadScene("WeaponSelectScene");
+            GameManager.Instance.LoadScene("SettingScene");
         }
 
         private void OnOptionButtonClicked()
