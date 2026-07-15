@@ -4,43 +4,116 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0);
+    overflow: hidden;
 }
 
+/* 배경: 하늘색 -> 연두 -> 진한 초록 (세로 밴드로 그라디언트 근사) */
 .background {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    flex-direction: column;
+}
+
+.bg-sky {
+    flex-grow: 5;
+    background-color: rgb(126, 203, 240);
+}
+
+.bg-grass-mid {
+    flex-grow: 2;
+    background-color: rgb(191, 232, 176);
+}
+
+.bg-grass-bottom {
+    flex-grow: 3;
+    background-color: rgb(143, 208, 112);
+}
+
+.clouds {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 35%;
+}
+
+.cloud {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 60px;
+}
+
+.cloud-1 {
+    width: 180px;
+    height: 60px;
+    top: 40px;
+    left: 8%;
+}
+
+.cloud-2 {
+    width: 130px;
+    height: 46px;
+    top: 96px;
+    left: 58%;
+}
+
+.cloud-3 {
+    width: 150px;
+    height: 52px;
+    top: 24px;
+    left: 78%;
 }
 
 .title-label {
-    font-size: 80px;
-    color: rgb(0, 255, 220);
+    font-size: 88px;
+    color: rgb(255, 217, 122);
     -unity-font-style: bold;
-    margin-bottom: 48px;
+    -unity-text-outline-width: 5px;
+    -unity-text-outline-color: rgb(22, 32, 42);
+    -unity-text-align: middle-center;
+    margin-bottom: 56px;
     letter-spacing: 4px;
 }
 
 .button-group {
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: 18px;
 }
 
 .title-btn {
-    width: 300px;
-    height: 55px;
-    background-color: rgba(0, 20, 30, 0.8);
-    border-width: 1px;
-    border-color: rgba(0, 255, 220, 0.4);
-    border-radius: 4px;
-    color: rgba(0, 255, 220, 0.8);
-    font-size: 16px;
+    width: 320px;
+    height: 64px;
+    border-width: 4px;
+    border-color: rgb(22, 32, 42);
+    border-radius: 16px;
+    background-color: rgb(232, 150, 60);
+    color: rgb(90, 46, 12);
+    font-size: 22px;
+    -unity-font-style: bold;
+    -unity-text-outline-width: 2px;
+    -unity-text-outline-color: rgb(22, 32, 42);
+    box-shadow: 0px 6px 0px rgba(22, 32, 42, 1);
+    transition-property: scale, translate, box-shadow;
+    transition-duration: 0.08s;
+}
+
+.title-btn-cta {
+    width: 340px;
+    height: 76px;
+    font-size: 27px;
+    background-color: rgb(255, 217, 122);
+    box-shadow: 0px 8px 0px rgba(22, 32, 42, 1);
 }
 
 .title-btn:hover {
-    background-color: rgba(0, 40, 50, 0.9);
-    border-color: rgb(0, 255, 220);
+    scale: 1.04 1.04;
+}
+
+.title-btn:active {
+    translate: 0px 6px;
+    box-shadow: 0px 2px 0px rgba(22, 32, 42, 1);
 }

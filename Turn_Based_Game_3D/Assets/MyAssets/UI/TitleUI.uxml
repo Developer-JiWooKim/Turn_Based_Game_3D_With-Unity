@@ -4,15 +4,26 @@
 
     <ui:VisualElement name="root" class="root">
 
-        <!-- 배경 이미지 -->
-        <ui:VisualElement name="background" class="background"/>
+        <!-- 배경: 하늘 -> 초원(중간) -> 초원(하단) -->
+        <ui:VisualElement name="background" class="background" picking-mode="Ignore">
+            <ui:VisualElement class="bg-sky"/>
+            <ui:VisualElement class="bg-grass-mid"/>
+            <ui:VisualElement class="bg-grass-bottom"/>
+        </ui:VisualElement>
+
+        <!-- 구름 장식 -->
+        <ui:VisualElement name="clouds" class="clouds" picking-mode="Ignore">
+            <ui:VisualElement class="cloud cloud-1"/>
+            <ui:VisualElement class="cloud cloud-2"/>
+            <ui:VisualElement class="cloud cloud-3"/>
+        </ui:VisualElement>
 
         <!-- 게임 타이틀 -->
         <ui:Label name="title-label" text="GAME TITLE" class="title-label"/>
 
         <!-- 버튼 그룹 -->
         <ui:VisualElement name="button-group" class="button-group">
-            <ui:Button name="start-btn"  text="게임 시작" class="title-btn"/>
+            <ui:Button name="start-btn"  text="게임 시작" class="title-btn title-btn-cta"/>
             <ui:Button name="option-btn" text="옵션"     class="title-btn"/>
             <ui:Button name="quit-btn"   text="종료"     class="title-btn"/>
         </ui:VisualElement>
